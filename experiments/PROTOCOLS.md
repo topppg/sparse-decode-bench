@@ -230,3 +230,11 @@ For every (layer, head, query row i), compute n_p(i), the number of top keys cov
   - (c) for Qwen, the γ fitted at 8k agrees with 2k within 0.15 (no regime change at longer context).
 - **Caveats:** mass coverage is not output fidelity (fidelity at matched k is a later step). Attention sinks can dominate low-p levels.
 - **Prior art to check before any claim:** the Sparse Frontier ("longer sequences tolerate higher sparsity", qualitative), and attention-entropy scaling work (e.g. Scalable-Softmax).
+
+## T2-FID — fidelity version of the scaling law (pre-registered 2026-10-29, `src/t2_fidelity.py`)
+k*(T) is the smallest fixed number of keys per query (oracle top-k by exact logits, every layer and head) such that the mean KL(dense ‖ top-k) over all positions is < ε, for ε ∈ {0.05, 0.02, 0.01}. It is log-interpolated on the grid k ∈ {4, …, 1024}. Also computed restricted to the last quarter of positions (the long rows). Fit **k* ∝ T^γ_F**.
+- Qwen2.5-0.5B at T ∈ {1k, 2k, 4k, 8k}; Pythia-160M/410M/1B at T ∈ {512, 1k, 2k}; 8 sequences each; WikiText-103 validation.
+- **Hypotheses stated in advance:**
+  - (a) γ_F < γ₉₀ from T2-SCALE (output fidelity needs fewer keys than mass coverage);
+  - (b) γ_F < 1;
+  - (c) report whether γ_F decreases with model size (as γ₉₀ did).
