@@ -186,4 +186,13 @@ Small GPT-NeoX (as in B1), trained with stochastic hard attention (straight-thro
 - this quality implementation computes dense logits then masks, so **no wall-clock saving is claimed**;
 - analytic FLOPs: sparse attention = kept × dense attention, plus indexer (O(T²·r) scores + projections);
 - the dense warm-up is 25% of the steps.
-**Scope of the claim:** 70M parameters, 2k context, about 10M tokens per arm.
+**Scope of the claim:** 70M parameters, 2k context, 14.75M tokens per arm in the branch (900 × 8 × 2048) plus 4.9M shared warm-up tokens. (Corrected per REV-005 #3; the decision rule is unchanged.)
+
+---
+
+# Parallel gates on GPU 2 (A100 80 GB, `vastai2`), pre-registered 2026-10-29
+
+## G-SIZE — is the input-dependent saddle size robust to model scale? (extends R-A1c)
+Rerun `a1_a3_final.py` unchanged (same 256 items, budgets, selectors) on **Pythia-410M and Pythia-1B** (step143000). Then apply the R-A1c analysis (min budget for KL < 0.05 vs predictive entropy).
+- **Holds:** Spearman(min budget, entropy) ≥ 0.4 for both, and the easiest quartile's median min budget ≤ ½ of the hardest quartile's (oracle selector), for both.
+- **Also reported:** whether the overall f90 and fidelity curves shift with scale.
