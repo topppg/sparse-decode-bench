@@ -220,3 +220,13 @@ Same setup as G-C2F (frozen Pythia-160M, 2048 context, 32 sequences, oracle toke
 
 Blocks of 64 and 32 tokens, candidates 10% and 20% of blocks.
 **Passes** if some scorer at ≤ 20% candidate *pairs* reaches mass recall ≥ 0.9 against the unfiltered oracle and KL ≤ 1.5× unfiltered.
+
+## T2-SCALE — how the needed keys scale with available keys (T2 contribution, pre-registered 2026-10-29, `src/t2_scaling.py`)
+For every (layer, head, query row i), compute n_p(i), the number of top keys covering a fraction p ∈ {0.5, 0.9, 0.99} of that row's attention mass. Also the effective keys exp(H). Average within log-spaced bins of row length i, and fit **n_p(i) ∝ i^γ** over i ≥ 64, per layer.
+- Models / context: Pythia-160M, 410M and 1B at 2048 (16 sequences); **Qwen2.5-0.5B at 2048 and 8192** (16 and 8 sequences); WikiText-103 validation; bf16 weights, fp32 softmax.
+- **This is a measurement, not a pass/fail.** Hypotheses stated in advance:
+  - (a) γ₉₀ < 1 for most layers in every model (the needed keys grow sub-linearly);
+  - (b) the direction of the γ trend with model size (160M → 1B) is reported, with no sign predicted;
+  - (c) for Qwen, the γ fitted at 8k agrees with 2k within 0.15 (no regime change at longer context).
+- **Caveats:** mass coverage is not output fidelity (fidelity at matched k is a later step). Attention sinks can dominate low-p levels.
+- **Prior art to check before any claim:** the Sparse Frontier ("longer sequences tolerate higher sparsity", qualitative), and attention-entropy scaling work (e.g. Scalable-Softmax).
