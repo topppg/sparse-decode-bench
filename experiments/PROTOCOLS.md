@@ -162,3 +162,28 @@ Plus a layer sweep: V3 sampling at one layer only (12 runs), and V0 at layers {0
 
 ## H1 — training as a sum over histories (planned after H0)
 Small GPT-NeoX (as in B1), trained with stochastic hard attention (straight-through / Gumbel estimator; 1 or K branches) against soft at equal tokens. Evaluated by the mixture likelihood. Protocol to be written after H0.
+
+---
+
+# R1 — the lock-in result (pre-registered 2026-10-29, before any R1 run)
+
+**Claim.** A decoder trained with token-sparse attention, where each query attends to only **k = 10 keys (≈ 1% of causal pairs)** selected by a rank-16 learned indexer **supervised only on the keys it selected** (no dense attention after the shared warm-up), reaches the validation loss of dense training at equal tokens.
+
+**Setup.** `src/b1_train.py` as in B1 (70M GPT-NeoX, 6 × 512, 8 heads, context 2048, WikiText-103, batch 8, lr 1e-3 cosine). 300 dense warm-up steps (the indexer trains by dense KL, as in DSA's warm-up stage), then 900 branch steps per arm, branched from the identical state.
+- **Arms:**
+  - `dense`;
+  - `dsa_sparse` (**the claim**): uniform k = 10, indexer KL restricted to the selected keys, targets = sparse attention probabilities;
+  - `dsa` (reference): k = 10, indexer KL to dense attention.
+- **Seeds:** 0, 1, 2 (each seed changes the init, the data order and the warm-up).
+- **Validation:** 96 sequences × 2048 tokens (≈ 197k tokens), fixed.
+- **Eval:** in-mode, every 100 updates.
+
+**Primary metric.** Δ = L(dsa_sparse) − L(dense), the final in-mode validation loss, paired per seed.
+**Decision rule.** The claim holds iff the one-sided 95% upper bound (t, df = 2) of the mean Δ is **< 0.02 nats**.
+**Secondary metrics.** The last-3-eval mean, the dsa reference arm, dense-evaluation of the sparse models, and the kept fraction.
+
+**Honest accounting** (reported, `src/r1_analyze.py`):
+- this quality implementation computes dense logits then masks, so **no wall-clock saving is claimed**;
+- analytic FLOPs: sparse attention = kept × dense attention, plus indexer (O(T²·r) scores + projections);
+- the dense warm-up is 25% of the steps.
+**Scope of the claim:** 70M parameters, 2k context, about 10M tokens per arm.
