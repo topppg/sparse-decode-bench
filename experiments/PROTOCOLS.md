@@ -280,3 +280,27 @@ Report the 90% bootstrap CI of γ_F.
 ## T2-MI — theory link — `t2_mi.py`
 Bipartite information I(L) = Σ over the second half of [NLL without the first half − NLL with it], for L ∈ {128 … 4096}, 16 sequences. Fit I ∝ L^β. Qwen2.5-0.5B on WikiText, code and C4.
 **Exploratory:** does the ordering of β across domains match the ordering of γ_F? Three domains give only a weak test. Report it, don't claim it.
+
+---
+
+# Overnight plan (pre-registered 2026-10-29, before R2's fixed-k = 10 arm at 4k finished)
+
+## T3-PROP v2 — `t3_propagation.py --v2`
+Same setup as T3-PROP (Pythia-160M, fp32, T ∈ {512, 1024, 2048}, k ∈ {10, 20}, 8 sequences). Variants:
+- hop1 with fanout 4;
+- hop2 with fanout 2;
+- hop1 (fanout 2) + full search every 3rd layer;
+- hop1 (fanout 4) + full search every 3rd layer;
+- that last one with random candidates, as a control.
+
+Note: the refresh variants pay full search on 1/3 of the layers (≈ 1/3 of the quadratic cost).
+**Improved** if some non-refresh variant reaches recall ≥ 0.9 at T = 2048 with candidates per row still flat in T. Refresh variants are reported with their cost.
+
+## T2-MI on SmolLM2-360M — `t2_mi.py --model HuggingFaceTB/SmolLM2-360M`
+WikiText, code and C4. Compare with SmolLM2's γ_F (T2-CONS: 0.63 / 0.66 / 0.60).
+**Link supported for this model** if |β − γ_F| ≤ 0.05 in at least 2 of 3 domains.
+
+## R3 — conditional lock-in, decided by R2's fixed-k arm at T = 4096 (rule fixed now)
+- If Δ_fixed10(4k) ≤ 0.012 ("**training compresses the saddle**"), run **R3a**: seeds 1 and 2 at T = 1024 (dense, sk10) and T = 4096 (dense, sk10, sk15).
+  **Claim:** constant k = 10 keeps dense quality in training up to 4k, i.e. the mean Δ over seeds 0–2 at 4k has upper 95% bound < 0.02.
+- Otherwise run **R3b**: seeds 1 and 2 at T ∈ {1024, 4096} (dense, law, frac), to put error bars on the law vs fraction comparison.
