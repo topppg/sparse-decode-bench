@@ -210,3 +210,13 @@ Both with oracle scores (is the lever there?) and with a rank-16 learned indexer
 Candidate blocks per query come from a cheap scorer (q · mean-pooled block key), keeping the own block plus top-m blocks (5/10/20% of blocks; block sizes 64 and 32). Then token top-k (oracle or indexer) inside the candidates, at 1/2% budgets.
 - **Passes:** some filter at ≤ 20% candidates keeps mass recall ≥ 0.9 vs the unfiltered oracle selection, and KL within 1.5× of the unfiltered selection.
 - Otherwise, mean-pooled block filters are ruled out as the sub-quadratic "where", and a better block scorer is needed.
+
+## G-C2F2 — better block representatives for coarse-to-fine (T3), pre-registered 2026-10-29 (`src/b3_c2f.py`)
+Same setup as G-C2F (frozen Pythia-160M, 2048 context, 32 sequences, oracle token selection inside the candidates, fixed-k at 1% and 2%). Block scorers:
+- `mean` (as G-C2F);
+- `maxpool` (q · elementwise-max key);
+- `bound` (a certified upper bound on the block's max logit, q·c_b + ‖q‖·r_b, with centroid c_b and radius r_b);
+- `cent4` (4 k-means centroids per block, max over centroids).
+
+Blocks of 64 and 32 tokens, candidates 10% and 20% of blocks.
+**Passes** if some scorer at ≤ 20% candidate *pairs* reaches mass recall ≥ 0.9 against the unfiltered oracle and KL ≤ 1.5× unfiltered.
