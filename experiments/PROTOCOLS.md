@@ -241,3 +241,7 @@ k*(T) is the smallest fixed number of keys per query (oracle top-k by exact logi
 
 ### T2-FID extension (pre-registered 2026-10-29, queued while the user is away)
 The same protocol and hypotheses as T2-FID, adding: (i) **Qwen2.5-0.5B at T = 16384** (4 sequences), to test whether the exponent holds one octave further; (ii) **Qwen2.5-1.5B at T ∈ {1k, 2k, 4k, 8k}** (a model-size axis at long context). fp32.
+
+### T2-FID domain robustness (pre-registered 2026-10-29)
+The same k*(T) protocol on **code** (`codeparrot/codeparrot-clean-valid`), Qwen2.5-0.5B and 1.5B, T ∈ {1k, 2k, 4k, 8k}, 8 sequences, fp32.
+**Holds** if γ_F(code) is within 0.15 of γ_F(WikiText) for the same model at ε = 0.05 and 0.02. Code has more long-range, exact-copy structure, so a different exponent there would be informative either way.
