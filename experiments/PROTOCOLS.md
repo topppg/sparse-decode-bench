@@ -245,3 +245,38 @@ The same protocol and hypotheses as T2-FID, adding: (i) **Qwen2.5-0.5B at T = 16
 ### T2-FID domain robustness (pre-registered 2026-10-29)
 The same k*(T) protocol on **code** (`codeparrot/codeparrot-clean-valid`), Qwen2.5-0.5B and 1.5B, T ∈ {1k, 2k, 4k, 8k}, 8 sequences, fp32.
 **Holds** if γ_F(code) is within 0.15 of γ_F(WikiText) for the same model at ε = 0.05 and 0.02. Code has more long-range, exact-copy structure, so a different exponent there would be informative either way.
+
+---
+
+# Round 3, pre-registered 2026-10-29 ("run them all")
+
+## R2 — k(T)-scaled sparse training (R1 pushed forward with T2's law) — `b1_train.py`
+R1 setup (70M, WikiText, 300 + 900 steps, sparse-only indexer supervision, seed 0), **16,384 tokens per step at every T**. Validation ≈ 197k tokens (n_val = 196608 // T).
+Arms at each T ∈ {512, 1024, 4096} (T = 2048 is R1 seed 0, same configuration):
+- `dense`;
+- **law**: k = round(10·(T/2048)^0.55) → 5 / 7 / 15;
+- **frac** (fixed fraction ≈ 0.49%): 3 / 5 / 20;
+- **fixed**: k = 10.
+
+Hypotheses (Δ = in-mode final loss minus dense at the same T):
+- (a) law Δ < 0.02 at every T;
+- (b) fixed-k degrades with context: Δ_fixed(4k) − Δ_fixed(512) > 0.005;
+- (c) at 4k, |Δ_law − Δ_frac| < 0.005 while law uses 25% fewer keys.
+
+Single seed (R1's seed sd ≈ 0.0008 sets the noise scale). Caveat: T2's exponent was measured on frozen models with oracle selection; a trained model with a learned indexer may need a different one, and that difference is itself a result.
+
+## T3-PROP — saddle propagation across layers — `t3_propagation.py`
+Frozen Pythia-160M, fp32, T ∈ {512, 1024, 2048}, k ∈ {10, 20}, 8 sequences. Layer 0 searches all keys. Layer ℓ ≥ 1 searches only the candidates C = (union over heads of layer ℓ−1's selected keys for the query) ∪ (for each of those keys, the top-2 keys *it* selected) ∪ (a local window of 16) ∪ (sink positions 0–3). Recursive: each layer's selection feeds the next. Variants: hop0 (no hop), **hop1**, and hop1-random (random candidates, same per-row count).
+**Promising** if hop1 recalls ≥ 0.9 of the oracle top-k mass, beats random by ≥ 0.2, **and** the candidates per row grow sub-linearly in T (fitted exponent < 0.5 over 512 → 2048). That would make locating cost ~T·|C| instead of T².
+Caveat: layer 0 still searches everything.
+
+## T2-CONS — consolidation — `t2_fidelity.py --bootstrap 1000`, 16 sequences
+- SmolLM2-360M (Llama family) on WikiText, code and C4 at 1k–8k;
+- Qwen2.5-0.5B on C4, plus WikiText re-run with 16 sequences.
+
+Report the 90% bootstrap CI of γ_F.
+- **Holds** if the CI upper bound is < 1 everywhere (sub-linear), and if the domain ordering "code < WikiText" seen on Qwen reappears on SmolLM2.
+
+## T2-MI — theory link — `t2_mi.py`
+Bipartite information I(L) = Σ over the second half of [NLL without the first half − NLL with it], for L ∈ {128 … 4096}, 16 sequences. Fit I ∝ L^β. Qwen2.5-0.5B on WikiText, code and C4.
+**Exploratory:** does the ordering of β across domains match the ordering of γ_F? Three domains give only a weak test. Report it, don't claim it.
