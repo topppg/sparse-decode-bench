@@ -196,3 +196,17 @@ Small GPT-NeoX (as in B1), trained with stochastic hard attention (straight-thro
 Rerun `a1_a3_final.py` unchanged (same 256 items, budgets, selectors) on **Pythia-410M and Pythia-1B** (step143000). Then apply the R-A1c analysis (min budget for KL < 0.05 vs predictive entropy).
 - **Holds:** Spearman(min budget, entropy) ≥ 0.4 for both, and the easiest quartile's median min budget ≤ ½ of the hardest quartile's (oracle selector), for both.
 - **Also reported:** whether the overall f90 and fidelity curves shift with scale.
+
+## G-C3 — difficulty-adaptive per-query budgets (frozen Pythia-160M, 2048 context, `src/b2_gates.py`)
+At equal total kept pairs (kept_frac is checked per variant), compare fixed-k per query (DSA-like) against:
+- **need**: each (layer, head, query) gets keys until it covers a common attention-mass fraction τ, with τ set by bisection so the totals match;
+- **entropy**: keys per position ∝ the model's predictive entropy at that position (label-free), shared across heads.
+
+Both with oracle scores (is the lever there?) and with a rank-16 learned indexer (is it cheap?). Budgets 1/2/5%. Metric: mean KL over positions, 32 sequences.
+- **Lever present:** oracle|need beats oracle|fixedk by ≥ 1.5× in median KL at ≥ 2 of the 3 budgets.
+- **Lever cheap:** indexer|need beats indexer|fixedk at the same budgets.
+
+## G-C2F — coarse-to-fine selection (same script)
+Candidate blocks per query come from a cheap scorer (q · mean-pooled block key), keeping the own block plus top-m blocks (5/10/20% of blocks; block sizes 64 and 32). Then token top-k (oracle or indexer) inside the candidates, at 1/2% budgets.
+- **Passes:** some filter at ≤ 20% candidates keeps mass recall ≥ 0.9 vs the unfiltered oracle selection, and KL within 1.5× of the unfiltered selection.
+- Otherwise, mean-pooled block filters are ruled out as the sub-quadratic "where", and a better block scorer is needed.
