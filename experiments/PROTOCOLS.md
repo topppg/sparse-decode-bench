@@ -238,3 +238,6 @@ k*(T) is the smallest fixed number of keys per query (oracle top-k by exact logi
   - (a) γ_F < γ₉₀ from T2-SCALE (output fidelity needs fewer keys than mass coverage);
   - (b) γ_F < 1;
   - (c) report whether γ_F decreases with model size (as γ₉₀ did).
+
+### T2-FID extension (pre-registered 2026-10-29, queued while the user is away)
+The same protocol and hypotheses as T2-FID, adding: (i) **Qwen2.5-0.5B at T = 16384** (4 sequences), to test whether the exponent holds one octave further; (ii) **Qwen2.5-1.5B at T ∈ {1k, 2k, 4k, 8k}** (a model-size axis at long context). fp32.
