@@ -434,3 +434,39 @@ Code fixes (Codex REV-007):
   - (i) a log-linear fit of σ²(n) over n ∈ [64, 32k];
   - (ii) |γ_neff − (1 − a)| ≤ 0.1, median over layers;
   - (iii) |γ_F − median-layer γ_neff| ≤ 0.1.
+
+# T4-SELECT — can a cheap, GQA-shared, decode-only selector meet the k*(T) budget? Pre-registered 2026-10-30 (D-030) — `t4_select.py`
+**Setup.**
+- **Models:** Qwen2.5-7B, then Mistral-7B-v0.3, then Qwen3-8B. fp32 weights, TF32 matmuls outside attention, strict fp32 inside the tail attention.
+- **Data:** PG19 validation, the same 8 books as T2-LONG; T ∈ {4k, 8k, 16k, 32k}.
+- **Prefill:** the first T−256 tokens are dense (SDPA) and cached.
+- **Decode-like tail:** the last 256 tokens are run against the cache. Only their attention is sparse, in every layer.
+- **Metric:** KL of the next-token distribution vs the dense tail, averaged over the 256 rows.
+- **Budget axis:** *tokens read per KV head per row*, measured as the union over the GQA group.
+
+**Modes.**
+- `tok`: per-query-head oracle top-k (calibration).
+- `tok_gqa`: oracle on the group-max of log-probabilities, shared per KV head.
+- `meanB`: block-mean key scores, B = 16 or 32.
+- `questB`: Quest upper bound, Σ_d max(q_d·min_d, q_d·max_d), B = 16, 32 or 64.
+- **Block modes always keep** the first max(16, B) tokens (sink) and the last 64 or more (window). Their block scores are normalised per head and max-pooled over the group.
+- **Notation:** read*(ε) is the tokens read at KL = ε (log-log interpolation). γ is the log-log slope of read*(0.02) over 4k–32k.
+
+**Needle (passkey) at T ∈ {8k, 32k}.**
+- 4 books × depths {0.1, 0.5, 0.9}.
+- Teacher-forced exact match of the 5-digit key.
+- Run at that mode's own budget*(0.02) and at 2× that budget. Only trials the dense model gets right count.
+
+**Selector choice.** "best" is the block mode with the lowest read*(0.02) at 16k on Qwen2.5-7B. It is then fixed for all models and for H2–H5.
+
+**Hypotheses (per model, ε = 0.02, at T = 32k unless stated).**
+- **H1 (shared selection):** read*(tok_gqa) ≤ read*(tok).
+- **H2 (cheap selector is enough):** read*(best) ≤ 2 × read*(tok_gqa).
+- **H3 (stays sub-linear):** γ(best) ≤ 0.85.
+- **H4 (bandwidth):** read*(best)/T ≤ 10%.
+- **H5 (retrieval):** at 2× budget, best keeps ≥ 11 of 12 dense-correct needles at each T. The 1× result is reported.
+
+**Decision.**
+- **H2–H5 hold on ≥ 2 of 3 models:** build the llama.cpp prototype. It adds a per-block key summary to the KV cache, then a block top-k, then `ggml_top_k_mask` (blocks + extra), then sparse flash attention, at decode only. Benchmark decode tok/s at 8k–64k with llama-bench on Metal and CUDA.
+- **H2 fails but H1 holds:** the selector is the bottleneck. Fallback: exact K-scores, which save only V reads (~2×).
+- **H5 fails:** the budget needs a safety factor or a retrieval-aware selector. Do not advertise k*(0.02) budgets for retrieval tasks.
