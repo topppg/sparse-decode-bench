@@ -502,3 +502,26 @@ The single needle test (H5) is replaced by a **retrieval-budget measurement**.
 - **T4 model order:** Qwen2.5-7B, then Mistral-7B, then Qwen3-8B (only if time allows).
 - **T4 retrieval at T ∈ {8k, 32k} only.** H5b's slope therefore uses 2 points.
 - **Model requirement:** the "≥ 2 of 3 models" rules become "both of the first 2 models" if Qwen3-8B does not finish.
+
+## T4-SELECT amendment 3 (2026-10-30): selectors copied from the literature
+**Why.** T4 fidelity on Qwen2.5-7B at 4–16k shows block summaries (mean/Quest) needing 2.3–3.0× the reads of the shared token oracle. The user asked whether the selector can be taken from the labs.
+
+**Added training-free, token-level, GQA-shared modes** (scored with an approximate q·k, then top-k as in `tok_gqa`):
+- `sparq16`, `sparq32`: exact keys on the r largest-|q| channels (SparQ, Ribar et al. 2023; Double-Sparsity-like).
+- `kq4`, `kq2`: a 4- or 2-bit key copy, asymmetric, quantised per channel over 32-token groups (as in KIVI). This is the version used.
+  - A per-token-group variant failed in the smoke test because of Qwen's outlier key channels. It is dropped and recorded here.
+
+**Smoke test** (Qwen-0.5B, local, the basis for this amendment, so the hypotheses below are post-hoc):
+- kq2 and kq4 are within 5% of the tok_gqa oracle at 1–4k;
+- sparq32 within 10%;
+- retrieval k_ret is equal to the oracle on all tasks.
+
+**Run.** Qwen2.5-7B with modes {tok_gqa, sparq16, sparq32, kq4, kq2}, same setup as T4. It replaces the Qwen3-8B T4 slot, which would not finish within the GPU window.
+
+**H2′.**
+- At T = 32k, min(read*(kq2), read*(sparq32)) ≤ 1.25 × read*(tok_gqa).
+- For that mode, k_ret(multikey) ≤ 2 × k_ret(tok_gqa) at 8k and 32k.
+
+**Cost model to report.** Index read = bits/16 of K for kq*, and r/d of K for sparq*.
+
+**Decision.** If H2′ holds, the llama.cpp prototype uses token-level selection with a 2-bit per-channel key shadow, in place of block summaries.
