@@ -390,3 +390,13 @@ Code fixes (Codex REV-007):
 - Infeasible budgets are reported as infeasible.
 - **P-E pairs are disjoint:** no head appears in two pairs, and the random pairs avoid the top heads. The pair floor ΔKL_a + ΔKL_b ≥ 1e-5 is pre-registered, with excluded counts reported. The test is scipy's Mann–Whitney (one-sided "greater").
 - Final aggregate booleans implement the rules exactly: P-B in every model, P-C/P-E in ≥ 2 of 3, P-A(ii) over the eligible models.
+
+**Amendment 2 (theory-note review), 2026-10-30. Still pre-data.**
+- **Convergence.** The radius of the hot series is set by the complex (Lee–Yang) zeros of Z(τ) = Σ e^{τ s_j}. For Gaussian rows, R ≈ √(log n)/σ; at n = 2048 that is 2.76/σ. Longer rows enlarge the convergent region, so hot heads may exist at T = 2048 even though none did at T = 256. Recorded as a **descriptive prediction**: the fraction of heads with σ < √(log n) at their median row length.
+- **Hybrid prediction:** now includes the first neglected log Z_tail term, dw·(ô_T − o_S) with dw = w(1−w)·κ₃,tail/6.
+- **P-E redefined.** At leading order a KL interaction equals the linear-response term Cov_p(x_a, x_b), for any pair whose logit changes overlap. The test therefore uses the residual r = |ΔKL_ab − ΔKL_a − ΔKL_b − Cov_p(x_a, x_b)| / (ΔKL_a + ΔKL_b), with three disjoint groups of 20 pairs:
+  - top Q/K-composed (faces);
+  - top V-composed (chains, the control);
+  - random.
+
+  **Holds** if median r_top ≥ 2 × r_random, Mann–Whitney p < 0.01, and median r_top > median r_vcomp, in ≥ 2 of 3 models.
