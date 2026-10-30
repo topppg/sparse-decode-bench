@@ -304,3 +304,89 @@ WikiText, code and C4. Compare with SmolLM2's γ_F (T2-CONS: 0.63 / 0.66 / 0.60)
 - If Δ_fixed10(4k) ≤ 0.012 ("**training compresses the saddle**"), run **R3a**: seeds 1 and 2 at T = 1024 (dense, sk10) and T = 4096 (dense, sk10, sk15).
   **Claim:** constant k = 10 keeps dense quality in training up to 4k, i.e. the mean Δ over seeds 0–2 at 4k has upper 95% bound < 0.02.
 - Otherwise run **R3b**: seeds 1 and 2 at T ∈ {1024, 4096} (dense, law, frac), to put error bars on the law vs fraction comparison.
+
+---
+
+# P3 cut theory, pre-registered 2026-10-30 (D-028) — `p3_cuts.py`, `p3_analyze.py`
+**Theory** (`docs/cut_theory.tex`):
+- **Output as a CGF derivative.** Each head's output is the h-derivative of the joint cumulant generating function of (score, value) under the uniform measure over keys.
+- **Hot limit = mean-field expansion.** o = E v + κ(s,v) + ½κ(s,s,v) + …:
+  - order 1 (`mf1`) is a centred linear-attention form, cost O(d²) per token;
+  - order 2 is `mf2`.
+- **Cold limit = saddle (top-k).** The error is exactly (1 − m_S)(⟨v⟩_dropped − ⟨v⟩_kept).
+- **Hybrid = saddle + mean-field tail** (`hyb{k}`).
+- **Prediction:** the score spread σ of each head picks the cheapest cut; only the crossover regime is expensive.
+
+**Setup:**
+- Frozen fp32 Pythia-160M, Pythia-410M and Qwen2.5-0.5B. T = 2048, WikiText validation, permutation seed 71.
+- 8 calibration sequences: per-head tables, plus single-head and pair cuts on the first 4.
+- 8 held-out sequences for evaluating the allocators.
+- **Head-level error:** mean over queries of ‖Δo_h W_O^{(h)}‖², pushed through that head's slice of the output projection, under exact upstream activations.
+- **Network effect:** ΔKL of the next-token distribution vs dense, mean over positions.
+
+**Costs** (per query, d = head dim, n = row length):
+
+| method | cost |
+|---|---|
+| full | 4nd |
+| top-k | 4kd (+ 2nr selection, r = 16) |
+| mf1 | 4d² |
+| mf2 | 4d² + 2d²(d+1) |
+| hyb | top-k + 8d² + 2kd |
+
+**Primary cost model:** selection free. It is conservative, since it favours top-k. The indexer-costed model is secondary and reported descriptively; under it, top-k has a floor of r/2d = 12.5% of dense.
+
+**Smoke run (T = 256, 2 sequences, Pythia-160M), recorded before the full run:**
+- σ per head runs 1.25–76 (median 3.4);
+- mf1 beats top-64 on no head;
+- the next term predicts the mf1 error with rank correlation 0.92.
+
+On synthetic Gaussian scores the expansion converges for σ ≲ 0.5 and diverges for σ ≳ 1. **So the hot regime may be nearly empty in trained LMs.** That is the main risk to P-A.
+
+**Predictions:**
+- **P-A (two regimes; σ decides):**
+  - (i) mf1 has lower head-level error than top-64 (equal cost) on ≥ 5% of heads, in ≥ 2 of 3 models;
+  - (ii) in models with ≥ 5 such heads, AUC(−σ → mf1 wins) ≥ 0.8.
+  - Falsifier: (i) fails, meaning the hot side is practically empty in trained LMs at 2k.
+- **P-B (error theory):**
+  - (i) Spearman(next-term prediction, actual mf1 error) across heads ≥ 0.8, in every model;
+  - (ii) Spearman(head-level error, single-head ΔKL) across heads × {topk8, topk32, mf1, hyb8} ≥ 0.6, in every model. This checks that local error predicts the global effect, which the allocator needs.
+- **P-C (allocator):**
+  - a greedy allocator over all methods, driven by predicted errors, gets eval KL ≤ 0.8 × the greedy top-k-only allocator (which uses exact errors);
+  - at both B = 0.05 and 0.15 of dense attention FLOPs (selection free), in ≥ 2 of 3 models;
+  - this isolates whether the mean-field and hybrid side buys anything.
+  - Reported too: uniform top-k, a hand rule (layer 0 gets 8× k), and a measured-error allocator as reference.
+- **P-E (faces, the spin-foam gluing):**
+  - take the top-50 head pairs (layer a < layer b) by Elhage Q/K-composition score vs 50 random pairs, with both heads cut to top-8;
+  - normalised interaction r = |ΔKL_both − ΔKL_a − ΔKL_b| / (ΔKL_a + ΔKL_b);
+  - holds if median r_top ≥ 2 × median r_random and Mann–Whitney p < 0.01, in ≥ 2 of 3 models;
+  - caveat: the composition score ignores RoPE and LayerNorm.
+
+**Decision rules:**
+- **P-A(i) fails:** trained LMs live in the cold/crossover regime and the mean-field cut is not free. That explains why linearising pretrained models needs retraining (LoLCATs-style). The theory stays as an explanation, and the focus moves to T2 theory (why γ < 1) and T1.
+- **P-A and P-C hold:** this is the main contribution. Next comes a training test (a temperature-allocated hybrid model).
+- **P-E holds:** spin-foam gluing earns its place, and the allocator gets a pair (face) correction.
+- **P-E fails:** cut errors compose additively and faces don't matter for cutting.
+
+**Amendment before the run (REV-007 + L4), 2026-10-30. Still pre-data: only the T = 256 smoke has been seen.**
+
+Prior art (L4):
+- **Scatterbrain (2110.15343)** already has temperature regimes for sparse vs low-rank, the exact-head + low-rank-tail hybrid, and an entropy-based per-layer budget split.
+- **Linear attention as first-order Taylor** is in 2507.23632 and 2209.04881.
+- **The top-k error identity** is in 2512.07647 (Thm 5.2).
+
+So P-A is a *measurement* on trained LMs of a regime structure that is known in theory. What remains ours:
+- the shift-invariant cumulant form and its σ convergence criterion (P-B(i));
+- selecting the cut *type* per head from predicted errors (P-C);
+- the face-interaction test (P-E).
+
+The strongest literature baseline for P-C is a KL-guided layer selector (2512.20569). It is not implemented; our `measured_all` allocator, which uses measured head errors, is the stronger in-house reference.
+
+Code fixes (Codex REV-007):
+- Reference log-probs are kept on CPU; KL is computed in fp64 in 512-row chunks.
+- Moments are computed in fp64.
+- top-k masks are built from exact indices (no ties).
+- `full` is allowed in every allocator, so top-k-only means {full, top-k}.
+- Infeasible budgets are reported as infeasible.
+- **P-E pairs are disjoint:** no head appears in two pairs, and the random pairs avoid the top heads. The pair floor ΔKL_a + ΔKL_b ≥ 1e-5 is pre-registered, with excluded counts reported. The test is scipy's Mann–Whitney (one-sided "greater").
+- Final aggregate booleans implement the rules exactly: P-B in every model, P-C/P-E in ≥ 2 of 3, P-A(ii) over the eligible models.
