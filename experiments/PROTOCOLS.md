@@ -496,3 +496,9 @@ The single needle test (H5) is replaced by a **retrieval-budget measurement**.
 - **`vartrack`:** reported only. Base models often fail it even when dense.
 
 **Decision change.** The llama.cpp budget rule becomes max(fidelity budget, k_ret(multikey)) × a safety factor. If H5a fails, the shipped default uses k_ret, not the fidelity budget.
+
+## T4-SELECT amendment 2 / T2-LONG amendment (2026-10-30, budget: the GPU is available for about 3 more hours)
+- **T2-LONG ladder deferred.** Qwen2.5-3B, 1.5B and 0.5B move to a later cheap 24 GB GPU session. H2 (size dependence) is pending, not failed.
+- **T4 model order:** Qwen2.5-7B, then Mistral-7B, then Qwen3-8B (only if time allows).
+- **T4 retrieval at T ∈ {8k, 32k} only.** H5b's slope therefore uses 2 points.
+- **Model requirement:** the "≥ 2 of 3 models" rules become "both of the first 2 models" if Qwen3-8B does not finish.
