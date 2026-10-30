@@ -470,3 +470,29 @@ Code fixes (Codex REV-007):
 - **H2–H5 hold on ≥ 2 of 3 models:** build the llama.cpp prototype. It adds a per-block key summary to the KV cache, then a block top-k, then `ggml_top_k_mask` (blocks + extra), then sparse flash attention, at decode only. Benchmark decode tok/s at 8k–64k with llama-bench on Metal and CUDA.
 - **H2 fails but H1 holds:** the selector is the bottleneck. Fallback: exact K-scores, which save only V reads (~2×).
 - **H5 fails:** the budget needs a safety factor or a retrieval-aware selector. Do not advertise k*(0.02) budgets for retrieval tasks.
+
+## T4-SELECT amendment 1 (2026-10-30, before any T4 data; the user flagged retrieval as the key risk)
+The single needle test (H5) is replaced by a **retrieval-budget measurement**.
+
+**Tasks** (RULER-style, inserted into PG19 books):
+- `single`: one magic number.
+- `multikey`: the target plus 3 distractor names with their own numbers.
+- `vartrack`: a 2-hop chain, VAR C = VAR B = VAR A = number, with the hops placed after the root.
+
+**Design.**
+- T ∈ {8k, 16k, 32k}; 4 books × 5 depths = 20 trials per task and T.
+- The prompt is prefilled densely. The last prompt token and the answer tokens are sparse, which is conservative: in a real engine the first answer token comes from dense prefill.
+- Success means a teacher-forced exact match of the answer tokens.
+- Every mode except `tok` is swept over the whole budget grid.
+
+**Definition.** k_ret(T, task, mode) is the smallest grid budget at which the success rate, among dense-correct trials, is ≥ 0.9, and it stays ≥ 0.9 at every larger budget.
+
+**Fidelity tails.** Each fidelity cell also stores the 99th-percentile KL per row, the maximum KL per row, and the share of rows where the top-1 prediction flips.
+
+**Hypotheses (replacing H5).** "best" is as before; "fidelity budget" means budget*(0.02) of the same mode and T.
+- **H5a (fidelity budget is retrieval-safe up to 2×):** for best, k_ret ≤ 2× the fidelity budget for `single` and `multikey`, at every T, on ≥ 2 of 3 models.
+- **H5b (theory, cold regime):** a single needle concentrates attention, so k_ret(single) grows more slowly with T than the fidelity budget. The slope over 8k–32k is lower for tok_gqa and for best, on ≥ 2 of 3 models.
+- **H5c (selector confusion):** report k_ret(multikey)/k_ret(single) for tok_gqa vs best. The prediction is that block summaries are hurt more by distractors (ratio larger for best). This comes from the smoke test, so it is labelled post-hoc.
+- **`vartrack`:** reported only. Base models often fail it even when dense.
+
+**Decision change.** The llama.cpp budget rule becomes max(fidelity budget, k_ret(multikey)) × a safety factor. If H5a fails, the shipped default uses k_ret, not the fidelity budget.
