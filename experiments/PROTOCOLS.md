@@ -400,3 +400,37 @@ Code fixes (Codex REV-007):
   - random.
 
   **Holds** if median r_top ≥ 2 × r_random, Mann–Whitney p < 0.01, and median r_top > median r_vcomp, in ≥ 2 of 3 models.
+
+---
+
+# T2-LONG — does the k*(T) law hold at 7–8B and up to 32k? Pre-registered 2026-10-30 (D-029) — `t2_long.py`
+**Setup:**
+- **Models:**
+  - the Qwen2.5 size ladder: 0.5B, 1.5B, 3B, 7B;
+  - Mistral-7B-v0.3;
+  - Qwen3-8B.
+
+  All frozen, with fp32 weights. Attention scores are always strict fp32. TF32 is allowed for the linear layers only if the precision gate passes.
+- **Precision gate:** on Qwen2.5-7B, 2 books at 8k, mean KL(dense strict ‖ dense TF32) < 1e-4.
+- **Data:** PG19 validation, 8 books, each starting 2000 tokens in. The lengths T ∈ {2k, 4k, 8k, 16k, 32k} are nested prefixes of the same segment. Long single documents avoid the stitched-article bias of WikiText at 32k.
+- **Measures:**
+  - oracle top-k with k ∈ {16, …, 4096};
+  - k*(T) at ε ∈ {0.05, 0.02, 0.01} (mean next-token KL vs dense);
+  - γ_F fitted over 2k–32k, with a 90% bootstrap CI over books.
+
+**Hypotheses:**
+- **H1 (generalises):** for every 7–8B model, γ_F(0.02) lies in [0.35, 0.70], i.e. its point estimate falls in the band. It **holds** if all three 7–8B models do.
+- **H2 (no drift with size):** within the Qwen2.5 ladder, |γ_F(7B) − γ_F(0.5B)| < 0.15 at ε = 0.02. Spearman(γ, size) is reported.
+- **H3 (a power law up to 32k):** the last local exponent (16k→32k) is within 0.2 of the global fit, for each 7–8B model at ε = 0.02.
+
+**Decision rule:**
+- H1 + H3 hold: T2 generalises, and the theory paper goes ahead.
+- H1 fails: the result becomes "γ depends on scale/architecture", and the paper is rescoped.
+
+**Theory data (exploratory, criteria fixed now):**
+- σ²(n) is the per-query score variance and n_eff = 1/Σp², both as a function of row length n, averaged over heads, per layer, at T = 32k.
+- **REM prediction:** if σ² ≈ a·log n + b, then n_eff ∝ n^{1−a}.
+- **Checks:**
+  - (i) a log-linear fit of σ²(n) over n ∈ [64, 32k];
+  - (ii) |γ_neff − (1 − a)| ≤ 0.1, median over layers;
+  - (iii) |γ_F − median-layer γ_neff| ≤ 0.1.
