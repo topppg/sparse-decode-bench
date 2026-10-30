@@ -525,3 +525,7 @@ The single needle test (H5) is replaced by a **retrieval-budget measurement**.
 **Cost model to report.** Index read = bits/16 of K for kq*, and r/d of K for sparq*.
 
 **Decision.** If H2′ holds, the llama.cpp prototype uses token-level selection with a 2-bit per-channel key shadow, in place of block summaries.
+- **Order change (same day, before any lit-mode data):**
+  - the literature-selector run on Qwen2.5-7B goes right after Qwen's T4;
+  - the block-mode Mistral T4 is replaced by Mistral with {tok_gqa, mean16, sparq32, kq2}.
+  - H2 (block selectors) is judged on Qwen2.5-7B alone.
