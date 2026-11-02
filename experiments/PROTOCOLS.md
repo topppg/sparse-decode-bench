@@ -529,3 +529,46 @@ The single needle test (H5) is replaced by a **retrieval-budget measurement**.
   - the literature-selector run on Qwen2.5-7B goes right after Qwen's T4;
   - the block-mode Mistral T4 is replaced by Mistral with {tok_gqa, mean16, sparq32, kq2}.
   - H2 (block selectors) is judged on Qwen2.5-7B alone.
+
+---
+
+## HOTCACHE — can a RAM hot cache serve a 2-bit selector's picks on a Mac? (pre-registered 2026-11-02, before any data; `src/hotcache_trace.py`, `src/hotcache_sim.py`, `src/ssd_bench.py`, local M4 Pro)
+**Why.** L5 (R-LIT-L5) found that on unified memory the only slower tier is the SSD. Scattered per-token SSD fetches are far too slow, so the memory tier works only if the rows the selector picks are already in RAM almost every time. Nobody has measured this. It is stage B of the L5 plan: the go/no-go for an SSD KV tier.
+
+**Setup.**
+- Model: Qwen2.5-1.5B (28 layers, 2 KV heads, d = 128), fp32 on MPS. Data: PG19 validation, 4 books (as in T2-LONG).
+- Final length T ∈ {8k, 16k, 32k}.
+- The prefix of T − 1088 tokens is prefilled densely. Then a teacher-forced tail of 1088 rows: 64 warm-up rows followed by N = 1024 measured rows.
+- Tail attention is sparse with `kq2` (2-bit per-channel K over 32-token groups, GQA-shared group-max log-prob, as in T4) at budget 1024.
+- For every (layer, KV head, tail row), log the ranked top-2048 key indices of the kq2 selector, so that every budget k ≤ 2048 is a prefix. Also log the per-row KL against dense attention.
+
+**Cache model (offline replay, `hotcache_sim.py`).**
+- Always resident and never counted: sink (first 16 positions) and window (last 64 positions). New rows are written to RAM.
+- Each (layer, KV head) has an LRU cache of capacity C (cache sizes are per layer).
+- Items are tokens (g = 1) or 16-token blocks (g = 16, about 8 KB for a 7–8B layer/head pair at fp16, the SSD page scale).
+- Within a step, higher-ranked picks count as more recent.
+- The warm-up rows fill the cache; the hit rate is measured over the N measured rows only.
+- Sweep: k ∈ {128, 256, 512, 1024, 2048}; C/T ∈ {2.5%, 5%, 10%, 20%}; g ∈ {1, 16}.
+- Reported per cell:
+  - row hit rate (selected rows already resident / selected rows);
+  - compulsory-miss fraction (first-touch picks, which no policy can avoid);
+  - misses per step;
+  - spread across layers.
+
+**SSD model (`ssd_bench.py`).** Random reads with `F_NOCACHE` from a 4 GiB file on this Mac's internal SSD, at 4 / 16 / 64 KiB and 1 / 8 / 32 threads, giving latency and throughput. The predicted fetch time per decoded token is (miss blocks per token over all layers and heads) / (measured IOPS at that block size), for the KV layouts of Qwen2.5-7B (28 × 4), Llama-3.1-8B (32 × 8) and Qwen2.5-14B (48 × 8). This assumes the 1.5B hit rates transfer, which is a caveat stated with the results.
+
+**Primary cell.** T = 32k, k = 1024, g = 16, C = 10% of T.
+
+**Decision rule** (on the 4-book mean hit rate in the primary cell):
+- **GO** if ≥ 97%: stage C (the SSD tier) is worth building;
+- **PARTIAL** if 90–97%: only with asynchronous prefetch or a speculative selector one step ahead (SpeCache-style); no direct build;
+- **NO-GO** if < 90%: the SSD tier is dead for dense models on a Mac, and this is reported as a negative result.
+
+**Hypotheses** (predictions written before any data):
+- **HC1:** the primary cell lands in PARTIAL, between 90% and 97%.
+- **HC2:** the hit rate rises with C and falls with k. At fixed C/T it does not fall by more than 3 points from T = 8k to 32k.
+- **HC3:** blocks (g = 16) give a higher row hit rate than tokens at equal capacity in rows, because selected keys cluster.
+- **HC4:** compulsory misses are ≤ 1% of picks in the primary cell, so any gap to 100% is a capacity or policy problem rather than a novelty problem.
+- **HC5:** the per-layer spread is large. At least one layer is ≥ 10 points below the median layer, which would point to a mixed policy (pin some layers fully).
+
+**Quality guard.** The mean tail KL at k = 1024 is reported. If it exceeds 0.05 at 32k, the trace is still valid for cache statistics, but the primary budget is flagged as too small for deployment.
