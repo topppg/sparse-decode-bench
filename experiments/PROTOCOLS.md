@@ -572,3 +572,51 @@ The single needle test (H5) is replaced by a **retrieval-budget measurement**.
 - **HC5:** the per-layer spread is large. At least one layer is ≥ 10 points below the median layer, which would point to a mixed policy (pin some layers fully).
 
 **Quality guard.** The mean tail KL at k = 1024 is reported. If it exceeds 0.05 at 32k, the trace is still valid for cache statistics, but the primary budget is flagged as too small for deployment.
+
+---
+
+## PREDICT-128K — does the k*(T) law predict 64k–128k, and does 2-bit selection hold up there? (pre-registered 2026-11-03, before any data; `src/t4_select.py`, H100 80 GB `vastai5`)
+**Why.** The paper's main claim is k* ∝ T^γ. Kim (L6) assumes the budget is independent of T, so a fit over 2k–32k might not extrapolate. A law that predicts out of sample is what makes the claim ours. The llama.cpp prototype also needs evidence of quality at long context on the target layout (8 KV heads).
+
+**Models.** Never measured by us, both natively ≥ 128k, both with 8 KV heads:
+- Llama-3.1-8B (`unsloth/Meta-Llama-3.1-8B`, ungated mirror of Meta's base model);
+- Mistral-Nemo-12B (`mistralai/Mistral-Nemo-Base-2407`).
+
+Weights in bf16; attention math in strict fp32, as in T4.
+
+**Setup (T4 decode-only).**
+- PG19 validation books (test split if fewer than 4 are long enough), 4 books, OFFSET 2000.
+- T ∈ {2k, 4k, 8k, 16k, 32k, 64k, 128k}.
+- Dense prefill of T − 256 tokens, then a sparse teacher-forced tail of 256 rows.
+- Modes: `tok` (per-head oracle), `tok_gqa`, `kq2`.
+- Budget grid: 16, 32, 48, 64, 96, 128, 192, 256, 384, 512, 768, 1024, 1536, 2048, 3072, 4096, 6144, 8192, 12288, 16384.
+- Rows are processed in chunks of 64. This is row-wise identical to T4.
+
+**Primary quantity.** k*(T) = `tok` budget*(0.02), the 4-book mean KL crossing.
+
+**Prediction rule** (fixed now):
+- Fit log k* = a + γ log T by least squares on T ∈ {2k, 4k, 8k, 16k}.
+- Predict k* at 32k, 64k and 128k.
+- The prediction interval comes from a book bootstrap of the fit (1000 resamples, 5–95%).
+
+**Verdict per model:**
+- **PASS** if the measured k* at both 64k and 128k is within ±25% of the prediction;
+- **PARTIAL** if within ±50%;
+- **FAIL** otherwise.
+
+**The law is supported** if both models PASS or one PASSES and the other is PARTIAL.
+
+**Saturation check (Kim's alternative).** The local exponent from 64k to 128k is reported. SATURATING if it is < 0.5 γ_fit on both models.
+
+**Secondary** (also fit on 2k–16k, scored by the same rule):
+- `kq2` read*(0.02).
+- `tok_gqa` read*(0.02).
+- The kq2/tok_gqa read ratio at 64k and 128k. H2′ from T4 is expected to hold: ratio ≤ 1.25.
+
+**Retrieval.**
+- Tasks: single, multikey, vartrack, as in T4 amendment 1.
+- T ∈ {32k, 128k}; 4 books × 5 depths; modes `tok_gqa` and `kq2`; same budget grid.
+- **Hypothesis PR1:** k_ret(kq2) ≤ 256 for single and multikey at 128k, on both models. That is, the retrieval budget stays flat out to 128k.
+
+**Tails.** The 99th-percentile KL and the top-1 flip rate at budget*(0.02) of kq2, reported per T.
+- **Hypothesis PR2:** the flip rate at kq2 budget*(0.02) does not grow by more than 3 points from 32k to 128k.
