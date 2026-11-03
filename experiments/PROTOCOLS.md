@@ -636,3 +636,11 @@ Weights in bf16; attention math in strict fp32, as in T4.
   - Nemo is dropped from this session.
 - **Prefill is chunked** (8192 tokens, mem-efficient SDPA with an explicit causal mask). Check: KL between one-shot and chunked prefill tails is 3e-9 at 20k.
 - **Unchanged:** the tail path (strict fp32 einsum), the prediction rule, the verdicts and the hypotheses.
+
+## PREDICT-128K amendment 2 (2026-11-03, during the run, to save GPU time; the user approved skipping what no hypothesis needs)
+**What had already been seen.** All fidelity data, the 32k retrieval for both models, and the 3B's 128k single-fact result (k_ret = 16).
+
+**Changes.**
+- **8B 128k retrieval out of memory.** It ran out of memory in the 8192-token prefill. It reran with prefill chunks of 4096 and `expandable_segments`. Its 32k retrieval per-trial data was lost: retrieval was saved only at the end. The k_ret summary lines survive in `logs/gpu5/pred_llama31_8b.log`. Retrieval is now saved after each task.
+- **Variable-tracking dropped at 128k, both models.** No hypothesis uses it, and at 32k dense accuracy was only 11–12 of 20.
+- **8B multikey at 128k uses a grid capped at 1024 keys.** The 8B takes about 1.9 h per 128k task. PR1 asks only whether k_ret ≤ 256, which a 1024 cap still decides; a k_ret beyond the cap is reported as "> 1024". The 8B single-fact task keeps the full grid.
