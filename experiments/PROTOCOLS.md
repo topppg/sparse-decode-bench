@@ -620,3 +620,19 @@ Weights in bf16; attention math in strict fp32, as in T4.
 
 **Tails.** The 99th-percentile KL and the top-1 flip rate at budget*(0.02) of kq2, reported per T.
 - **Hypothesis PR2:** the flip rate at kq2 budget*(0.02) does not grow by more than 3 points from 32k to 128k.
+
+## PREDICT-128K amendment 1 (2026-11-03, before any experiment data; only smoke checks at 4k and 20k with ≤ 3 budgets on 1 book)
+- **Precision: fp32 weights, not bf16.** The smoke check on Llama-3.1-8B at 4k (`tok`, 1 book) found that bf16 amplifies any perturbation into a KL floor.
+
+  | budget | bf16 KL | fp32 KL |
+  |---|---|---|
+  | 3072 | 0.011 | 0.0004 |
+  | 1024 | 0.035 | 0.024 |
+
+  ε = 0.02 is too close to that floor. All earlier T2/T4 runs used fp32.
+- **Model 2: Llama-3.2-3B (`unsloth/Llama-3.2-3B`) replaces Mistral-Nemo-12B.**
+  - In fp32 at 128k, Nemo needs about 92 GB: 49 GB of weights plus 43 GB of KV.
+  - Llama-3.2-3B is native 128k with 8 KV heads. It pairs with the 8B as a two-point size comparison within one family (the deferred T2 H2).
+  - Nemo is dropped from this session.
+- **Prefill is chunked** (8192 tokens, mem-efficient SDPA with an explicit causal mask). Check: KL between one-shot and chunked prefill tails is 3e-9 at 20k.
+- **Unchanged:** the tail path (strict fp32 einsum), the prediction rule, the verdicts and the hypotheses.
