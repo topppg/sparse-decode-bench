@@ -725,3 +725,9 @@ Page-level selection (MOIRA 2610.04313) reads contiguous 64-token pages and scor
 - the per-key cost of the page gather against the token gather (K0) and dense streaming.
 
 **If PASS, next:** an offline quality check of the page mean/variance selector at matched kept fraction, on our PG19 harness (KL at 32k–128k, retrieval), before any integration.
+
+## PORT-K1 amendment 1 (2026-11-03, before any K1 timing data; only the correctness gate had run)
+- **The f16 sparse FA at n_kv_max = 24576 misses the harness NMSE threshold:** 5.2–5.5e-4 against 5e-4.
+  - The miss is the same with GQA bundling off or on, and with token or 64-cell page masks. It is f16 accumulation error over about 24k keys in the existing sparse kernel, not our change.
+  - All q8_0 cases pass, including 24576.
+- K1 times q8_0 only, so the gate now requires the 4 q8_0 eval cases to pass.
