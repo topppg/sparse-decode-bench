@@ -813,3 +813,19 @@ Gates (all must pass; any failure is reported and fixed before E2):
 - E1c fidelity vs PAGE-Q, T = 32768, 4 books, mv64, B ∈ {1024, 2048, 4096, 8192}: per book and budget the ratio of engine KL to PAGE-Q KL (`pageq_llama32_3b` summary). PASS if the median of the 16 ratios is in [0.8, 1.25] and every ratio is in [0.5, 2.0]. Reported, no gate: quest64 at the same cells, and engine r* by the PAGE-Q crossing rule.
 
 Memory: everything under `guarded_cmd.sh`. If T = 32768 with f16 weights is killed, rerun E1c with q8_0 weights (KV still f16) and say so; if that is also killed, E1c waits for a bigger machine.
+
+## PORT-E1 amendment 1 (2026-11-04, before any E1 data on the protocol model; development runs on Qwen2.5-1.5B q8_0 seen)
+
+Seen: on Qwen2.5-1.5B (not the protocol model) the E1a check found 0 differing pages in 32/32 cases and 0 differing mask cells in 8/8; page kernel vs token kernel mean KL 1.6–8.8e-6 per book (4 books, B = 2048, T = 8192).
+
+Change: E1a–E1c use q8_0 weights (KV cache stays f16). Loading the f16 3B GGUF was killed twice by the memory guard (free 36% → 20% and 53% → 18%; the Mac already had ~20 GB of swap in use). If memory is freed before E1c runs, E1c is run with both f16 and q8_0 weights and both are reported; the gate applies to f16.
+
+## PORT-E2 (2026-11-04): cached page statistics are exact (pre-registered before any E2 data on the protocol model; development runs on Qwen2.5-1.5B seen)
+
+Engine: `LLAMA_SPARSE_PAGE_STATS=f32|f16` keeps [mean, var, max, min] of K per 64-cell page in the KV cache. A page is refreshed when a ubatch completes it and at every decode step in which it is the newest eligible page. `LLAMA_SPARSE_STATS=full` is the stage-A reference (recompute from the whole cache).
+
+Seen on Qwen2.5-1.5B q8_0, T = 8192, 1 book: f32 cache bit-identical logits to full for mv and quest; f16 cache bit-identical for quest, mv mean KL 2.3e-5 (max 1.4e-3).
+
+Gates on Llama-3.2-3B (q8_0 weights, KV f16), T = 8192, 4 books, configs mv:2048, quest:2048, mv:4096, quest:4096:
+- E2a f32 cache: logits bit-identical to full, every config and book.
+- E2b f16 cache: quest bit-identical; mv mean KL vs full ≤ 1e-4 per config (mean over 4 books).
