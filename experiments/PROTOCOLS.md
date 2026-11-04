@@ -829,3 +829,7 @@ Seen on Qwen2.5-1.5B q8_0, T = 8192, 1 book: f32 cache bit-identical logits to f
 Gates on Llama-3.2-3B (q8_0 weights, KV f16), T = 8192, 4 books, configs mv:2048, quest:2048, mv:4096, quest:4096:
 - E2a f32 cache: logits bit-identical to full, every config and book.
 - E2b f16 cache: quest bit-identical; mv mean KL vs full ≤ 1e-4 per config (mean over 4 books).
+
+## PORT-E1 amendment 2 (2026-11-04, before any E1c data; E1a, E1b and E2 results on Llama-3.2-3B at 8k seen)
+
+E1c uses the f32 page cache (`LLAMA_SPARSE_PAGE_STATS=f32`) instead of full recompute. E2a showed it gives logits bit-identical to full recompute on 4 configs × 4 books, and it is about 8× faster per tail. Gates, model, books and budgets are unchanged.
