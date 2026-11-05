@@ -1009,3 +1009,7 @@ Order: setup, phase 1, predictions committed, phase 2, analysis. RULER is not pa
 - Expectation, stated now: the end-to-end gain is well below the decode-only S, because prefill is dense and dominates.
 
 Order: R1, then R2, then R3.
+
+## PORT-R amendment 1 (2026-11-05, before any R2/R3 data on either box; all PORT-G results seen)
+
+R2 (speed–budget curve at 128k) and R3 (wall-clock, `-pg 131072,1024`) are also run on the PORT-G RTX 3090 (`vastai13`), with the same commands and budgets. Qwen3-8B (KV q8_0, budgets as for the 8B) is added there. Reported only, no gate, as in PORT-R.
