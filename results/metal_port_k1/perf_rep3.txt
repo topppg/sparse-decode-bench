@@ -1,0 +1,79 @@
+Testing 3 devices
+
+Backend 1/3: MTL0
+  Device description: Apple M4 Pro
+  Device memory: 16384 MB (16383 MB free)
+
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=32768,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=0):               1496 runs -   756.26 us/run - 536.87 MFLOP/run - [1;34m709.91 GFLOPS[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=32768,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=4096):                    3553 runs -   284.03 us/run - 536.87 MFLOP/run - [1;34m  1.89 TFLOPS[0m
+  TOP_K(type=f32,ne=[512,1,8,1],k=64,ties=0):                  73728 runs -    14.17 us/run -       18 kB/run - [1;34m   1.21 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=32768,n_blk=64,n_pick=512,n_top=64,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):                65536 runs -    15.81 us/run -      770 kB/run - [1;34m  46.46 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=32768,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=8192):                    1870 runs -   543.79 us/run - 536.87 MFLOP/run - [1;34m987.29 GFLOPS[0m
+  TOP_K(type=f32,ne=[512,1,8,1],k=128,ties=0):                 73728 runs -    14.42 us/run -       20 kB/run - [1;34m   1.32 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=32768,n_blk=64,n_pick=512,n_top=128,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):               65536 runs -    16.21 us/run -     1028 kB/run - [1;34m  60.49 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=32768,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=12288):                   1309 runs -   813.50 us/run - 536.87 MFLOP/run - [1;34m659.95 GFLOPS[0m
+  TOP_K(type=f32,ne=[512,1,8,1],k=192,ties=0):                 73728 runs -    13.72 us/run -       22 kB/run - [1;34m   1.53 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=32768,n_blk=64,n_pick=512,n_top=192,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):               65536 runs -    16.88 us/run -     1286 kB/run - [1;34m  72.65 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=32768,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=16384):                    935 runs -  1088.20 us/run - 536.87 MFLOP/run - [1;34m493.36 GFLOPS[0m
+  TOP_K(type=f32,ne=[512,1,8,1],k=256,ties=0):                 73728 runs -    13.99 us/run -       24 kB/run - [1;34m   1.64 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=32768,n_blk=64,n_pick=512,n_top=256,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):               57344 runs -    18.14 us/run -     1544 kB/run - [1;34m  81.17 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=32768,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=20480):                    935 runs -  1336.98 us/run - 536.87 MFLOP/run - [1;34m401.56 GFLOPS[0m
+  TOP_K(type=f32,ne=[512,1,8,1],k=320,ties=0):                 73728 runs -    13.76 us/run -       26 kB/run - [1;34m   1.80 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=32768,n_blk=64,n_pick=512,n_top=320,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):               49152 runs -    20.66 us/run -     1802 kB/run - [1;34m  83.20 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=32768,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=24576):                    748 runs -  1627.46 us/run - 536.87 MFLOP/run - [1;34m329.88 GFLOPS[0m
+  TOP_K(type=f32,ne=[512,1,8,1],k=384,ties=0):                 73728 runs -    14.19 us/run -       28 kB/run - [1;34m   1.88 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=32768,n_blk=64,n_pick=512,n_top=384,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):               49152 runs -    22.41 us/run -     2060 kB/run - [1;34m  87.67 GB/s[0m
+  MUL_MAT(type_a=f16,type_b=f32,m=512,n=4,k=256,bs=[8,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1,src_overlap=0,m_v=0,pad=0):                 122850 runs -     8.68 us/run -   8.39 MFLOP/run - [1;34m966.28 GFLOPS[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=0):                846 runs -  1279.59 us/run -   1.07 GFLOP/run - [1;34m839.13 GFLOPS[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=4096):                    3478 runs -   290.55 us/run -   1.07 GFLOP/run - [1;34m  3.70 TFLOPS[0m
+  TOP_K(type=f32,ne=[1024,1,8,1],k=64,ties=0):                 49152 runs -    23.97 us/run -       34 kB/run - [1;34m   1.35 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=65536,n_blk=64,n_pick=1024,n_top=64,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):               57344 runs -    17.47 us/run -     1282 kB/run - [1;34m  69.98 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=8192):                    1786 runs -   570.59 us/run -   1.07 GFLOP/run - [1;34m  1.88 TFLOPS[0m
+  TOP_K(type=f32,ne=[1024,1,8,1],k=128,ties=0):                49152 runs -    23.95 us/run -       36 kB/run - [1;34m   1.43 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=65536,n_blk=64,n_pick=1024,n_top=128,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):              57344 runs -    18.09 us/run -     1540 kB/run - [1;34m  81.20 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=12288):                   1222 runs -   842.54 us/run -   1.07 GFLOP/run - [1;34m  1.27 TFLOPS[0m
+  TOP_K(type=f32,ne=[1024,1,8,1],k=192,ties=0):                49152 runs -    23.96 us/run -       38 kB/run - [1;34m   1.51 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=65536,n_blk=64,n_pick=1024,n_top=192,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):              57344 runs -    18.41 us/run -     1798 kB/run - [1;34m  93.13 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=16384):                    940 runs -  1105.15 us/run -   1.07 GFLOP/run - [1;34m971.58 GFLOPS[0m
+  TOP_K(type=f32,ne=[1024,1,8,1],k=256,ties=0):                49152 runs -    24.04 us/run -       40 kB/run - [1;34m   1.59 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=65536,n_blk=64,n_pick=1024,n_top=256,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):              49152 runs -    20.52 us/run -     2056 kB/run - [1;34m  95.56 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=20480):                    752 runs -  1358.96 us/run -   1.07 GFLOP/run - [1;34m790.12 GFLOPS[0m
+  TOP_K(type=f32,ne=[1024,1,8,1],k=320,ties=0):                49152 runs -    23.93 us/run -       42 kB/run - [1;34m   1.67 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=65536,n_blk=64,n_pick=1024,n_top=320,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):              49152 runs -    22.84 us/run -     2314 kB/run - [1;34m  96.63 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=24576):                    658 runs -  1676.71 us/run -   1.07 GFLOP/run - [1;34m640.39 GFLOPS[0m
+  TOP_K(type=f32,ne=[1024,1,8,1],k=384,ties=0):                40960 runs -    24.42 us/run -       44 kB/run - [1;34m   1.72 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=65536,n_blk=64,n_pick=1024,n_top=384,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):              40960 runs -    25.54 us/run -     2572 kB/run - [1;34m  96.04 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=65536,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=32768):                    470 runs -  2171.16 us/run -   1.07 GFLOP/run - [1;34m494.55 GFLOPS[0m
+  TOP_K(type=f32,ne=[1024,1,8,1],k=512,ties=0):                49152 runs -    24.01 us/run -       48 kB/run - [1;34m   1.91 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=65536,n_blk=64,n_pick=1024,n_top=512,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):              32768 runs -    30.63 us/run -     3088 kB/run - [1;34m  96.13 GB/s[0m
+  MUL_MAT(type_a=f16,type_b=f32,m=1024,n=4,k=256,bs=[8,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1,src_overlap=0,m_v=0,pad=0):                 71532 runs -    15.08 us/run -  16.78 MFLOP/run - [1;34m  1.11 TFLOPS[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=0):               376 runs -  2828.54 us/run -   2.15 GFLOP/run - [1;34m759.22 GFLOPS[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=4096):                   2867 runs -   349.49 us/run -   2.15 GFLOP/run - [1;34m  6.14 TFLOPS[0m
+  TOP_K(type=f32,ne=[2048,1,8,1],k=64,ties=0):                 40960 runs -    28.51 us/run -       66 kB/run - [1;34m   2.21 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=64,n_pick=2048,n_top=64,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):              57344 runs -    20.31 us/run -     2306 kB/run - [1;34m 108.30 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=8192):                   1598 runs -   642.01 us/run -   2.15 GFLOP/run - [1;34m  3.34 TFLOPS[0m
+  TOP_K(type=f32,ne=[2048,1,8,1],k=128,ties=0):                40960 runs -    28.77 us/run -       68 kB/run - [1;34m   2.25 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=64,n_pick=2048,n_top=128,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):             49152 runs -    20.78 us/run -     2564 kB/run - [1;34m 117.68 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=12288):                  1128 runs -   903.69 us/run -   2.15 GFLOP/run - [1;34m  2.38 TFLOPS[0m
+  TOP_K(type=f32,ne=[2048,1,8,1],k=192,ties=0):                40960 runs -    28.82 us/run -       70 kB/run - [1;34m   2.32 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=64,n_pick=2048,n_top=192,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):             49152 runs -    21.28 us/run -     2822 kB/run - [1;34m 126.46 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=16384):                   893 runs -  1159.23 us/run -   2.15 GFLOP/run - [1;34m  1.85 TFLOPS[0m
+  TOP_K(type=f32,ne=[2048,1,8,1],k=256,ties=0):                40960 runs -    28.91 us/run -       72 kB/run - [1;34m   2.38 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=64,n_pick=2048,n_top=256,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):             49152 runs -    23.43 us/run -     3080 kB/run - [1;34m 125.38 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=20480):                   705 runs -  1419.36 us/run -   2.15 GFLOP/run - [1;34m  1.51 TFLOPS[0m
+  TOP_K(type=f32,ne=[2048,1,8,1],k=320,ties=0):                40960 runs -    28.87 us/run -       74 kB/run - [1;34m   2.44 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=64,n_pick=2048,n_top=320,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):             40960 runs -    25.17 us/run -     3338 kB/run - [1;34m 126.46 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=24576):                   611 runs -  1689.34 us/run -   2.15 GFLOP/run - [1;34m  1.27 TFLOPS[0m
+  TOP_K(type=f32,ne=[2048,1,8,1],k=384,ties=0):                40960 runs -    28.95 us/run -       76 kB/run - [1;34m   2.50 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=64,n_pick=2048,n_top=384,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):             40960 runs -    28.06 us/run -     3596 kB/run - [1;34m 122.20 GB/s[0m
+  FLASH_ATTN_EXT(hsk=128,hsv=128,nh=8,nr23=[4,1],kv=131072,nb=1,mask=1,sinks=0,max_bias=0.000000,logit_softcap=0.000000,prec=f32,type_K=q8_0,type_V=q8_0,permute=[0,1,2,3],kv_view=1,v_is_view_of_k=0,n_kv_max=32768):                   470 runs -  2224.07 us/run -   2.15 GFLOP/run - [1;34m965.56 GFLOPS[0m
+  TOP_K(type=f32,ne=[2048,1,8,1],k=512,ties=0):                40960 runs -    29.00 us/run -       80 kB/run - [1;34m   2.63 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=64,n_pick=2048,n_top=512,n_extra=0,score=0,nb=1,nh=8,ns=1,real=1,bcast=0):             32644 runs -    32.55 us/run -     4112 kB/run - [1;34m 120.47 GB/s[0m
+  MUL_MAT(type_a=f16,type_b=f32,m=2048,n=4,k=256,bs=[8,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1,src_overlap=0,m_v=0,pad=0):                 44715 runs -    22.81 us/run -  33.55 MFLOP/run - [1;34m  1.47 TFLOPS[0m
+  Backend MTL0: [1;32mOK[0m
+Backend 2/3: BLAS
+  Skipping
+Backend 3/3: CPU
+  Skipping
+3/3 backends passed
+[1;32mOK[0m

@@ -1,0 +1,90 @@
+{
+  "E1a": {
+    "pass": true,
+    "n_pass": 32,
+    "n": 32,
+    "max_stats_err": 2.618300861456646e-06
+  },
+  "E1b": {
+    "floor_kl_mean": 0.0,
+    "kernel_kl_mean": 9.20563812e-06,
+    "kernel_kl_per_book": [
+      1.24558722e-05,
+      8.38625835e-06,
+      1.308473e-05,
+      2.89569193e-06
+    ],
+    "pass": true
+  },
+  "E2": {
+    "E2a_pass": true,
+    "E2b_pass": false,
+    "pass": false,
+    "configs": {
+      "mv:2048": {
+        "f32": {
+          "identical": true,
+          "max_abs_logit_diff": 0,
+          "kl_mean": 0.0,
+          "kl_max": 0,
+          "n_books": 4
+        },
+        "f16": {
+          "identical": false,
+          "max_abs_logit_diff": 1.44242382,
+          "kl_mean": 4.15724836975e-05,
+          "kl_max": 0.0182923039,
+          "n_books": 4
+        }
+      },
+      "quest:2048": {
+        "f32": {
+          "identical": true,
+          "max_abs_logit_diff": 0,
+          "kl_mean": 0.0,
+          "kl_max": 0,
+          "n_books": 4
+        },
+        "f16": {
+          "identical": false,
+          "max_abs_logit_diff": 0.0744333267,
+          "kl_mean": 1.58723154e-08,
+          "kl_max": 3.4997519e-06,
+          "n_books": 4
+        }
+      },
+      "mv:4096": {
+        "f32": {
+          "identical": true,
+          "max_abs_logit_diff": 0,
+          "kl_mean": 0.0,
+          "kl_max": 0,
+          "n_books": 4
+        },
+        "f16": {
+          "identical": false,
+          "max_abs_logit_diff": 0.44008255,
+          "kl_mean": 4.245209605e-06,
+          "kl_max": 0.00108717181,
+          "n_books": 4
+        }
+      },
+      "quest:4096": {
+        "f32": {
+          "identical": true,
+          "max_abs_logit_diff": 0,
+          "kl_mean": 0.0,
+          "kl_max": 0,
+          "n_books": 4
+        },
+        "f16": {
+          "identical": false,
+          "max_abs_logit_diff": 0.15152216,
+          "kl_mean": 3.75715990425e-08,
+          "kl_max": 5.75017591e-06,
+          "n_books": 4
+        }
+      }
+    }
+  }
+}

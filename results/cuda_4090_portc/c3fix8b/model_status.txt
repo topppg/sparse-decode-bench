@@ -1,0 +1,2 @@
+download ok after 1
+38a8de7260b3d8a023225cf312197bf7262d37618f62e7076d319cd0292c1c8e  /root/models/llama31_8b_q8_0.gguf
