@@ -879,3 +879,9 @@ Engine is `sparse-cuda` 66ed860e7. It fixes three review findings outside the pa
 - paged mode is compiled for CUDA only, not HIP/MUSA.
 
 C1 gains one case, two sequences with per-head masks (gqa 3, kv 8192, n_kv_max 1056, f16): 17 cases, 68 runs, all must pass. The negative control still needs at least 8 failures. Everything else is unchanged.
+
+## PORT-C amendment 2 (2026-11-05, after C1 and before any C2–C4 data)
+
+The Vast box (`vastai7`) has an RTX 4090 with 48 GB, a memory-modified AD102 board (sm_89; driver 595.104, CUDA 13.2), not the 24 GB card. Chip and nominal bandwidth are those of the 4090, so the C2 and C3 bands still apply as written. Models, KV types and budgets are unchanged (the 8B keeps KV q8_0), so nothing depends on the extra memory. The 3B q8_0 file rebuilt on the box has the same SHA-256 as the local PORT-E file.
+
+C1 result (seen before this amendment): PASS. 17/17 cases in each of the 4 runs, and the negative control failed 17/17.
