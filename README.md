@@ -1,8 +1,14 @@
 # When does sparse decode pay on consumer GPUs?
 
-**Status: draft, not public. RULER and wall-clock results pending.**
+**Status: draft, not public.**
 
 Training-free page-sparse decoding for ordinary dense LLMs inside llama.cpp, measured on RTX 4090 and RTX 3090. The long-context speedup was predicted from short-context measurements before it was measured.
+
+**In short:**
+- At 128k context, decode is 1.3–1.8× faster at a budget where next-token divergence is small (KL ≈ 0.02) and single-needle retrieval is intact.
+- That budget is **not quality-neutral**: on RULER, Llama-3.1-8B loses 7.4 points (64.7 → 57.2), concentrated in multi-needle tasks.
+- Prefill is unchanged, so a single 1k-token answer over a 128k prompt finishes only 5–15% sooner.
+- It is a dial between speed and quality, with a cost model that tells you where you are.
 
 ## Results in one table
 
@@ -40,11 +46,42 @@ The budget was chosen for a mean next-token KL divergence of about 0.02 against 
 | Top-1 token changed vs dense, 32768 cells | 4.5% | 6.2% | 10.0% |
 | KL / top-1 change at 27648 cells (the 8B and Qwen3 speed budget) | — | — | 0.031 / 11.3% |
 | Needle retrieval at the speed budget, 128k (single / multikey) | 100% / 94% | 100% / 100% | 89% / 100% |
-| RULER, 13 tasks, 128k | — | *pending* | — |
+| RULER, 13 tasks, 128k, 27648 cells (dense → sparse) | — | **64.7 → 57.2** (Δ −7.4, CI [−11.0, −4.1]) | — |
 
 The speed budgets (27648 cells for the 8B models, 28672 for the 3B) are slightly below 32768. For Llama the KL there interpolates to about 0.02; for Qwen3 it is 0.031, measured.
 
-KL vs dense does not mean "no quality loss". Read the top-1 change rate and the RULER result before relying on it.
+RULER shows where the loss is: tasks that need several needles at once.
+- niah_multivalue: 72.5 → 42.5;
+- niah_multiquery: 86 → 65;
+- variable tracking: 86 → 74;
+- multikey: −10 each;
+- single-needle tasks and QA: within 5 points.
+
+KL against dense is not a sufficient quality measure here.
+
+## The speed–quality dial
+
+Decode speedup at 128k on the RTX 3090 by budget (cells per KV head per step):
+
+| budget | 8192 | 16384 | 27–28k | 32768 | 49152 |
+|---|---|---|---|---|---|
+| Llama-3.2-3B | 1.75× | 1.56× | 1.34× | 1.27× | 1.07× |
+| Llama-3.1-8B | 2.25× | 2.01× | 1.76× | 1.67× | 1.42× |
+| Qwen3-8B | 2.30× | 2.07× | 1.80× | 1.70× | 1.43× |
+
+For the 8B, KL against dense is about 0.11, 0.05, 0.02 and 0.017 at 8192, 16384, 27648 and 32768 cells.
+
+## Wall-clock, prefill included
+
+128k-token prompt plus 1024 generated tokens, RTX 3090:
+
+| model | dense | sparse | end-to-end |
+|---|---|---|---|
+| Llama-3.2-3B | 98 s | 94 s | 1.05× |
+| Llama-3.1-8B | 147 s | 129 s | 1.14× |
+| Qwen3-8B | 163 s | 142 s | 1.15× |
+
+The gain grows with output length. It matters most when one long context is reused for long generations (agents, long reports), not for single short answers.
 
 ## How the speedup is predicted
 
@@ -89,7 +126,7 @@ Options:
 
 ## Scope and limits
 
-- Batch size 1, decode only. Prefill is unchanged and dominates wall-clock at 128k (see the wall-clock result, *pending*).
+- Batch size 1, decode only. Prefill is unchanged and dominates wall-clock at 128k (see Wall-clock above).
 - Two GPU models (RTX 4090 48 GB variant, RTX 3090), two model families (Llama 3.x, Qwen3).
-- Quality: KL against dense on 4 PG19 books, 40 synthetic needle trials per model, RULER (*pending*).
+- Quality: KL against dense on 4 PG19 books, 40 synthetic needle trials per model, and RULER (13 tasks × 20 samples, Llama-3.1-8B only).
 - Metal (Apple silicon): kernel-level results only so far.
