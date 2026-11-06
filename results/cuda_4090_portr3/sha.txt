@@ -1,0 +1,3 @@
+38a8de7260b3d8a023225cf312197bf7262d37618f62e7076d319cd0292c1c8e  /root/models/llama31_8b_q8_0.gguf
+e2fb9ecdcc137472d50ead5305f5ca8fd576f32ae6a802196b2a1fbb2e9787b2  /root/port_r/ruler8b.i32
+e2090f6da53b669f80edb9a3eb218e8a3f52ab1c2d9780e436fc1264731fee22  /root/port_r/ruler8b.i32.meta.json

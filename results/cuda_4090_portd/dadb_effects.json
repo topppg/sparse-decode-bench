@@ -1,0 +1,189 @@
+{
+ "n_prompts": 120,
+ "tasks": [
+  "niah_multikey_1",
+  "niah_multikey_2",
+  "niah_multikey_3",
+  "niah_multiquery",
+  "niah_multivalue",
+  "vt"
+ ],
+ "mean": {
+  "da/dense": 64.12,
+  "da/mv:27648": 48.37,
+  "da/quest:27648": 60.75,
+  "da/mv:27648:d2": 45.58,
+  "da/quest:27648:d2": 60.79,
+  "r1/dense": 64.12,
+  "r1/mv:27648": 48.58,
+  "db/dense": 64.12,
+  "db/mv:27648": 46.88
+ },
+ "per_task": {
+  "da/dense": {
+   "niah_multikey_1": 85.0,
+   "niah_multikey_2": 25.0,
+   "niah_multikey_3": 30.0,
+   "niah_multiquery": 86.2,
+   "niah_multivalue": 72.5,
+   "vt": 86.0
+  },
+  "da/mv:27648": {
+   "niah_multikey_1": 75.0,
+   "niah_multikey_2": 15.0,
+   "niah_multikey_3": 20.0,
+   "niah_multiquery": 63.7,
+   "niah_multivalue": 42.5,
+   "vt": 74.0
+  },
+  "da/quest:27648": {
+   "niah_multikey_1": 85.0,
+   "niah_multikey_2": 15.0,
+   "niah_multikey_3": 20.0,
+   "niah_multiquery": 86.2,
+   "niah_multivalue": 76.2,
+   "vt": 82.0
+  },
+  "da/mv:27648:d2": {
+   "niah_multikey_1": 75.0,
+   "niah_multikey_2": 15.0,
+   "niah_multikey_3": 15.0,
+   "niah_multiquery": 61.3,
+   "niah_multivalue": 36.2,
+   "vt": 71.0
+  },
+  "da/quest:27648:d2": {
+   "niah_multikey_1": 85.0,
+   "niah_multikey_2": 20.0,
+   "niah_multikey_3": 15.0,
+   "niah_multiquery": 82.5,
+   "niah_multivalue": 76.2,
+   "vt": 86.0
+  },
+  "r1/dense": {
+   "niah_multikey_1": 85.0,
+   "niah_multikey_2": 25.0,
+   "niah_multikey_3": 30.0,
+   "niah_multiquery": 86.2,
+   "niah_multivalue": 72.5,
+   "vt": 86.0
+  },
+  "r1/mv:27648": {
+   "niah_multikey_1": 75.0,
+   "niah_multikey_2": 15.0,
+   "niah_multikey_3": 20.0,
+   "niah_multiquery": 65.0,
+   "niah_multivalue": 42.5,
+   "vt": 74.0
+  },
+  "db/dense": {
+   "niah_multikey_1": 85.0,
+   "niah_multikey_2": 25.0,
+   "niah_multikey_3": 30.0,
+   "niah_multiquery": 86.2,
+   "niah_multivalue": 72.5,
+   "vt": 86.0
+  },
+  "db/mv:27648": {
+   "niah_multikey_1": 75.0,
+   "niah_multikey_2": 10.0,
+   "niah_multikey_3": 20.0,
+   "niah_multiquery": 65.0,
+   "niah_multivalue": 41.2,
+   "vt": 70.0
+  }
+ },
+ "delta_vs_dense": {
+  "da/mv:27648": [
+   -15.75,
+   [
+    -22.04,
+    -9.63
+   ]
+  ],
+  "da/quest:27648": [
+   -3.38,
+   [
+    -9.08,
+    2.62
+   ]
+  ],
+  "da/mv:27648:d2": [
+   -18.54,
+   [
+    -25.17,
+    -12.38
+   ]
+  ],
+  "da/quest:27648:d2": [
+   -3.33,
+   [
+    -8.71,
+    2.08
+   ]
+  ],
+  "r1/mv:27648": [
+   -15.54,
+   [
+    -21.83,
+    -9.5
+   ]
+  ],
+  "db/mv:27648": [
+   -17.25,
+   [
+    -23.67,
+    -11.17
+   ]
+  ]
+ },
+ "effects": {
+  "S": [
+   12.38,
+   [
+    6.29,
+    18.75
+   ]
+  ],
+  "E": [
+   -2.79,
+   [
+    -6.04,
+    0.04
+   ]
+  ],
+  "S_d2": [
+   15.21,
+   [
+    9.12,
+    21.42
+   ]
+  ],
+  "E_quest": [
+   0.04,
+   [
+    -3.08,
+    3.04
+   ]
+  ],
+  "P": [
+   -1.71,
+   [
+    -4.25,
+    0.21
+   ]
+  ]
+ },
+ "effects_count": {
+  "S": true,
+  "E": false,
+  "S_d2": true,
+  "E_quest": false,
+  "P": false
+ },
+ "dense_score_agree_r1": {
+  "da/dense": 120,
+  "r1/dense": 120,
+  "db/dense": 120
+ }
+}

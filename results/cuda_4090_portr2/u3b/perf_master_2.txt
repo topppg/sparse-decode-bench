@@ -1,0 +1,21 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 24080 MiB):
+  Device 0: NVIDIA GeForce RTX 4090, compute capability 8.9, VMM: yes, VRAM: 24080 MiB
+Testing 2 devices
+
+Backend 1/2: CUDA0
+  Device description: NVIDIA GeForce RTX 4090
+  Device memory: 24080 MB (23685 MB free)
+
+  TOP_K_MASK(type=f16,n_kv=18432,n_blk=4,n_pick=4608,n_top=512,n_extra=3,score=1,nb=1,nh=1,ns=1,real=1,bcast=0):              212992 runs -     4.81 us/run -       56 kB/run - [1;34m  11.10 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=18432,n_blk=0,n_pick=18432,n_top=2048,n_extra=0,score=0,nb=1,nh=1,ns=1,real=1,bcast=0):            237568 runs -     4.34 us/run -       60 kB/run - [1;34m  13.19 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=18432,n_blk=4,n_pick=4608,n_top=512,n_extra=3,score=1,nb=2048,nh=1,ns=1,real=1,bcast=0):                     4688 runs -   221.20 us/run -   114736 kB/run - [1;34m 494.67 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=18432,n_blk=0,n_pick=18432,n_top=2048,n_extra=0,score=0,nb=2048,nh=1,ns=1,real=1,bcast=0):                   5206 runs -   201.11 us/run -   122880 kB/run - [1;34m 582.71 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=4,n_pick=32768,n_top=512,n_extra=3,score=1,nb=1,nh=1,ns=1,real=1,bcast=0):            131072 runs -     7.82 us/run -      276 kB/run - [1;34m  33.68 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=0,n_pick=131072,n_top=2048,n_extra=0,score=0,nb=1,nh=1,ns=1,real=1,bcast=0):                  147456 runs -     7.16 us/run -      280 kB/run - [1;34m  37.28 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=4,n_pick=32768,n_top=512,n_extra=3,score=1,nb=2048,nh=1,ns=1,real=1,bcast=0):                   1140 runs -   910.82 us/run -   565296 kB/run - [1;34m 591.89 GB/s[0m
+  TOP_K_MASK(type=f16,n_kv=131072,n_blk=0,n_pick=131072,n_top=2048,n_extra=0,score=0,nb=2048,nh=1,ns=1,real=1,bcast=0):                  767 runs -  1340.70 us/run -   573440 kB/run - [1;34m 407.90 GB/s[0m
+  Backend CUDA0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

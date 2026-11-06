@@ -1,0 +1,25 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 24080 MiB):
+  Device 0: NVIDIA GeForce RTX 4090, compute capability 8.9, VMM: yes, VRAM: 24080 MiB
+Testing 2 devices
+
+Backend 1/2: CUDA0
+  Device description: NVIDIA GeForce RTX 4090
+  Device memory: 24080 MB (23685 MB free)
+
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[2048,8,1,1],k0=2048,s0=2048,p0=0):                   507842 runs -     1.99 us/run -       64 kB/run - [1;34m  30.63 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[2048,8,512,1],k0=2048,s0=2048,p0=0):                 100352 runs -    10.02 us/run -    32784 kB/run - [1;34m3123.52 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[2048,16,1,1],k0=2048,s0=2048,p0=0):                  507842 runs -     2.00 us/run -      128 kB/run - [1;34m  61.13 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[2048,16,512,1],k0=2048,s0=2048,p0=0):                 53760 runs -    18.71 us/run -    65568 kB/run - [1;34m3349.04 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[4096,8,1,1],k0=4096,s0=4096,p0=0):                   344022 runs -     2.96 us/run -      128 kB/run - [1;34m  41.19 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[4096,8,512,1],k0=4096,s0=4096,p0=0):                  57344 runs -    17.54 us/run -    65552 kB/run - [1;34m3571.03 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[4096,16,1,1],k0=4096,s0=4096,p0=0):                  335831 runs -     3.04 us/run -      256 kB/run - [1;34m  80.29 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[4096,16,512,1],k0=4096,s0=4096,p0=0):                  7424 runs -   138.61 us/run -   131104 kB/run - [1;34m 905.53 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[8192,8,1,1],k0=8192,s0=8192,p0=0):                   204775 runs -     4.91 us/run -      256 kB/run - [1;34m  49.74 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[8192,8,512,1],k0=8192,s0=8192,p0=0):                   7424 runs -   139.23 us/run -   131088 kB/run - [1;34m 901.42 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[8192,16,1,1],k0=8192,s0=8192,p0=0):                  204775 runs -     4.89 us/run -      512 kB/run - [1;34m  99.89 GB/s[0m
+  POOL_1D(pool_type=max,type_input=f32,ne_input=[8192,16,512,1],k0=8192,s0=8192,p0=0):                  3712 runs -   274.32 us/run -   262176 kB/run - [1;34m 918.56 GB/s[0m
+  Backend CUDA0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

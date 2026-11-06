@@ -1,0 +1,52 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 24080 MiB):
+  Device 0: NVIDIA GeForce RTX 4090, compute capability 8.9, VMM: yes, VRAM: 24080 MiB
+Testing 2 devices
+
+Backend 1/2: CUDA0
+  Device description: NVIDIA GeForce RTX 4090
+  Device memory: 24080 MB (23685 MB free)
+
+  TOP_K_MASK(type=f16,n_kv=256,n_blk=4,n_pick=64,n_top=16,n_extra=3,score=1,nb=32,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=1001,n_blk=4,n_pick=70,n_top=16,n_extra=3,score=1,nb=7,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=256,n_blk=4,n_pick=64,n_top=64,n_extra=0,score=1,nb=33,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=512,n_blk=8,n_pick=16,n_top=32,n_extra=7,score=1,nb=5,nh=1,ns=4,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=4096,n_blk=4,n_pick=1024,n_top=512,n_extra=3,score=1,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=4096,n_blk=4,n_pick=1024,n_top=512,n_extra=3,score=1,nb=64,nh=1,ns=2,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=256,n_blk=0,n_pick=256,n_top=16,n_extra=0,score=0,nb=32,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=1001,n_blk=0,n_pick=1001,n_top=64,n_extra=0,score=0,nb=7,nh=1,ns=3,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=4096,n_blk=0,n_pick=4096,n_top=2048,n_extra=0,score=0,nb=5,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=1001,n_blk=0,n_pick=1001,n_top=16,n_extra=3,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=256,n_blk=0,n_pick=256,n_top=40,n_extra=0,score=1,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=512,n_blk=0,n_pick=512,n_top=16,n_extra=0,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=1024,n_blk=4,n_pick=200,n_top=32,n_extra=0,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=1024,n_blk=4,n_pick=200,n_top=32,n_extra=5,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=512,n_blk=0,n_pick=512,n_top=32,n_extra=5,score=1,nb=9,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=512,n_blk=16,n_pick=32,n_top=4,n_extra=0,score=1,nb=6,nh=4,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=1024,n_blk=8,n_pick=128,n_top=16,n_extra=8,score=0,nb=3,nh=2,ns=2,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=1001,n_blk=4,n_pick=70,n_top=16,n_extra=3,score=1,nb=7,nh=1,ns=1,real=0,bcast=1): [1;32mOK[0m
+  TOP_K_MASK(type=f16,n_kv=512,n_blk=8,n_pick=16,n_top=32,n_extra=7,score=1,nb=5,nh=1,ns=4,real=0,bcast=1): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=256,n_blk=4,n_pick=64,n_top=16,n_extra=3,score=1,nb=32,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=1001,n_blk=4,n_pick=70,n_top=16,n_extra=3,score=1,nb=7,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=256,n_blk=4,n_pick=64,n_top=64,n_extra=0,score=1,nb=33,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=512,n_blk=8,n_pick=16,n_top=32,n_extra=7,score=1,nb=5,nh=1,ns=4,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=4096,n_blk=4,n_pick=1024,n_top=512,n_extra=3,score=1,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=4096,n_blk=4,n_pick=1024,n_top=512,n_extra=3,score=1,nb=64,nh=1,ns=2,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=256,n_blk=0,n_pick=256,n_top=16,n_extra=0,score=0,nb=32,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=1001,n_blk=0,n_pick=1001,n_top=64,n_extra=0,score=0,nb=7,nh=1,ns=3,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=4096,n_blk=0,n_pick=4096,n_top=2048,n_extra=0,score=0,nb=5,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=1001,n_blk=0,n_pick=1001,n_top=16,n_extra=3,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=256,n_blk=0,n_pick=256,n_top=40,n_extra=0,score=1,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=512,n_blk=0,n_pick=512,n_top=16,n_extra=0,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=1024,n_blk=4,n_pick=200,n_top=32,n_extra=0,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=1024,n_blk=4,n_pick=200,n_top=32,n_extra=5,score=0,nb=1,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=512,n_blk=0,n_pick=512,n_top=32,n_extra=5,score=1,nb=9,nh=1,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=512,n_blk=16,n_pick=32,n_top=4,n_extra=0,score=1,nb=6,nh=4,ns=1,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=1024,n_blk=8,n_pick=128,n_top=16,n_extra=8,score=0,nb=3,nh=2,ns=2,real=0,bcast=0): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=1001,n_blk=4,n_pick=70,n_top=16,n_extra=3,score=1,nb=7,nh=1,ns=1,real=0,bcast=1): [1;32mOK[0m
+  TOP_K_MASK(type=f32,n_kv=512,n_blk=8,n_pick=16,n_top=32,n_extra=7,score=1,nb=5,nh=1,ns=4,real=0,bcast=1): [1;32mOK[0m
+  38/38 tests passed
+  Backend CUDA0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

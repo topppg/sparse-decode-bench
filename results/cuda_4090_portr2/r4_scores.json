@@ -1,0 +1,70 @@
+{
+  "per_task": {
+    "dense": {
+      "niah_single_1": 100.0,
+      "niah_single_2": 100.0,
+      "niah_single_3": 90.0,
+      "niah_multikey_1": 85.0,
+      "niah_multikey_2": 25.0,
+      "niah_multikey_3": 30.0,
+      "niah_multivalue": 72.5,
+      "niah_multiquery": 86.25,
+      "vt": 86.00000000000001,
+      "cwe": 1.0,
+      "fwe": 80.0,
+      "qa_1": 55.00000000000001,
+      "qa_2": 30.0
+    },
+    "mv:49152": {
+      "niah_single_1": 100.0,
+      "niah_single_2": 100.0,
+      "niah_single_3": 90.0,
+      "niah_multikey_1": 80.0,
+      "niah_multikey_2": 25.0,
+      "niah_multikey_3": 25.0,
+      "niah_multivalue": 70.0,
+      "niah_multiquery": 76.25,
+      "vt": 82.0,
+      "cwe": 1.0,
+      "fwe": 76.66666666666666,
+      "qa_1": 55.00000000000001,
+      "qa_2": 35.0
+    },
+    "mv:65536": {
+      "niah_single_1": 100.0,
+      "niah_single_2": 100.0,
+      "niah_single_3": 90.0,
+      "niah_multikey_1": 85.0,
+      "niah_multikey_2": 20.0,
+      "niah_multikey_3": 25.0,
+      "niah_multivalue": 71.25,
+      "niah_multiquery": 83.75,
+      "vt": 84.00000000000001,
+      "cwe": 1.5000000000000002,
+      "fwe": 73.33333333333333,
+      "qa_1": 55.00000000000001,
+      "qa_2": 35.0
+    }
+  },
+  "mean": {
+    "dense": 64.67307692307692,
+    "mv:49152": 62.76282051282051,
+    "mv:65536": 63.371794871794876
+  },
+  "delta_mv:49152": {
+    "delta": -1.91025641025641,
+    "ci95": [
+      -4.461538461538462,
+      0.6282051282051281
+    ],
+    "n_pairs": 260
+  },
+  "delta_mv:65536": {
+    "delta": -1.3012820512820515,
+    "ci95": [
+      -3.3589743589743586,
+      0.6794871794871793
+    ],
+    "n_pairs": 260
+  }
+}
