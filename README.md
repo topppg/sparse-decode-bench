@@ -7,7 +7,7 @@ Training-free page-sparse decoding for ordinary dense LLMs inside llama.cpp, mea
 **In short:**
 - At 128k context, decode is 1.3–1.8× faster on Llama 3.x and Qwen3 8B models.
 - With the quest page score, Llama-3.1-8B on RULER at 128k (13 tasks) scores **63.6 against 64.7 dense** (Δ −1.1, 95% CI [−4.3, +2.0]). The first page score (mv) lost 7.4 points at the same budget and speed.
-- The gain grows with context: at 256k, UltraLong-8B decodes **1.86× faster** (23.0 → 42.8 tok/s). **[L2 pending: RULER at 256k.]**
+- The gain grows with context: at 256k, UltraLong-8B decodes **1.86× faster** (23.0 → 42.8 tok/s), and on six multi-needle RULER tasks the loss at that budget is no larger than at 128k (−4.0 against −6.9 points).
 - Prefill is unchanged, so a single 1k-token answer over a 128k prompt finishes only 5–15% sooner. The gain is in long generations.
 - It is a dial between speed and quality, with a cost model that tells you where you are.
 
@@ -102,8 +102,15 @@ UltraLong-8B (`nvidia/Llama-3.1-Nemotron-8B-UltraLong-1M-Instruct`, q8_0, KV q8_
 The same budget gives a larger speedup at a longer context, because dense decode slows with the cache while the sparse read stays fixed.
 
 **Does quality hold at a fixed budget?** Pre-registered test: on the six multi-needle RULER tasks, Δ(256k) − Δ(128k) ≥ −3 points at 49152 cells.
-- At 128k: dense 82.4, quest 75.5 (Δ −6.9, CI [−12.0, −2.2]).
-- At 256k: **[L2 pending.]**
+| context | dense | quest:49152 | Δ [95% CI] | quest:98304 | Δ [95% CI] |
+|---|---|---|---|---|---|
+| 128k | 82.4 | 75.5 | −6.9 [−12.0, −2.2] | — | — |
+| 256k | 67.4 | 63.4 | −4.0 [−8.7, +0.3] | 63.4 | −4.0 [−7.9, −0.2] |
+
+- **The test passes:** Δ(256k) − Δ(128k) = +2.9, 95% CI [−3.7, +9.7]. The wide interval rules out a large degradation, not a small one.
+- Dense itself loses 15 points from 128k to 256k, so there is less to lose at 256k. This does not show that sparse decoding improves with context.
+- Doubling the budget to 98304 cells (the same fraction of the cache as 49152 at 128k) does not help. The loss sits in a few multi-key prompts.
+- The six-task mean is not comparable to the 13-task numbers above: it contains only the hard tasks.
 
 KL against dense at a fixed budget rises with context (49152 cells: 0.017 at 128k, 0.023 at 256k; 98304 cells: 0.006 and 0.013).
 
