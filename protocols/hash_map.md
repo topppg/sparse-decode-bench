@@ -23,3 +23,10 @@ The `protocol-history` branch holds the git history of the protocols file alone,
 | PORT-G | `a7c7927` | `53b5600` | 2026-11-05T17:36:14+01:00 |
 | PORT-R | `44a9e78` | `eb86c48` | 2026-11-05T18:18:05+01:00 |
 | PORT-R amendment 1 | `b243ede` | `2fe45a8` | 2026-11-05T21:25:19+01:00 |
+| PORT-R2 | `63361a7` | `8cc6fc7` | 2026-11-06T07:45:02+01:00 |
+| PORT-R2 amendment 1 | `f9b9658` | `5f67883` | 2026-11-06T09:45:55+01:00 |
+| PORT-L | `43cc46a` | `34e324f` | 2026-11-06T09:59:11+01:00 |
+| PORT-D | `e40f699` | `57f1e18` | 2026-11-06T10:57:55+01:00 |
+| PORT-L amendment 1 | `1baa94c` | `22ff3a9` | 2026-11-06T14:08:07+01:00 |
+| PORT-L amendment 2 | `5932f27` | `1142b94` | 2026-11-06T14:20:30+01:00 |
+| PORT-R3 | `5932f27` | `1142b94` | 2026-11-06T14:20:30+01:00 |
