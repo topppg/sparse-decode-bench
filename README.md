@@ -195,3 +195,4 @@ CUDA only. On Apple silicon (Metal) only kernel-level results exist so far: a de
   - KL against dense on 4 PG19 books;
   - 40 synthetic needle trials per model.
 - RULER is synthetic. Real long-document tasks are covered only by its two QA tasks.
+- Sparse decode output is not bitwise reproducible from run to run (dense is): on 30 RULER prompts, two quest runs give token-identical outputs on 21–24 of 30, with the same scores. The released branch matches the research build within that spread.
