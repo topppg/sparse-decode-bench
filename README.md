@@ -181,7 +181,7 @@ cmake --build build -j --target llama-completion llama-bench
 Generate with a budget of 27648 cells (all layers and the KV cache on the GPU):
 
 ```
-LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-completion -m model.gguf -c 131072 -fa on -ngl 99 -ctk q8_0 -ctv q8_0 -f long_prompt.txt -n 1024
+LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-completion -m model.gguf -c 131072 -fa on -ngl 99 -ctk q8_0 -ctv q8_0 -f long_prompt.txt -n 1024 -no-cnv
 ```
 
 Measure decode speed at a 128k cache as in the table above (run once without the variable for dense):
