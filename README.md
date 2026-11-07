@@ -170,10 +170,10 @@ Every test was pre-registered (see [protocols/](protocols/)). Several failed:
 
 ## Try it
 
-CUDA only. Build the `sparse-decode` branch of the fork (*fork link to be added*):
+CUDA only. Build the [`sparse-decode` branch](https://github.com/topppg/llama.cpp/tree/sparse-decode) of the fork (e7059e52a, on llama.cpp master 6023692b1):
 
 ```
-git clone -b sparse-decode <fork URL> llama.cpp-sparse && cd llama.cpp-sparse
+git clone -b sparse-decode https://github.com/topppg/llama.cpp llama.cpp-sparse && cd llama.cpp-sparse
 cmake -B build -DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j $(nproc) --target llama-completion llama-bench
 ```
