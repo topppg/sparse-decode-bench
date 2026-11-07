@@ -175,7 +175,7 @@ CUDA only. Build the `sparse-decode` branch of the fork (*fork link to be added*
 ```
 git clone -b sparse-decode <fork URL> llama.cpp-sparse && cd llama.cpp-sparse
 cmake -B build -DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j --target llama-completion llama-bench
+cmake --build build -j $(nproc) --target llama-completion llama-bench
 ```
 
 Generate with a budget of 27648 cells (all layers and the KV cache on the GPU):
