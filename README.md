@@ -36,7 +36,7 @@ At each decode step, every KV head attends to:
 
 Pages are scored from per-page key statistics kept in the KV cache. The default score is **quest**: the query's positive part times each page's per-dimension key maximum, plus its negative part times the minimum, an upper bound on any key's score in the page. The alternative **mv** scores a page by its key mean and variance. Nothing is trained.
 
-This is the Quest/MOIRA family of page selection. The contribution here is a working implementation for dense models in llama.cpp (CUDA), measured end to end, and a cost model that predicts when it pays.
+This is the page selection of Quest [1] (the quest score) and MOIRA [2] (page statistics; mv is a moment estimate in that spirit). The contribution here is a working implementation for dense models in llama.cpp (CUDA), measured end to end, and a cost model that predicts when it pays.
 
 ## Quality at the operating point
 
@@ -168,17 +168,35 @@ Every test was pre-registered (see [protocols/](protocols/)). Several failed:
 
 ## Try it
 
-*Fork branch link and build instructions to be added.*
+CUDA only. Build the `sparse-decode` branch of the fork (*fork link to be added*):
 
 ```
-LLAMA_SPARSE_DECODE=27648 ./llama-cli -m model.gguf -c 131072 -fa on ...
+git clone -b sparse-decode <fork URL> llama.cpp-sparse && cd llama.cpp-sparse
+cmake -B build -DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j --target llama-cli llama-bench
+```
+
+Generate with a budget of 27648 cells (all layers and the KV cache on the GPU):
+
+```
+LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-cli -m model.gguf -c 131072 -fa on -ngl 99 -ctk q8_0 -ctv q8_0 -f long_prompt.txt -n 1024
+```
+
+Measure decode speed at a 128k cache as in the table above (run once without the variable for dense):
+
+```
+LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-bench -m model.gguf -fa 1 -p 0 -n 64 -r 3 -d 131072 -ctk q8_0 -ctv q8_0
 ```
 
 Options:
+- `LLAMA_SPARSE_DECODE=<cells>` (at least 144; 0 or unset is dense): the budget per KV head per decode step. 27648 was used for the 8B models at 128k and 49152 at 256k.
 - `LLAMA_SPARSE_DECODE_MIN_CTX` (default 32768): the cache length below which decoding stays dense.
 - `LLAMA_SPARSE_DECODE_SCORE=quest|mv` (default quest): the page score.
 
-CUDA only. On Apple silicon (Metal) only kernel-level results exist so far: a decode speedup of 1.56× at 128k, projected from kernel microbenchmarks on an M4 Pro.
+Limits:
+- With the variable set, the context refuses to start unless all layers and the KV cache are on CUDA devices.
+- One sequence, decode only; prefill is dense.
+- On Apple silicon (Metal) only kernel-level results exist so far: a decode speedup of 1.56x at 128k, projected from kernel microbenchmarks on an M4 Pro.
 
 ## Repository
 
@@ -196,3 +214,8 @@ CUDA only. On Apple silicon (Metal) only kernel-level results exist so far: a de
   - 40 synthetic needle trials per model.
 - RULER is synthetic. Real long-document tasks are covered only by its two QA tasks.
 - Sparse decode output is not bitwise reproducible from run to run (dense is): on 30 RULER prompts, two quest runs give token-identical outputs on 21–24 of 30, with the same scores. The released branch matches the research build within that spread.
+
+## References
+
+1. Jiaming Tang, Yilong Zhao, Kan Zhu, Guangxuan Xiao, Baris Kasikci, Song Han. *Quest: Query-Aware Sparsity for Efficient Long-Context LLM Inference.* ICML 2024. [arXiv:2406.10774](https://arxiv.org/abs/2406.10774)
+2. Dich Nhat Minh Nguyen, Tran Dang Duong Nguyen. *MOIRA: Mass-Oriented Indexing with Ragged Attention for Long-Context Decoding.* 2026. [arXiv:2610.04313](https://arxiv.org/abs/2610.04313)
