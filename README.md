@@ -173,13 +173,13 @@ CUDA only. Build the `sparse-decode` branch of the fork (*fork link to be added*
 ```
 git clone -b sparse-decode <fork URL> llama.cpp-sparse && cd llama.cpp-sparse
 cmake -B build -DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j --target llama-cli llama-bench
+cmake --build build -j --target llama-completion llama-bench
 ```
 
 Generate with a budget of 27648 cells (all layers and the KV cache on the GPU):
 
 ```
-LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-cli -m model.gguf -c 131072 -fa on -ngl 99 -ctk q8_0 -ctv q8_0 -f long_prompt.txt -n 1024
+LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-completion -m model.gguf -c 131072 -fa on -ngl 99 -ctk q8_0 -ctv q8_0 -f long_prompt.txt -n 1024
 ```
 
 Measure decode speed at a 128k cache as in the table above (run once without the variable for dense):
