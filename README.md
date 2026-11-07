@@ -7,8 +7,9 @@ Giorgio Sarno, Controra Research
 Training-free page-sparse decoding for ordinary dense LLMs inside llama.cpp, measured on RTX 4090 and RTX 3090. The long-context speedup was predicted from short-context measurements before it was measured.
 
 **In short:**
-- At 128k context, decode is 1.3–1.8× faster on Llama 3.x and Qwen3 8B models.
-- With the quest page score, Llama-3.1-8B on RULER at 128k (13 tasks) scores **63.6 against 64.7 dense** (Δ −1.1, 95% CI [−4.3, +2.0]). The first page score (mv) lost 7.4 points at the same budget and speed.
+- At 128k context, decode is 1.3–1.8× faster on Llama-3.1-8B and Qwen3-8B.
+- With the quest page score, RULER at 128k (13 tasks) holds at that speed: Llama-3.1-8B scores **63.6 against 64.7 dense** (Δ −1.1, 95% CI [−4.3, +2.0]) and Qwen3-8B **60.2 against 59.7** (Δ +0.4 [−2.3, +3.3]). The first page score (mv) lost 7.4 points on Llama-3.1-8B at the same budget and speed.
+- Llama-3.2-3B decodes 1.35–1.55× faster at its budget but **fails** RULER there (Δ −4.5 [−7.1, −1.9]), so its speed rows are not quality-safe as given.
 - The gain grows with context: at 256k, UltraLong-8B decodes **1.86× faster** (23.0 → 42.8 tok/s), and on six multi-needle RULER tasks the loss at that budget is no larger than at 128k (−4.0 against −6.9 points).
 - Prefill is unchanged, so a single 1k-token answer over a 128k prompt finishes only 5–15% sooner. The gain is in long generations.
 - It is a dial between speed and quality, with a cost model that tells you where you are.
@@ -17,15 +18,16 @@ Training-free page-sparse decoding for ordinary dense LLMs inside llama.cpp, mea
 
 Single-sequence decode speed at a 128k-token context. Prefill is dense in both cases.
 
-| GPU | Model (KV cache) | Dense tok/s | Sparse tok/s | Speedup | Predicted beforehand |
-|---|---|---|---|---|---|
-| RTX 4090 | Llama-3.2-3B (f16) | 48.7 | 75.4 | **1.55×** | 1.6 (band 1.45–1.75) |
-| RTX 4090 | Llama-3.1-8B (q8_0) | 39.7 | 52.1 | **1.31×** | 1.30 (band 1.15–1.45) |
-| RTX 3090 | Llama-3.2-3B (f16) | 44.7 | 60.4 | **1.35×** | 1.27 (calibrated ≤ 32k) |
-| RTX 3090 | Llama-3.1-8B (q8_0) | 21.9 | 38.8 | **1.77×** | 1.70 (calibrated ≤ 32k) |
-| RTX 3090 | Qwen3-8B (q8_0) | 19.9 | 36.0 | **1.81×** | 1.75 (calibrated ≤ 32k) |
+| GPU | Model (KV cache) | Dense tok/s | Sparse tok/s | Speedup | Predicted beforehand | RULER Δ at this budget (quest) |
+|---|---|---|---|---|---|---|
+| RTX 4090 | Llama-3.2-3B (f16) | 48.7 | 75.4 | 1.55× | 1.6 (band 1.45–1.75) | −4.5, **fails** |
+| RTX 4090 | Llama-3.1-8B (q8_0) | 39.7 | 52.1 | **1.31×** | 1.30 (band 1.15–1.45) | −1.1, passes |
+| RTX 3090 | Llama-3.2-3B (f16) | 44.7 | 60.4 | 1.35× | 1.27 (calibrated ≤ 32k) | −4.5, **fails** |
+| RTX 3090 | Llama-3.1-8B (q8_0) | 21.9 | 38.8 | **1.77×** | 1.70 (calibrated ≤ 32k) | −1.1, passes |
+| RTX 3090 | Qwen3-8B (q8_0) | 19.9 | 36.0 | **1.81×** | 1.75 (calibrated ≤ 32k) | +0.4, passes |
 
 - Budgets: 27648 cells for the 8B models, 28672 for the 3B. The sparse path reads about 21–22% of the cached keys at 128k.
+- RULER was measured once per model, on an RTX 4090, with the gate Δ ≥ −3 points and 95% lower bound ≥ −6 (see Quality below). The 3B fails it at this budget; a larger 3B budget has not been tested.
 - These runs used the mv page score. quest runs at the same speed: 51.94 against 52.05 tok/s for mv (Llama-3.1-8B, RTX 4090 24 GB, 128k).
 - Below about 32k context, sparse decoding is slower than dense, so it switches on only above a threshold (default 32768).
 
@@ -59,6 +61,20 @@ This is the page selection of Quest [1] (the quest score) and MOIRA [2] (page st
 - The pre-registered gate (Δ ≥ −3, lower bound ≥ −6) **passes with quest** and fails with mv.
 - Dense outputs are token-identical across the three RULER runs (260/260).
 - The remaining losses are on multi-needle retrieval: −10 on multikey_2 and multikey_3 (2 of 20 prompts each), −4 on variable tracking.
+
+### RULER on Qwen3-8B and Llama-3.2-3B (PORT-RQ)
+
+The same 13 tasks × 20 samples at 128k, the same gate, quest at the speed-table budgets, measured on the released build (e7059e52a). Pre-registered before any data, with the consequence for this README fixed in advance.
+
+| model (KV cache) | budget | dense | quest | Δ [95% CI] | gate |
+|---|---|---|---|---|---|
+| Qwen3-8B-Base, YaRN to 128k (q8_0) | 27648 | 59.7 | 60.2 | +0.4 [−2.3, +3.3] | **pass** |
+| Llama-3.2-3B (f16) | 28672 | 68.2 | 63.7 | −4.5 [−7.1, −1.9] | **fail** |
+
+- Both predictions were PASS: the 3B prediction was wrong, and Qwen's Δ landed just above its predicted interval [−4, 0].
+- The 3B loses on multi-needle tasks: multikey_2 −30 (6 of 20 prompts), multivalue −12.5, multiquery −10, fwe −6.7. Single needles and QA hold. The cause has not been investigated.
+- The 3B had passed its earlier checks with mv (KL 0.018 at 32768 cells; needles 100% / 94% at the speed budget), another case where those checks did not predict RULER.
+- Per-task scores: `results/cuda_4090_portrq/`.
 
 ### Why mv failed (PORT-D)
 
@@ -164,7 +180,8 @@ Every test was pre-registered (see [protocols/](protocols/)). Several failed:
 - **The first CUDA build gave only 1.05–1.18× at 128k.** Selection overhead was the cause: two ggml kernels (`pool_1d` with a whole-row window, and `top_k_mask`) used too few GPU threads. Fixing them gave the numbers above.
 - **The `top_k_mask` fix first made prefill-sized batches up to 2.2× slower.** The final version keeps master's kernel when rows fill the GPU: decode cases at a 128k cache are 1.9–2.0× faster and no case is more than 0.6% slower.
 - **A kernel microbenchmark (C2) was mis-designed.** It picked pages independently per head, while the engine shares pages across a GQA group. Its KILL verdict is recorded as is.
-- **Qwen3-8B at the Llama budget narrowly failed its quality gates:** KL 0.031 against a 0.03 limit, and single-key retrieval at 89% against 90%. Budgets should be set per model family.
+- **Qwen3-8B at the Llama budget narrowly failed its quality gates:** KL 0.031 against a 0.03 limit, and single-key retrieval at 89% against 90%. Budgets should be set per model family. (With quest it later passed RULER at that budget, +0.4.)
+- **Llama-3.2-3B fails RULER at its speed budget** (quest, 28672 cells): −4.5 [−7.1, −1.9], although its KL and needle checks had passed. No larger budget was tested before release.
 - **The 8B in-engine KL was 30% above the Python reference** (gate ≤ 25%). The likely causes are q8_0 weights and TF32 in cuBLAS scoring; this is not resolved.
 - **The cost model missed its 256k gate** (above).
 
@@ -211,7 +228,7 @@ Limits:
 - Batch size 1, decode only. Prefill is unchanged and dominates wall-clock at 128k (see Wall-clock above).
 - Three GPUs (RTX 3090, RTX 4090 24 GB, RTX 4090 48 GB), two model families (Llama 3.x, Qwen3).
 - Quality:
-  - RULER, 13 tasks × 20 samples at 128k, on Llama-3.1-8B only;
+  - RULER, 13 tasks × 20 samples at 128k, on Llama-3.1-8B (quest and mv), Qwen3-8B and Llama-3.2-3B (quest);
   - the six multi-needle RULER tasks at 128k and 256k on UltraLong-8B;
   - KL against dense on 4 PG19 books;
   - 40 synthetic needle trials per model.

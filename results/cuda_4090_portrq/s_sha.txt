@@ -1,0 +1,2 @@
+068ac2834d2d2e566ef8d2bef18e722058aa68511786691919e3b162be73c7e6  /root/models/llama32_3b_q8_0.gguf
+3b matches PORT-R
