@@ -1,5 +1,7 @@
 # When does sparse decode pay on consumer GPUs?
 
+Giorgio Sarno, Controra Research
+
 **Status: draft, not public.**
 
 Training-free page-sparse decoding for ordinary dense LLMs inside llama.cpp, measured on RTX 4090 and RTX 3090. The long-context speedup was predicted from short-context measurements before it was measured.
@@ -219,3 +221,7 @@ Limits:
 
 1. Jiaming Tang, Yilong Zhao, Kan Zhu, Guangxuan Xiao, Baris Kasikci, Song Han. *Quest: Query-Aware Sparsity for Efficient Long-Context LLM Inference.* ICML 2024. [arXiv:2406.10774](https://arxiv.org/abs/2406.10774)
 2. Dich Nhat Minh Nguyen, Tran Dang Duong Nguyen. *MOIRA: Mass-Oriented Indexing with Ragged Attention for Long-Context Decoding.* 2026. [arXiv:2610.04313](https://arxiv.org/abs/2610.04313)
+
+## Licence
+
+Text, protocols and results: [CC BY 4.0](LICENSE). Scripts: [MIT](LICENSE-MIT). The llama.cpp fork is MIT, as llama.cpp.
