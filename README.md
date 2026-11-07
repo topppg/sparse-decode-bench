@@ -197,6 +197,7 @@ Options:
 
 Limits:
 - With the variable set, the context refuses to start unless all layers and the KV cache are on CUDA devices.
+- e7059e52a is 5cf439778 (the build checked against the research build, `results/cuda_4090_48gb_featcheck`) plus that check. These commands were run as written on an RTX 3090 with Llama-3.2-3B-Instruct Q8_0: 34.7 -> 59.2 tok/s at a 128k cache, KV q8_0.
 - One sequence, decode only; prefill is dense.
 - On Apple silicon (Metal) only kernel-level results exist so far: a decode speedup of 1.56x at 128k, projected from kernel microbenchmarks on an M4 Pro.
 
