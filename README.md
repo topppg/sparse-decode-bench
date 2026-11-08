@@ -72,7 +72,8 @@ The same 13 tasks × 20 samples at 128k, the same gate, quest at the speed-table
 | Llama-3.2-3B (f16) | 28672 | 68.2 | 63.7 | −4.5 [−7.1, −1.9] | **fail** |
 
 - Both predictions were PASS: the 3B prediction was wrong, and Qwen's Δ landed just above its predicted interval [−4, 0].
-- The 3B loses on multi-needle tasks: multikey_2 −30 (6 of 20 prompts), multivalue −12.5, multiquery −10, fwe −6.7. Single needles and QA hold. The cause has not been investigated.
+- The 3B loses on multi-needle tasks: multikey_2 −30 (6 of 20 prompts), multivalue −12.5, multiquery −10, fwe −6.7. Single needles and QA hold.
+- Read after the data, not pre-registered: on multikey_2, all 7 lost prompts are near-misses, a number sharing its first 4–6 digits with the answer (5149787 → 5149780). In 3 of 20 prompts the answer crosses a 64-cell page edge, and all 3 are among the losses. The other 4 do not, so page edges explain at most part of it. Not tested yet.
 - The 3B had passed its earlier checks with mv (KL 0.018 at 32768 cells; needles 100% / 94% at the speed budget), another case where those checks did not predict RULER.
 - Per-task scores: `results/cuda_4090_portrq/`.
 
@@ -232,6 +233,7 @@ Limits:
   - the six multi-needle RULER tasks at 128k and 256k on UltraLong-8B;
   - KL against dense on 4 PG19 books;
   - 40 synthetic needle trials per model.
+- Multi-needle retrieval is the weak spot. Finding a single fact loses nothing on all three models, and the non-needle tasks hold. Retrieving several similar keys or values loses 0–3 points on the 8B models and 11.5 on the 3B (mean of the five multi-needle RULER tasks). On Llama-3.1-8B part of this is hidden: dense already scores 25–30 on multikey_2 and multikey_3. This is a known weakness of page-level selection on synthetic retrieval [3, 4].
 - RULER is synthetic. Real long-document tasks are covered only by its two QA tasks.
 - Sparse decode output is not bitwise reproducible from run to run (dense is): on 30 RULER prompts, two quest runs give token-identical outputs on 21–24 of 30, with the same scores. The released branch matches the research build within that spread.
 
@@ -239,6 +241,9 @@ Limits:
 
 1. Jiaming Tang, Yilong Zhao, Kan Zhu, Guangxuan Xiao, Baris Kasikci, Song Han. *Quest: Query-Aware Sparsity for Efficient Long-Context LLM Inference.* ICML 2024. [arXiv:2406.10774](https://arxiv.org/abs/2406.10774)
 2. Dich Nhat Minh Nguyen, Tran Dang Duong Nguyen. *MOIRA: Mass-Oriented Indexing with Ragged Attention for Long-Context Decoding.* 2026. [arXiv:2610.04313](https://arxiv.org/abs/2610.04313)
+
+3. Piotr Nawrot, Robert Li, Renjie Huang, Sebastian Ruder, Kelly Marchisio, Edoardo M. Ponti. *The Sparse Frontier: Sparse Attention Trade-offs in Transformer LLMs.* Findings of ACL 2026. [arXiv:2504.17768](https://arxiv.org/abs/2504.17768) (§4.2: Quest degrades on synthetic RULER NIAH; page granularity amplifies it.)
+4. Di Liu, Meng Chen, Baotong Lu, Huiqiang Jiang, Zhenhua Han, Qianxi Zhang, Qi Chen, Chengruidong Zhang, Bailu Ding, Kai Zhang, Chen Chen, Fan Yang, Yuqing Yang, Lili Qiu. *RetrievalAttention: Accelerating Long-Context LLM Inference via Vector Retrieval.* 2024. [arXiv:2409.10516](https://arxiv.org/abs/2409.10516) (Table 9: Quest at 2K tokens, 128k RULER, keeps single needles and loses on multi-key, multi-query and multi-value.)
 
 ## Licence
 
