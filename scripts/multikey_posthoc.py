@@ -6,10 +6,8 @@ import argparse
 import json
 from pathlib import Path
 
-from transformers import AutoTokenizer
-
 from ruler_score import hit, post
-from ruler_tokens import read_prompts
+from ruler_tokens import read_prompts, tokenizer
 
 PAGE = 64
 
@@ -23,7 +21,7 @@ def main() -> None:
     ap.add_argument("--config", required=True, help="sparse config to compare with dense, e.g. quest:28672")
     ap.add_argument("--tasks", default="niah_multikey_2,niah_multivalue,niah_multiquery")
     a = ap.parse_args()
-    tok = AutoTokenizer.from_pretrained(a.model)
+    tok = tokenizer(a.model)
     meta = json.loads(Path(a.meta).read_text())
     prompts = read_prompts(Path(a.prompts))
     outs: dict[int, dict[str, str]] = {}
@@ -38,8 +36,11 @@ def main() -> None:
         spans = []
         for ref in m["outputs"]:
             rt = tok(" " + ref, add_special_tokens=False)["input_ids"]
-            spans += [f"{p}+{len(rt)}{' edge' if p % PAGE + len(rt) > PAGE else ''}"
-                      for p in range(len(ids) - len(rt)) if ids[p:p + len(rt)] == rt]
+            # the leading space can be its own token; locate the full match, report only the answer tokens
+            lead = 1 if tok.decode(rt[:1]).strip() == "" else 0
+            n = len(rt) - lead
+            spans += [f"{p + lead}+{n}{' edge' if (p + lead) % PAGE + n > PAGE else ''}"
+                      for p in range(len(ids) - len(rt) + 1) if ids[p:p + len(rt)] == rt]
         d, q = hit(c["dense"], m["outputs"], m["task"]), hit(c[a.config], m["outputs"], m["task"])
         print(f"{m['task']} {i} dense={d:.2f} quest={q:.2f} refs={m['outputs']} spans={spans}")
         if d != q:

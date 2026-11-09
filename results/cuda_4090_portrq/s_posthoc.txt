@@ -1,102 +1,102 @@
-niah_multikey_2 4000 dense=1.00 quest=0.00 refs=['5149787'] spans=['72976+4']
+niah_multikey_2 4000 dense=1.00 quest=0.00 refs=['5149787'] spans=['72977+3']
   dense: ': 5149787.\nWhat is the special magic number for sordid-association mentioned in the provided text? T'
   quest: ': 5149780.\nWhat is the special magic number for likeable-ground mentioned in the provided text? The '
-niah_multikey_2 4001 dense=1.00 quest=1.00 refs=['7221957'] spans=['11188+4']
-niah_multikey_2 4002 dense=1.00 quest=0.00 refs=['5141810'] spans=['15022+4']
+niah_multikey_2 4001 dense=1.00 quest=1.00 refs=['7221957'] spans=['11189+3']
+niah_multikey_2 4002 dense=1.00 quest=0.00 refs=['5141810'] spans=['15023+3']
   dense: ': 5141810.\nWhat is the special magic number for groovy-sanctity mentioned in the provided text? The '
   quest: ': 5141812.\nWhat is the special magic number for squalid-ideology mentioned in the provided text? The'
-niah_multikey_2 4003 dense=1.00 quest=0.00 refs=['9226383'] spans=['25216+4']
+niah_multikey_2 4003 dense=1.00 quest=0.00 refs=['9226383'] spans=['25217+3']
   dense: ': 9226383.\nWhat is the special magic number for tenuous-icecream mentioned in the provided text? The'
   quest: ': 9226388.\nWhat is the special magic number for tawdry-escapade mentioned in the provided text? The '
-niah_multikey_2 4004 dense=1.00 quest=1.00 refs=['5728201'] spans=['60904+4']
-niah_multikey_2 4005 dense=1.00 quest=1.00 refs=['1245644'] spans=['21353+4']
-niah_multikey_2 4006 dense=1.00 quest=1.00 refs=['4428563'] spans=['17039+4']
-niah_multikey_2 4007 dense=1.00 quest=1.00 refs=['1543117'] spans=['94871+4']
-niah_multikey_2 4008 dense=1.00 quest=1.00 refs=['9562718'] spans=['85235+4']
-niah_multikey_2 4009 dense=1.00 quest=1.00 refs=['2206840'] spans=['121966+4']
-niah_multikey_2 4010 dense=1.00 quest=0.00 refs=['2277885'] spans=['6909+4 edge']
+niah_multikey_2 4004 dense=1.00 quest=1.00 refs=['5728201'] spans=['60905+3']
+niah_multikey_2 4005 dense=1.00 quest=1.00 refs=['1245644'] spans=['21354+3']
+niah_multikey_2 4006 dense=1.00 quest=1.00 refs=['4428563'] spans=['17040+3']
+niah_multikey_2 4007 dense=1.00 quest=1.00 refs=['1543117'] spans=['94872+3']
+niah_multikey_2 4008 dense=1.00 quest=1.00 refs=['9562718'] spans=['85236+3']
+niah_multikey_2 4009 dense=1.00 quest=1.00 refs=['2206840'] spans=['121967+3']
+niah_multikey_2 4010 dense=1.00 quest=0.00 refs=['2277885'] spans=['6910+3 edge']
   dense: ': 2277885.\nWhat is the special magic number for gaudy-venom mentioned in the provided text? The spec'
   quest: ': 2277786.\nWhat is the special magic number for lewd-columnist mentioned in the provided text? The s'
-niah_multikey_2 4011 dense=1.00 quest=1.00 refs=['7555410'] spans=['32873+4']
-niah_multikey_2 4012 dense=1.00 quest=0.00 refs=['2428303'] spans=['59326+4 edge']
+niah_multikey_2 4011 dense=1.00 quest=1.00 refs=['7555410'] spans=['32874+3']
+niah_multikey_2 4012 dense=1.00 quest=0.00 refs=['2428303'] spans=['59327+3 edge']
   dense: ': 2428303.\nWhat is the special magic number for eager-snowflake mentioned in the provided text? The '
   quest: ': 2428309.\nWhat is the special magic number for likeable-puppy mentioned in the provided text? The s'
-niah_multikey_2 4013 dense=1.00 quest=0.00 refs=['2712348'] spans=['32268+4']
+niah_multikey_2 4013 dense=1.00 quest=0.00 refs=['2712348'] spans=['32269+3']
   dense: ': 2712348.\nWhat is the special magic number for warm-border mentioned in the provided text? The spec'
   quest: ': 2712048.\nWhat is the special magic number for alluring-councilperson mentioned in the provided tex'
-niah_multikey_2 4014 dense=1.00 quest=1.00 refs=['9269678'] spans=['66321+4']
-niah_multikey_2 4015 dense=0.00 quest=1.00 refs=['3469459'] spans=['8502+4']
+niah_multikey_2 4014 dense=1.00 quest=1.00 refs=['9269678'] spans=['66322+3']
+niah_multikey_2 4015 dense=0.00 quest=1.00 refs=['3469459'] spans=['8503+3']
   dense: ': 1557471.\nWhat is the special magic number for eager-sheep mentioned in the provided text? The spec'
   quest: ': 3469459.\nWhat is the special magic number for awful-lime mentioned in the provided text? The speci'
-niah_multikey_2 4016 dense=1.00 quest=1.00 refs=['5210667'] spans=['86679+4']
-niah_multikey_2 4017 dense=1.00 quest=1.00 refs=['1202264'] spans=['13261+4']
-niah_multikey_2 4018 dense=0.00 quest=0.00 refs=['8836346'] spans=['117061+4']
-niah_multikey_2 4019 dense=1.00 quest=0.00 refs=['6785047'] spans=['83581+4 edge']
+niah_multikey_2 4016 dense=1.00 quest=1.00 refs=['5210667'] spans=['86680+3']
+niah_multikey_2 4017 dense=1.00 quest=1.00 refs=['1202264'] spans=['13262+3']
+niah_multikey_2 4018 dense=0.00 quest=0.00 refs=['8836346'] spans=['117062+3']
+niah_multikey_2 4019 dense=1.00 quest=0.00 refs=['6785047'] spans=['83582+3 edge']
   dense: ': 6785047.\nWhat is the special magic number for energetic-moat mentioned in the provided text? The s'
   quest: ': 6785049.\nWhat is the special magic number for alluring-dependent mentioned in the provided text? T'
-niah_multivalue 6000 dense=1.00 quest=1.00 refs=['8930103', '5076817', '8935169', '7829332'] spans=['88524+4', '39525+4', '18989+4', '71404+4']
-niah_multivalue 6001 dense=1.00 quest=0.75 refs=['9997381', '8526486', '3351868', '8077999'] spans=['94509+4', '48149+4', '35712+4', '55887+4']
+niah_multivalue 6000 dense=1.00 quest=1.00 refs=['8930103', '5076817', '8935169', '7829332'] spans=['88525+3', '39526+3', '18990+3', '71405+3']
+niah_multivalue 6001 dense=1.00 quest=0.75 refs=['9997381', '8526486', '3351868', '8077999'] spans=['94510+3', '48150+3', '35713+3', '55888+3']
   dense: ': 3351868, 8077999, 9997381, 8526486, 9997381, 9997381, 9997381, 9997381, 9997381, 9997381, 9997381,'
   quest: ': 3351868, 8077999, 9997381, 9997382, 9997383, 9997384, 9997385, 9997386, 9997387, 9997388, 9997389,'
-niah_multivalue 6002 dense=1.00 quest=1.00 refs=['2642635', '1848731', '1247595', '2564689'] spans=['101860+4', '48363+4', '33144+4', '85850+4']
-niah_multivalue 6003 dense=0.50 quest=0.25 refs=['9164991', '3597059', '4185957', '5977931'] spans=['123226+4', '41854+4 edge', '9377+4', '112004+4']
+niah_multivalue 6002 dense=1.00 quest=1.00 refs=['2642635', '1848731', '1247595', '2564689'] spans=['101861+3', '48364+3', '33145+3', '85851+3']
+niah_multivalue 6003 dense=0.50 quest=0.25 refs=['9164991', '3597059', '4185957', '5977931'] spans=['123227+3', '41855+3 edge', '9378+3', '112005+3']
   dense: ': 4185957, 3597059, 3597059, 3597059, 3597059, 3597059, 3597059, 3597059, 3597059, 3597059, 3597059,'
   quest: ': 4185957, 3597051, 3597051, 3597051, 3597051, 3597051, 3597051, 3597051, 3597051, 3597051, 3597051,'
-niah_multivalue 6004 dense=0.75 quest=0.75 refs=['1959074', '1841248', '8999183', '9436429'] spans=['109831+4', '33161+4', '9393+4', '105615+4']
-niah_multivalue 6005 dense=1.00 quest=0.75 refs=['2149597', '2140194', '4946066', '7774229'] spans=['123751+4', '48363+4', '22810+4', '119216+4']
+niah_multivalue 6004 dense=0.75 quest=0.75 refs=['1959074', '1841248', '8999183', '9436429'] spans=['109832+3', '33162+3', '9394+3', '105616+3']
+niah_multivalue 6005 dense=1.00 quest=0.75 refs=['2149597', '2140194', '4946066', '7774229'] spans=['123752+3', '48364+3', '22811+3', '119217+3']
   dense: ': 2149597, 7774229, 4946066, 2140194, 2149597, 2140194, 2149597, 2149597, 2149597, 2149597, 2149597,'
   quest: ': 2149597, 7774229, and 4946066. These numbers are important because they represent the amount of ti'
-niah_multivalue 6006 dense=1.00 quest=1.00 refs=['2375453', '8033426', '9770838', '6307805'] spans=['64782+4', '48365+4', '41947+4', '52269+4']
-niah_multivalue 6007 dense=1.00 quest=1.00 refs=['4576135', '9487336', '5449324', '3222252'] spans=['75162+4', '48153+4', '11843+4', '71108+4']
-niah_multivalue 6008 dense=0.75 quest=0.75 refs=['8351517', '6075395', '9874152', '1131249'] spans=['116518+4', '26867+4', '18989+4', '61906+4']
-niah_multivalue 6009 dense=1.00 quest=1.00 refs=['2795765', '3607983', '5569244', '5727085'] spans=['126646+4', '52249+4', '41946+4', '68588+4']
-niah_multivalue 6010 dense=1.00 quest=0.50 refs=['8412769', '8175395', '1162230', '2876932'] spans=['112024+4', '11858+4', '5697+4', '29139+4']
+niah_multivalue 6006 dense=1.00 quest=1.00 refs=['2375453', '8033426', '9770838', '6307805'] spans=['64783+3', '48366+3', '41948+3', '52270+3']
+niah_multivalue 6007 dense=1.00 quest=1.00 refs=['4576135', '9487336', '5449324', '3222252'] spans=['75163+3', '48154+3', '11844+3', '71109+3']
+niah_multivalue 6008 dense=0.75 quest=0.75 refs=['8351517', '6075395', '9874152', '1131249'] spans=['116519+3', '26868+3', '18990+3', '61907+3']
+niah_multivalue 6009 dense=1.00 quest=1.00 refs=['2795765', '3607983', '5569244', '5727085'] spans=['126647+3', '52250+3', '41947+3', '68589+3']
+niah_multivalue 6010 dense=1.00 quest=0.50 refs=['8412769', '8175395', '1162230', '2876932'] spans=['112025+3', '11859+3', '5698+3', '29140+3']
   dense: ': 1162230, 8175395, 2876932, 8412769, 2876932, 2876932, 2876932, 2876932, 2876932, 2876932, 2876932,'
   quest: ': 1162233, 8175395, 2876932, 2876932, 2876932, 2876932, 2876932, 2876932, 2876932, 2876932, 2876932,'
-niah_multivalue 6011 dense=1.00 quest=0.25 refs=['3484601', '8210624', '3138181', '1701771'] spans=['75507+4', '61891+4', '5711+4', '71407+4']
+niah_multivalue 6011 dense=1.00 quest=0.25 refs=['3484601', '8210624', '3138181', '1701771'] spans=['75508+3', '61892+3', '5712+3', '71408+3']
   dense: ': 3138181, 8210624, 1701771, 3484601, 1701771, 1701771, 1701771, 1701771, 1701771, 1701771, 1701771,'
   quest: ': 3138181, 3138181, 3138181, 3138181, 3138181, 3138181, 3138181, 3138181, 3138181, 3138181, 3138181,'
-niah_multivalue 6012 dense=1.00 quest=1.00 refs=['5186414', '2724590', '6933742', '7817881'] spans=['130903+4', '33161+4', '29198+4', '48380+4']
-niah_multivalue 6013 dense=1.00 quest=0.75 refs=['1415846', '4009172', '6573147', '7907400'] spans=['56218+4', '33161+4', '18989+4', '48380+4']
+niah_multivalue 6012 dense=1.00 quest=1.00 refs=['5186414', '2724590', '6933742', '7817881'] spans=['130904+3', '33162+3', '29199+3', '48381+3']
+niah_multivalue 6013 dense=1.00 quest=0.75 refs=['1415846', '4009172', '6573147', '7907400'] spans=['56219+3', '33162+3', '18990+3', '48381+3']
   dense: ': 1415846, 4009172, 6573147, 7907400, and 7907400. These numbers are mentioned in the provided text '
   quest: ': 1415846, 4009172, 7907400, 7907400, 7907400, 7907400, 7907400, 7907400, 7907400, 7907400, 7907400,'
-niah_multivalue 6014 dense=0.50 quest=0.50 refs=['8896868', '4731818', '4348276', '8722606'] spans=['71425+4', '45432+4', '3574+4', '61909+4']
-niah_multivalue 6015 dense=0.50 quest=0.50 refs=['6507321', '5674183', '2164686', '5682940'] spans=['112404+4', '82007+4', '71370+4', '105615+4']
-niah_multivalue 6016 dense=1.00 quest=0.75 refs=['2935113', '5382463', '3995870', '5453786'] spans=['126650+4', '19008+4', '5711+4', '88510+4 edge']
+niah_multivalue 6014 dense=0.50 quest=0.50 refs=['8896868', '4731818', '4348276', '8722606'] spans=['71426+3', '45433+3', '3575+3', '61910+3']
+niah_multivalue 6015 dense=0.50 quest=0.50 refs=['6507321', '5674183', '2164686', '5682940'] spans=['112405+3', '82008+3', '71371+3', '105616+3']
+niah_multivalue 6016 dense=1.00 quest=0.75 refs=['2935113', '5382463', '3995870', '5453786'] spans=['126651+3', '19009+3', '5712+3', '88511+3 edge']
   dense: ': 3995870, 5382463, 5453786, 2935113, 2935113, 5453786, 5453786, 5453786, 5453786, 5453786, 5453786,'
   quest: ': 3995870, 5382463, 5453786, 5453786, 5453786, 5453786, 5453786, 5453786, 5453786, 5453786, 5453786,'
-niah_multivalue 6017 dense=1.00 quest=1.00 refs=['6262632', '8321474', '9580255', '2940214'] spans=['119237+4', '52251+4', '39509+4', '79517+4']
-niah_multivalue 6018 dense=1.00 quest=1.00 refs=['8315831', '1028374', '9722815', '4305700'] spans=['88528+4', '68573+4', '11875+4', '75489+4']
-niah_multivalue 6019 dense=0.75 quest=0.75 refs=['3090865', '6038571', '9508103', '6188935'] spans=['85867+4', '64744+4', '58247+4', '82024+4']
-niah_multiquery 7000 dense=1.00 quest=1.00 refs=['6304573', '4576135', '1156287', '2677407'] spans=['105611+4', '71374+4', '52234+4', '26842+4']
-niah_multiquery 7001 dense=1.00 quest=1.00 refs=['8351517', '9874152', '6022741', '6075395'] spans=['52269+4', '18990+4', '26878+4 edge', '22828+4']
-niah_multiquery 7002 dense=1.00 quest=0.75 refs=['5428914', '4533779', '9196204', '6752576'] spans=['9394+4', '88511+4 edge', '52254+4', '16269+4']
+niah_multivalue 6017 dense=1.00 quest=1.00 refs=['6262632', '8321474', '9580255', '2940214'] spans=['119238+3', '52252+3', '39510+3', '79518+3']
+niah_multivalue 6018 dense=1.00 quest=1.00 refs=['8315831', '1028374', '9722815', '4305700'] spans=['88529+3', '68574+3', '11876+3', '75490+3']
+niah_multivalue 6019 dense=0.75 quest=0.75 refs=['3090865', '6038571', '9508103', '6188935'] spans=['85868+3', '64745+3', '58248+3', '82025+3']
+niah_multiquery 7000 dense=1.00 quest=1.00 refs=['6304573', '4576135', '1156287', '2677407'] spans=['105612+3', '71375+3', '52235+3', '26843+3']
+niah_multiquery 7001 dense=1.00 quest=1.00 refs=['8351517', '9874152', '6022741', '6075395'] spans=['52270+3', '18991+3', '26879+3 edge', '22829+3']
+niah_multiquery 7002 dense=1.00 quest=0.75 refs=['5428914', '4533779', '9196204', '6752576'] spans=['9395+3', '88512+3', '52255+3', '16270+3']
   dense: ': 5428914, 6752576, 9196204, and 4533779, respectively.'
   quest: ': 6752576, 4533779, 9196204, and 9196204 respectively.'
-niah_multiquery 7003 dense=0.75 quest=0.75 refs=['5394880', '8412769', '1162230', '8175395'] spans=['112366+4', '22830+4', '29234+4', '11877+4']
-niah_multiquery 7004 dense=0.75 quest=0.75 refs=['7117837', '1701771', '7003042', '5186414'] spans=['71356+4', '116463+4', '18989+4', '85845+4']
-niah_multiquery 7005 dense=1.00 quest=0.75 refs=['6573147', '1415846', '3670896', '5163555'] spans=['19008+4', '99102+4', '79477+4', '5711+4']
+niah_multiquery 7003 dense=0.75 quest=0.75 refs=['5394880', '8412769', '1162230', '8175395'] spans=['112367+3', '22831+3', '29235+3', '11878+3']
+niah_multiquery 7004 dense=0.75 quest=0.75 refs=['7117837', '1701771', '7003042', '5186414'] spans=['71357+3', '116464+3', '18990+3', '85846+3']
+niah_multiquery 7005 dense=1.00 quest=0.75 refs=['6573147', '1415846', '3670896', '5163555'] spans=['19009+3', '99103+3', '79478+3', '5712+3']
   dense: ': 5163555, 1415846, 3670896, and 6573147, respectively. These numbers are used to represent the numb'
   quest: ': 5163555, 1415846, 3670896, and 5163555, respectively. These numbers are used to describe the chara'
-niah_multiquery 7006 dense=1.00 quest=1.00 refs=['5382463', '5453786', '8290770', '2818692'] spans=['125995+4', '71076+4', '88149+4', '64443+4']
-niah_multiquery 7007 dense=1.00 quest=1.00 refs=['8315831', '4305700', '9722815', '8235969'] spans=['130869+4', '11874+4', '64744+4', '68557+4']
-niah_multiquery 7008 dense=1.00 quest=1.00 refs=['8411939', '4585314', '6406444', '4526280'] spans=['16192+4', '98553+4', '33006+4', '105244+4']
-niah_multiquery 7009 dense=0.75 quest=0.75 refs=['5107776', '1409790', '6207974', '4340845'] spans=['99082+4', '11874+4', '130867+4', '94956+4']
-niah_multiquery 7010 dense=0.00 quest=0.00 refs=['7705062', '1093026', '8132769', '3475836'] spans=['109774+4', '35789+4', '94974+4 edge', '45430+4']
-niah_multiquery 7011 dense=0.75 quest=0.75 refs=['9468772', '9910914', '6323376', '3237058'] spans=['92360+4', '88474+4', '33143+4', '116466+4']
-niah_multiquery 7012 dense=0.75 quest=1.00 refs=['5013879', '9130188', '5652512', '8379837'] spans=['11875+4', '48364+4', '58302+4 edge', '56204+4']
+niah_multiquery 7006 dense=1.00 quest=1.00 refs=['5382463', '5453786', '8290770', '2818692'] spans=['125996+3', '71077+3', '88150+3', '64444+3']
+niah_multiquery 7007 dense=1.00 quest=1.00 refs=['8315831', '4305700', '9722815', '8235969'] spans=['130870+3', '11875+3', '64745+3', '68558+3']
+niah_multiquery 7008 dense=1.00 quest=1.00 refs=['8411939', '4585314', '6406444', '4526280'] spans=['16193+3', '98554+3', '33007+3', '105245+3']
+niah_multiquery 7009 dense=0.75 quest=0.75 refs=['5107776', '1409790', '6207974', '4340845'] spans=['99083+3', '11875+3', '130868+3', '94957+3']
+niah_multiquery 7010 dense=0.00 quest=0.00 refs=['7705062', '1093026', '8132769', '3475836'] spans=['109775+3', '35790+3', '94975+3 edge', '45431+3']
+niah_multiquery 7011 dense=0.75 quest=0.75 refs=['9468772', '9910914', '6323376', '3237058'] spans=['92361+3', '88475+3', '33144+3', '116467+3']
+niah_multiquery 7012 dense=0.75 quest=1.00 refs=['5013879', '9130188', '5652512', '8379837'] spans=['11876+3', '48365+3', '58303+3 edge', '56205+3']
   dense: ': 5013879, 9130188, 8379837, and 8379837, respectively.'
   quest: ': 5013879, 9130188, 5652512, and 8379837, respectively.'
-niah_multiquery 7013 dense=0.75 quest=0.75 refs=['7960328', '4879923', '4589533', '3563646'] spans=['94976+4', '112366+4', '68523+4', '85827+4']
-niah_multiquery 7014 dense=1.00 quest=1.00 refs=['7381734', '6009888', '1327691', '1098919'] spans=['85829+4', '112348+4', '126622+4', '79441+4']
-niah_multiquery 7015 dense=1.00 quest=1.00 refs=['9147720', '7523941', '3768991', '7783308'] spans=['130870+4', '94959+4', '112349+4', '26844+4']
-niah_multiquery 7016 dense=1.00 quest=0.00 refs=['7360307', '8746014', '1843636', '8190929'] spans=['68557+4', '64745+4', '41947+4', '94993+4']
+niah_multiquery 7013 dense=0.75 quest=0.75 refs=['7960328', '4879923', '4589533', '3563646'] spans=['94977+3', '112367+3', '68524+3', '85828+3']
+niah_multiquery 7014 dense=1.00 quest=1.00 refs=['7381734', '6009888', '1327691', '1098919'] spans=['85830+3', '112349+3', '126623+3', '79442+3']
+niah_multiquery 7015 dense=1.00 quest=1.00 refs=['9147720', '7523941', '3768991', '7783308'] spans=['130871+3', '94960+3', '112350+3', '26845+3']
+niah_multiquery 7016 dense=1.00 quest=0.00 refs=['7360307', '8746014', '1843636', '8190929'] spans=['68558+3', '64746+3', '41948+3', '94994+3']
   dense: '8190929, 7360307, 1843636, and 8746014, respectively. These numbers are used to represent the number'
   quest: ': 1. 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12. 13. 14. 15. 16. 17. 18. 19. 20. 21. 22. 23. 24. 25. 26. '
-niah_multiquery 7017 dense=0.50 quest=0.50 refs=['8890439', '4761823', '2151225', '1873851'] spans=['48401+4', '3574+4', '39544+4', '5728+4']
-niah_multiquery 7018 dense=1.00 quest=0.75 refs=['2919136', '5299055', '8945036', '4656838'] spans=['33163+4', '75488+4', '126623+4', '22810+4']
+niah_multiquery 7017 dense=0.50 quest=0.50 refs=['8890439', '4761823', '2151225', '1873851'] spans=['48402+3', '3575+3', '39545+3', '5729+3']
+niah_multiquery 7018 dense=1.00 quest=0.75 refs=['2919136', '5299055', '8945036', '4656838'] spans=['33164+3', '75489+3', '126624+3', '22811+3']
   dense: '2919136, 5299055, 8945036, and 4656838 respectively.'
   quest: ': 2919136, 5299055, 8945036, and 8945036 respectively.'
-niah_multiquery 7019 dense=1.00 quest=0.50 refs=['5074336', '6059717', '4327421', '7296605'] spans=['5711+4', '119192+4', '22830+4', '126623+4']
+niah_multiquery 7019 dense=1.00 quest=0.50 refs=['5074336', '6059717', '4327421', '7296605'] spans=['5712+3', '119193+3', '22831+3', '126624+3']
   dense: ': 4327421, 5074336, 7296605, and 6059717, respectively.'
   quest: ': 4327421, 5074336, 4327421, and 4327421, respectively.'

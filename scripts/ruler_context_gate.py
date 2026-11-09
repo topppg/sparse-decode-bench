@@ -6,12 +6,13 @@ import json
 from pathlib import Path
 
 import numpy as np
-from transformers import AutoTokenizer
+from transformers import PreTrainedTokenizerBase
 
 from ruler_score import hit, post
+from ruler_tokens import tokenizer
 
 
-def paired(gen: Path, meta: Path, tok: AutoTokenizer, cfg: str) -> dict[str, np.ndarray]:
+def paired(gen: Path, meta: Path, tok: PreTrainedTokenizerBase, cfg: str) -> dict[str, np.ndarray]:
     m = json.loads(meta.read_text())
     sc: dict[str, dict[str, dict[int, float]]] = {}
     for line in gen.read_text().splitlines():
@@ -40,7 +41,7 @@ def main() -> None:
     ap.add_argument("--out")
     a = ap.parse_args()
     d = Path(a.dir)
-    tok = AutoTokenizer.from_pretrained(a.model)
+    tok = tokenizer(a.model)
     d128 = paired(d / "gen_131072.jsonl", d / "ruler131072_ul.i32.meta.json", tok, a.config)
     d256 = paired(d / "gen_262144.jsonl", d / "ruler262144_ul.i32.meta.json", tok, a.config)
     rng = np.random.default_rng(0)

@@ -16,7 +16,7 @@ Raw outputs and analyses, one folder per pre-registered experiment (protocol in 
 | `cuda_4090_48gb_featcheck` | (validation) | RTX 4090 48 GB | released branch vs research build on 30 RULER prompts, repeated | Scope and limits (reproducibility) |
 | `pageq_reference` | PAGE-Q | Python reference (fp32 with TF32) | KL vs dense by budget and page score on 4 PG19 books, Llama-3.2-3B and Llama-3.1-8B | What did not work (in-engine KL vs reference) |
 | `metal_port_k0` … `metal_port_k3`, `metal_port_k2_v2` | PORT-K0–K3 | Apple M4 Pro | Metal kernel microbenchmarks | Try it (Metal note) |
-| `metal_port_e1` | PORT-E1, E2 | Apple silicon (Metal) | in-engine page selection and cached statistics are exact | — |
+| `metal_port_e1` | PORT-E1, E2 | Apple silicon (Metal) | in-engine page selection matches the reference (passed); cached page statistics are exact in f32 but not bit-identical in f16 (max logit difference 0.074, mean KL 1.6e-8), so the f16 exactness gate failed | — |
 
 File types:
 - `*_gen.jsonl`: one line per prompt and config from `llama-sparse-tail --gen`: `id`, `config` (`dense`, `quest:<B>`, `mv:<B>`), output token ids.

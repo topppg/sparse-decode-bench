@@ -255,7 +255,7 @@ The gated experiments were pre-registered (see [protocols/](protocols/)); analys
 
 - [`protocols/`](protocols/): the pre-registrations, with the commit and time each was committed.
 - [`results/`](results/): raw results and analyses, one folder per experiment; [`results/README.md`](results/README.md) maps each folder to its protocol, hardware and README section.
-- [`scripts/`](scripts/): `scripts/reproduce.sh` recomputes every number in this README from `results/` (no GPU needed), and the scripts to rerun the experiments. See [`scripts/README.md`](scripts/README.md).
+- [`scripts/`](scripts/): `scripts/reproduce.sh` recomputes the speed, RULER and cost-model numbers in this README from `results/` (no GPU needed), and the scripts to rerun the experiments. See [`scripts/README.md`](scripts/README.md).
 - The released fork commit e7059e52a is 5cf439778, checked against the research build in `results/cuda_4090_48gb_featcheck/`, plus the CUDA-only guard.
 
 ## References

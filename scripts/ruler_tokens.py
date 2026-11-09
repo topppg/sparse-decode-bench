@@ -6,11 +6,17 @@ import json
 from pathlib import Path
 
 import numpy as np
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, PreTrainedTokenizerBase
 
 TASKS = ("niah_single_1", "niah_single_2", "niah_single_3", "niah_multikey_1", "niah_multikey_2", "niah_multikey_3",
          "niah_multivalue", "niah_multiquery", "vt", "cwe", "fwe", "qa_1", "qa_2")
 GEN = {"niah": 128, "vt": 30, "cwe": 120, "fwe": 50, "qa": 32}
+
+
+def tokenizer(spec: str) -> PreTrainedTokenizerBase:
+    """Load a Hugging Face tokenizer from 'repo' or 'repo@revision'."""
+    repo, _, rev = spec.partition("@")
+    return AutoTokenizer.from_pretrained(repo, revision=rev or None)
 
 
 def read_prompts(path: Path) -> dict[int, list[int]]:
@@ -28,11 +34,11 @@ def read_prompts(path: Path) -> dict[int, list[int]]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", required=True, help="RULER save_dir with <task>/validation.jsonl")
-    ap.add_argument("--model", required=True, help="Hugging Face tokenizer id")
+    ap.add_argument("--model", required=True, help="tokenizer: repo or repo@revision")
     ap.add_argument("--out", required=True)
     ap.add_argument("--tasks", default=",".join(TASKS))
     a = ap.parse_args()
-    tok = AutoTokenizer.from_pretrained(a.model)
+    tok = tokenizer(a.model)
     recs: list[np.ndarray] = []
     meta: dict[str, dict[str, object]] = {}
     for ti, task in enumerate(TASKS):

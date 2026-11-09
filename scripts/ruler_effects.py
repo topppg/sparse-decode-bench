@@ -11,9 +11,8 @@ from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
-from transformers import AutoTokenizer
-
 from ruler_score import hit, post
+from ruler_tokens import tokenizer
 
 PAIRS = {"S": ("da/quest:27648", "da/mv:27648"), "E": ("da/mv:27648:d2", "da/mv:27648"),
          "S_d2": ("da/quest:27648:d2", "da/mv:27648:d2"), "E_quest": ("da/quest:27648:d2", "da/quest:27648"),
@@ -27,7 +26,7 @@ def main() -> None:
     ap.add_argument("runs", nargs="+", help="tag=path")
     ap.add_argument("--out")
     a = ap.parse_args()
-    tok = AutoTokenizer.from_pretrained(a.model)
+    tok = tokenizer(a.model)
     meta = json.loads(Path(a.meta).read_text())
     sc: dict[str, dict[int, tuple[str, float]]] = defaultdict(dict)
     for tag, path in (r.split("=", 1) for r in a.runs):

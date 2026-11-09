@@ -1,9 +1,14 @@
 #!/bin/bash
-# Recompute the README numbers from results/ (no GPU needed; downloads the tokenizers).
+# Recompute the README's speed, RULER and cost-model numbers from results/ (no GPU; downloads four pinned tokenizers).
 # Usage: scripts/reproduce.sh [OUT_DIR]   Needs uv (https://docs.astral.sh/uv/).
 set -eu
 cd "$(dirname "$0")"
 R=../results; O=${1:-$PWD/../reproduced}; mkdir -p "$O"
+# tokenizers, pinned to the Hugging Face revisions the scores were checked with
+L8=unsloth/Meta-Llama-3.1-8B@e9a141a2091ea561b96483212645a2a05e6f99fc
+L3=unsloth/Llama-3.2-3B@d4446454d87d51aa42e1fb174f25acc5f8762331
+Q8=Qwen/Qwen3-8B-Base@49e3418fbbbca6ecbdf9608b4d22e5a407081db4
+UL=nvidia/Llama-3.1-Nemotron-8B-UltraLong-1M-Instruct@fa3a10b9c6ad02f42c81e1d68dcf6967afb230ef
 py() { uv run -q --no-project --python 3.12 --with transformers --with numpy python "$@" > /dev/null 2>&1; }
 
 echo "== Speed table (128k) and 256k"
@@ -30,12 +35,12 @@ echo "== Wall-clock, 128k prompt + 1024 tokens (RTX 3090)"
 python3 speed_table.py "3B=$B3/r3_3b_dense.jsonl,$B3/r3_3b_sparse.jsonl" "8B=$B3/r3_8b_dense.jsonl,$B3/r3_8b_sparse.jsonl" "Qwen3-8B=$B3/r3_qwen3_dense.jsonl,$B3/r3_qwen3_sparse.jsonl"
 
 echo "== RULER at 128k (13 tasks)"
-L8=unsloth/Meta-Llama-3.1-8B; M8=$R/cuda_4090_portr/ruler8b.i32.meta.json
+M8=$R/cuda_4090_portr/ruler8b.i32.meta.json
 py ruler_score.py --gen $R/cuda_4090_portr3/r3_gen.jsonl --meta $M8 --model $L8 --out "$O/llama8b_quest.json"
 py ruler_score.py --gen $R/cuda_4090_portr/r1_gen.jsonl --meta $M8 --model $L8 --out "$O/llama8b_mv.json"
 py ruler_score.py --gen $R/cuda_4090_portr2/r4_gen.jsonl --meta $M8 --model $L8 --out "$O/llama8b_mv_larger.json"
-py ruler_score.py --gen $R/cuda_4090_portrq/q_gen.jsonl --meta $R/cuda_4090_portrq/rulerq.i32.meta.json --model Qwen/Qwen3-8B-Base --out "$O/qwen8b_quest.json"
-py ruler_score.py --gen $R/cuda_4090_portrq/s_gen.jsonl --meta $M8 --model unsloth/Llama-3.2-3B --out "$O/llama3b_quest.json"
+py ruler_score.py --gen $R/cuda_4090_portrq/q_gen.jsonl --meta $R/cuda_4090_portrq/rulerq.i32.meta.json --model $Q8 --out "$O/qwen8b_quest.json"
+py ruler_score.py --gen $R/cuda_4090_portrq/s_gen.jsonl --meta $M8 --model $L3 --out "$O/llama3b_quest.json"
 for f in llama8b_quest llama8b_mv llama8b_mv_larger qwen8b_quest llama3b_quest; do
   python3 -c "
 import json, sys
@@ -59,8 +64,22 @@ for k, name in (('S', 'quest instead of mv'), ('E', 'first 2 layers dense'), ('P
     print(f'{name:22s} {e[k][0]:+.1f} [{e[k][1][0]:+.1f}, {e[k][1][1]:+.1f}]')
 " "$O/mv_effects.json"
 
+echo "== 256k: six RULER tasks per context"
+LR=$R/cuda_4090_48gb_portl/ruler
+py ruler_score.py --gen $LR/gen_131072.jsonl --meta $LR/ruler131072_ul.i32.meta.json --model $UL --out "$O/ul8b_131072.json"
+py ruler_score.py --gen $LR/gen_262144.jsonl --meta $LR/ruler262144_ul.i32.meta.json --model $UL --out "$O/ul8b_262144.json"
+for f in ul8b_131072 ul8b_262144; do
+  python3 -c "
+import json, sys
+d = json.load(open(sys.argv[1]))
+for k, v in d.items():
+    if k.startswith('delta_'):
+        print(f\"{sys.argv[2]:18s} {k[6:]:12s} mean {d['mean']['dense']:.1f} -> {d['mean'][k[6:]]:.1f}  delta {v['delta']:+.1f} [{v['ci95'][0]:+.1f}, {v['ci95'][1]:+.1f}]\")
+" "$O/$f.json" "$f"
+done
+
 echo "== 256k quality test"
-py ruler_context_gate.py --dir $R/cuda_4090_48gb_portl/ruler --model nvidia/Llama-3.1-Nemotron-8B-UltraLong-1M-Instruct --out "$O/context_gate.json"
+py ruler_context_gate.py --dir $R/cuda_4090_48gb_portl/ruler --model $UL --out "$O/context_gate.json"
 python3 -c "
 import json, sys
 d = json.load(open(sys.argv[1]))
