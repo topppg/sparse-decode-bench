@@ -1,7 +1,5 @@
 # When does sparse decode pay on consumer GPUs?
 
-**Status: draft, not public.**
-
 Training-free page-sparse decoding for ordinary dense LLMs inside llama.cpp (CUDA), measured on RTX 4090 and RTX 3090. The long-context speedups were predicted before they were measured (for the mv page score): dense speed and attention kernel times were measured at the target length, and only the cost of page selection was extrapolated from 8k–32k.
 
 **In short:**
@@ -236,7 +234,7 @@ At 256k (8× beyond calibration, RTX 4090 48 GB) the model failed its ±10% gate
 
 The gated experiments were pre-registered (see [protocols/](protocols/)); analyses made after the data are labelled as such. Besides the quality results above (mv's −7.4, the 3B's failure, the 256k cost-model miss), these failed or had to be fixed:
 
-- **The first CUDA build gave only 1.05–1.18× at 128k.** Selection overhead was the cause: two ggml kernels (`pool_1d` with a whole-row window, and `top_k_mask`) used too few GPU threads. Fixing them gave the numbers above.
+- **The first CUDA build gave only 1.05–1.18× at 128k.** Selection overhead was the cause: two ggml kernels (`pool_1d` with a whole-row window, and `top_k_mask`) used too few GPU threads. Fixing them gave the numbers above. The `pool_1d` fix is proposed upstream as [ggml-org/llama.cpp#31855](https://github.com/ggml-org/llama.cpp/pull/31855); the `top_k_mask` fix will follow.
 - **The `top_k_mask` fix first made prefill-sized batches up to 2.2× slower.** The final version keeps master's kernel when rows fill the GPU: decode cases at a 128k cache are 1.9–2.0× faster and no case is more than 0.6% slower.
 - **One kernel microbenchmark was mis-designed.** It picked pages independently per head, while the engine shares pages across a GQA group, so its negative verdict does not apply to the engine. It is kept in `protocols/`.
 - **Qwen3-8B at the Llama budget narrowly failed its first quality gates** (mv): KL 0.031 against a 0.03 limit, and single-key retrieval at 89% against 90%. With quest it later passed RULER at that budget.
