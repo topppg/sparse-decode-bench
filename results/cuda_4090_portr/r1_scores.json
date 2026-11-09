@@ -1,0 +1,46 @@
+{
+  "per_task": {
+    "dense": {
+      "niah_single_1": 100.0,
+      "niah_single_2": 100.0,
+      "niah_single_3": 90.0,
+      "niah_multikey_1": 85.0,
+      "niah_multikey_2": 25.0,
+      "niah_multikey_3": 30.0,
+      "niah_multivalue": 72.5,
+      "niah_multiquery": 86.25,
+      "vt": 86.00000000000001,
+      "cwe": 1.0,
+      "fwe": 80.0,
+      "qa_1": 55.00000000000001,
+      "qa_2": 30.0
+    },
+    "mv:27648": {
+      "niah_single_1": 100.0,
+      "niah_single_2": 100.0,
+      "niah_single_3": 95.0,
+      "niah_multikey_1": 75.0,
+      "niah_multikey_2": 15.0,
+      "niah_multikey_3": 20.0,
+      "niah_multivalue": 42.5,
+      "niah_multiquery": 65.0,
+      "vt": 74.0,
+      "cwe": 1.0,
+      "fwe": 76.66666666666666,
+      "qa_1": 55.00000000000001,
+      "qa_2": 25.0
+    }
+  },
+  "mean": {
+    "dense": 64.67307692307692,
+    "mv:27648": 57.24358974358974
+  },
+  "delta_mv:27648": {
+    "delta": -7.429487179487179,
+    "ci95": [
+      -10.993749999999999,
+      -4.057532051282053
+    ],
+    "n_pairs": 260
+  }
+}

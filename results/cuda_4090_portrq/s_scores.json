@@ -1,0 +1,46 @@
+{
+  "per_task": {
+    "dense": {
+      "niah_single_1": 100.0,
+      "niah_single_2": 100.0,
+      "niah_single_3": 95.0,
+      "niah_multikey_1": 95.0,
+      "niah_multikey_2": 90.0,
+      "niah_multikey_3": 15.0,
+      "niah_multivalue": 88.75,
+      "niah_multiquery": 85.0,
+      "vt": 89.0,
+      "cwe": 0.5,
+      "fwe": 53.33333333333332,
+      "qa_1": 35.0,
+      "qa_2": 40.0
+    },
+    "quest:28672": {
+      "niah_single_1": 100.0,
+      "niah_single_2": 100.0,
+      "niah_single_3": 95.0,
+      "niah_multikey_1": 95.0,
+      "niah_multikey_2": 60.0,
+      "niah_multikey_3": 10.0,
+      "niah_multivalue": 76.25,
+      "niah_multiquery": 75.0,
+      "vt": 90.00000000000001,
+      "cwe": 0.5,
+      "fwe": 46.666666666666664,
+      "qa_1": 40.0,
+      "qa_2": 40.0
+    }
+  },
+  "mean": {
+    "dense": 68.19871794871796,
+    "quest:28672": 63.72435897435897
+  },
+  "delta_quest:28672": {
+    "delta": -4.474358974358974,
+    "ci95": [
+      -7.083333333333333,
+      -1.897275641025643
+    ],
+    "n_pairs": 260
+  }
+}

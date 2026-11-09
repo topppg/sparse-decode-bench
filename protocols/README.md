@@ -23,3 +23,10 @@ Each protocol was committed to the project repository before the data it governs
 | PORT-G | `a7c7927` | 2026-11-05T17:36:14+01:00 | [port-g.md](port-g.md) |
 | PORT-R | `44a9e78` | 2026-11-05T18:18:05+01:00 | [port-r.md](port-r.md) |
 | PORT-R amendment 1 | `b243ede` | 2026-11-05T21:25:19+01:00 | [port-r-amendment-1.md](port-r-amendment-1.md) |
+| PORT-R2 | `63361a7` | 2026-11-06T07:45:02+01:00 | [port-r2.md](port-r2.md) |
+| PORT-R2 amendment 1 | `f9b9658` | 2026-11-06T09:45:55+01:00 | [port-r2-amendment-1.md](port-r2-amendment-1.md) |
+| PORT-L | `43cc46a` | 2026-11-06T09:59:11+01:00 | [port-l.md](port-l.md) |
+| PORT-D | `e40f699` | 2026-11-06T10:57:55+01:00 | [port-d.md](port-d.md) |
+| PORT-L amendment 1 | `1baa94c` | 2026-11-06T14:08:07+01:00 | [port-l-amendment-1.md](port-l-amendment-1.md) |
+| PORT-L amendment 2 | `5932f27` | 2026-11-06T14:20:30+01:00 | [port-l-amendment-2.md](port-l-amendment-2.md) |
+| PORT-R3 | `5932f27` | 2026-11-06T14:20:30+01:00 | [port-r3.md](port-r3.md) |

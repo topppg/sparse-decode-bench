@@ -1,0 +1,2 @@
+name, memory.total [MiB], driver_version, compute_cap
+NVIDIA GeForce RTX 4090, 24564 MiB, 615.71.09, 8.9

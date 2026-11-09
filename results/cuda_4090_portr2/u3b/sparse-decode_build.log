@@ -1,0 +1,10 @@
+[  6%] Built target ggml-base
+[ 16%] Built target ggml-cpu
+[ 16%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/top-k-mask.cu.o
+[ 16%] Linking CUDA shared library ../../../bin/libggml-cuda.so
+[ 96%] Built target ggml-cuda
+[ 96%] Linking CXX shared library ../../bin/libggml.so
+[ 96%] Built target ggml
+[ 96%] Building CXX object tests/CMakeFiles/test-backend-ops.dir/test-backend-ops.cpp.o
+[100%] Linking CXX executable ../bin/test-backend-ops
+[100%] Built target test-backend-ops

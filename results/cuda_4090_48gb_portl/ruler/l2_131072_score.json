@@ -1,0 +1,32 @@
+{
+  "per_task": {
+    "dense": {
+      "niah_multikey_1": 100.0,
+      "niah_multikey_2": 100.0,
+      "niah_multikey_3": 25.0,
+      "niah_multivalue": 90.0,
+      "niah_multiquery": 96.25,
+      "vt": 83.0
+    },
+    "quest:49152": {
+      "niah_multikey_1": 95.0,
+      "niah_multikey_2": 70.0,
+      "niah_multikey_3": 15.0,
+      "niah_multivalue": 87.5,
+      "niah_multiquery": 96.25,
+      "vt": 89.0
+    }
+  },
+  "mean": {
+    "dense": 82.375,
+    "quest:49152": 75.45833333333333
+  },
+  "delta_quest:49152": {
+    "delta": -6.916666666666667,
+    "ci95": [
+      -11.958333333333334,
+      -2.166666666666667
+    ],
+    "n_pairs": 120
+  }
+}

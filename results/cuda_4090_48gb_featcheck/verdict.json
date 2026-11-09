@@ -1,0 +1,32 @@
+{
+ "scores_30": {
+  "DA": {
+   "dense": 55.17,
+   "quest:27648": 53.5
+  },
+  "DA_rep": {
+   "dense": 55.17,
+   "quest:27648": 52.67
+  },
+  "FEAT": {
+   "dense": 55.17,
+   "quest:27648": 53.5
+  },
+  "FEAT_rep": {
+   "dense": 55.17,
+   "quest:27648": 52.67
+  }
+ },
+ "identical_quest": {
+  "DA~DA_rep": 22,
+  "FEAT~FEAT_rep": 21,
+  "DA~FEAT": 24,
+  "DA~FEAT_rep": 23,
+  "DA_rep~FEAT": 23,
+  "DA_rep~FEAT_rep": 21
+ },
+ "identical_dense_all_pairs": 30,
+ "W": 21.5,
+ "X": 22.75,
+ "verdict": "equivalent (W<30, X>=W-3); the original token-identity check FAILED (24/30) and stays recorded"
+}
