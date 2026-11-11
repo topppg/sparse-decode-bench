@@ -13,6 +13,8 @@ Raw outputs and analyses, one folder per pre-registered experiment (protocol in 
 | `cuda_4090_portd` | PORT-D | RTX 4090 48 GB and 24 GB | the six losing tasks under single changes (score, dense layers, f32 statistics) | Why mv failed |
 | `cuda_4090_48gb_portl` | PORT-L | RTX 4090 48 GB | UltraLong-8B speed, KL and RULER at 128k and 256k; cost model at 256k | Longer context, cost model |
 | `cuda_4090_portrq` | PORT-RQ | RTX 4090 24 GB | RULER with quest on Qwen3-8B and Llama-3.2-3B; post-hoc multikey analysis | Quality |
+| `cuda_3090_portgq` | PORT-GQ | RTX 3090 (a second box, 350 W) | dense, mv and quest speed 8k–128k on the release build | Speed |
+| `cuda_4090_48gb_portmq` | PORT-MQ | RTX 4090 48 GB | Qwen3-30B-A3B (MoE): smoke test, speed 8k–128k, RULER with quest | Speed, Quality |
 | `cuda_4090_48gb_featcheck` | (validation) | RTX 4090 48 GB | released branch vs research build on 30 RULER prompts, repeated | Scope and limits (reproducibility) |
 | `pageq_reference` | PAGE-Q | Python reference (fp32 with TF32) | KL vs dense by budget and page score on 4 PG19 books, Llama-3.2-3B and Llama-3.1-8B | What did not work (in-engine KL vs reference) |
 | `metal_port_k0` … `metal_port_k3`, `metal_port_k2_v2` | PORT-K0–K3 | Apple M4 Pro | Metal kernel microbenchmarks | Try it (Metal note) |
