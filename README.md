@@ -3,12 +3,12 @@
 Training-free page-sparse decoding for ordinary GQA LLMs (dense and MoE) inside llama.cpp (CUDA), measured on RTX 4090 and RTX 3090. The first long-context speedups were predicted before they were measured (for the mv page score): dense speed and attention kernel times were measured at the target length, and only the cost of page selection was extrapolated from 8k–32k.
 
 **In short:**
-- At 128k context with the quest page score (the default), decode is **1.41× faster on Qwen3-30B-A3B** (MoE, RTX 4090 48 GB) and 1.64–1.68× faster on Llama-3.1-8B and Qwen3-8B (RTX 3090). On other cards the 8Bs range from 1.31× to 1.81×.
+- At 128k context with the quest page score (the default), decode is **1.41× faster on Qwen3-30B-A3B** (MoE, RTX 4090 48 GB) and 1.64–1.68× faster on Llama-3.1-8B and Qwen3-8B (RTX 3090). The speedup depends on the card: with the earlier mv score, which runs at the same speed, the 8Bs got 1.77–1.81× on another RTX 3090 and Llama-3.1-8B 1.31× on an RTX 4090 48 GB, so on the same kind of card the MoE gains more than the dense 8B.
 - RULER at 128k (13 tasks) holds with quest on three models: Qwen3-30B-A3B scores **86.6 against 87.2 dense** (Δ −0.6, 95% CI [−1.9, +0.4]), Llama-3.1-8B **63.6 against 64.7** (Δ −1.1 [−4.3, +2.0]) and Qwen3-8B **60.2 against 59.7** (Δ +0.4 [−2.3, +3.3]).
 - Llama-3.2-3B decodes 1.35–1.55× faster but **fails** RULER at that budget (Δ −4.5 [−7.1, −1.9]), so its speed rows are not quality-safe as given.
 - Most of the loss is in multi-needle retrieval. Finding a single fact loses nothing on any of the four models.
 - The gain grows with context: at 256k, UltraLong-8B decodes **1.86× faster** (23.0 → 42.8 tok/s).
-- Prefill is unchanged, so a single 1k-token answer over a 128k prompt finishes only 5–15% sooner. The gain is in long generations.
+- Prefill is unchanged, so a single 1k-token answer over a 128k prompt takes only 4–13% less time. The gain is in long generations.
 - The full KV cache stays in VRAM. This makes decode faster; it does not let a longer context fit.
 
 ## How it works
@@ -28,7 +28,7 @@ Two page scores are implemented:
 
 Sparse decoding is slower than dense below about 32k context, so it switches on only above a threshold (default 32768 cells).
 
-This is the page selection of Quest [1] (the quest score) and MOIRA [2] (page statistics; mv is a moment estimate in that spirit). The contribution here is a working implementation for dense models in llama.cpp, measured end to end, and a cost model that predicts when it pays.
+This is the page selection of Quest [1] (the quest score) and MOIRA [2] (page statistics; mv is a moment estimate in that spirit). The contribution here is a working implementation for dense and MoE GQA models in llama.cpp, measured end to end, and a cost model that predicts when it pays.
 
 ## Speed
 
@@ -45,7 +45,7 @@ Single-sequence decode speed at a 128k-token context with the quest page score, 
 - On the same RTX 3090, quest and mv run at the same speed: quest/mv is 0.99–1.00 at every context from 8k to 128k, on all three dense models (`results/cuda_3090_portgq/`).
 - RULER was measured once per model, on an RTX 4090 (see Quality). No larger 3B budget has been evaluated on RULER.
 - The speedup depends on the card. This RTX 3090 (350 W limit) runs the 8B models' dense decode about 8% faster than the one in the table below (300 W), while their sparse speed is the same, so their speedups are lower; the 3B is unchanged. On the RTX 4090 48 GB, Llama-3.1-8B gets 1.31×.
-- The MoE speedup was predicted at 1.5–2.3× and came in at 1.41×. A rough breakdown from three context lengths (not a measurement): reading the KV cache is about 80% of the MoE's dense decode time at 128k, against about 62% for Llama-3.1-8B on the same kind of card, so the MoE does gain more; but page selection costs about 0.2 ms per layer, and with 48 layers it is about half of the MoE's sparse step. Without it the ceiling would be about 2.7×.
+- The MoE speedup was predicted at 1.5–2.3× and came in at 1.41×. A rough breakdown, read after the data and not a measurement: fitting dense time as linear in context (8k, 32k, 128k), reading the KV cache is about 80% of the MoE's dense decode time at 128k, against about 62% for Llama-3.1-8B on an RTX 4090 48 GB (earlier build, mv), so the MoE has more to gain. What the fit does not explain, about 9 ms per token or 0.19 ms per layer, is the sparse step's own overhead (page selection and the sparse attention path); it is about half of the MoE's sparse step. Removing all of it would give at most about 2.7×.
 
 ### Earlier measurements with the mv score, and their predictions
 
@@ -95,7 +95,7 @@ LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-completion -m model.gguf -c 131072 -
 Measure decode speed at a 128k cache (run once without the variable for dense). To reproduce the speed table, use the table's KV type and budget (f16 and 28672 for the 3B); add `LLAMA_SPARSE_DECODE_SCORE=mv` for the earlier mv rows:
 
 ```
-LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-bench -m model.gguf -fa 1 -p 0 -n 64 -r 3 -d 131072 -ctk q8_0 -ctv q8_0
+LLAMA_SPARSE_DECODE=27648 ./build/bin/llama-bench -m model.gguf -fa 1 -p 0 -n 64 -r 5 -d 131072 -ctk q8_0 -ctv q8_0
 ```
 
 Options:
@@ -158,7 +158,7 @@ The first MoE model: 48 layers, 32 query and 4 KV heads, 128 experts with 8 acti
 |---|---|---|---|---|---|
 | Qwen3-30B-A3B-Instruct-2507 (q8_0) | 27648 | 87.2 | 86.6 | −0.6 [−1.9, +0.4] | **pass** |
 
-- The quality prediction held (pass, Δ in [−3, +1]); the speed prediction did not (see Speed).
+- The quality prediction held (pass, Δ in [−3, +1]). Its second part, that any loss would sit in multi-needle tasks, is ambiguous: one prompt was lost in multikey_3 and one in qa_2. The speed prediction did not hold (see Speed).
 - Losses: multikey_3 −5 and qa_2 −5 (one prompt each); fwe +1.7. Every other task is unchanged.
 - The prompts are byte-identical to the Qwen3-8B run's (same tokenizer, same RULER seed).
 - The first attempt could not download `tokenizer.json` on the box; the same revision's file (checked against the hub's SHA-256) was copied in and the run restarted (`status_attempt1.txt`).
@@ -187,7 +187,7 @@ On the 120 prompts of the six tasks that lost points with mv (niah_multikey_1–
 |---|---|
 | **page score quest instead of mv** | **+12.4 [+6.3, +18.8]** |
 | first 2 layers dense | −2.8 [−6.0, 0.0] |
-| f32 page statistics instead of f16 | −1.7 [−4.3, +0.2] |
+| f32 page statistics instead of f16 | −1.7 [−4.2, +0.2] |
 
 Of the three changes, only the page score helped. A likely reading, not tested directly: a page's mean dilutes a single relevant key among 64, while quest's per-dimension bound keeps it. With mv, larger budgets also pass, at a lower speed: −1.9 [−4.5, +0.6] at 49152 cells (1.23×) and −1.3 [−3.4, +0.7] at 65536 (1.11×), RTX 4090.
 
@@ -232,7 +232,7 @@ KL against dense at a fixed budget rises with context (49152 cells: 0.017 at 128
 
 ## The speed–quality dial
 
-Decode speedup at 128k on the RTX 3090 by budget (cells per KV head per step):
+Decode speedup at 128k on the RTX 3090 (300 W) by budget, mv score (cells per KV head per step):
 
 | budget | 8192 | 16384 | 27–28k | 32768 | 49152 |
 |---|---|---|---|---|---|
@@ -256,7 +256,7 @@ t_sparse(T) = t_dense(T) − L · [a_dense(T) − a_sparse(T, B)] + o0 + o1·T
 - Times are per decoded token, in ms.
 - `o0 + o1·T`: the cost of selecting pages, fitted on the target GPU at 8k–32k. This is the only extrapolated term.
 
-On the RTX 3090 the predictions were committed before the 64k and 128k sparse runs. All 6 landed within ±10% of measurement; the worst miss was 6.2%.
+On the RTX 3090 (300 W, mv) the predictions were committed before the 64k and 128k sparse runs. All 6 landed within ±10% of measurement; the worst miss was 6.2%.
 
 At 256k (8× beyond calibration, RTX 4090 48 GB) the model failed its ±10% gate: 5 of 8 points within 10%. It over-predicted at 128k by 5–7% and under-predicted at 256k by 7–15%, so it is conservative where the gain is largest.
 
@@ -268,7 +268,7 @@ The gated experiments were pre-registered (see [protocols/](protocols/)); analys
 - **The `top_k_mask` fix first made prefill-sized batches up to 2.2× slower.** The final version keeps master's kernel when rows fill the GPU: decode cases at a 128k cache are 1.9–2.0× faster and no case is more than 0.6% slower.
 - **One kernel microbenchmark was mis-designed.** It picked pages independently per head, while the engine shares pages across a GQA group, so its negative verdict does not apply to the engine. It is kept in `protocols/`.
 - **Qwen3-8B at the Llama budget narrowly failed its first quality gates** (mv): KL 0.031 against a 0.03 limit, and single-key retrieval at 89% against 90%. With quest it later passed RULER at that budget.
-- **The MoE speedup missed its prediction**: 1.41× at 128k against a predicted 1.5–2.3× (Qwen3-30B-A3B, RTX 4090 48 GB). The band was set without accounting for the GPU; page selection overhead across 48 layers is the likely limit (see Speed).
+- **The MoE speedup missed its prediction**: 1.41× at 128k against a predicted 1.5–2.3× (Qwen3-30B-A3B, RTX 4090 48 GB). Read after the data: the protocol assumed the KV read was about 2/3 of the MoE's dense time; it is about 80%, so the miss comes from what the prediction left out, the sparse step's own overhead across 48 layers (see Speed).
 - **The 8B in-engine KL was 30% above the Python reference** (gate ≤ 25%; the 3B was within 5%). The likely causes are q8_0 weights and TF32 in cuBLAS scoring; this is not resolved.
 
 ## Scope and limits
@@ -284,7 +284,7 @@ The gated experiments were pre-registered (see [protocols/](protocols/)); analys
 
 - [`protocols/`](protocols/): the pre-registrations, with the commit and time each was committed.
 - [`results/`](results/): raw results and analyses, one folder per experiment; [`results/README.md`](results/README.md) maps each folder to its protocol, hardware and README section.
-- [`scripts/`](scripts/): `scripts/reproduce.sh` recomputes the speed, RULER and cost-model numbers in this README from `results/` (no GPU needed), and the scripts to rerun the experiments. See [`scripts/README.md`](scripts/README.md).
+- [`scripts/`](scripts/): `scripts/reproduce.sh` recomputes the speed tables, RULER and cost-model numbers in this README (not the rough MoE breakdown) from `results/` (no GPU needed), and the scripts to rerun the experiments. See [`scripts/README.md`](scripts/README.md).
 - The released fork commit e7059e52a is 5cf439778, checked against the research build in `results/cuda_4090_48gb_featcheck/`, plus the CUDA-only guard.
 
 ## References

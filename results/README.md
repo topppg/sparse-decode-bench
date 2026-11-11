@@ -5,8 +5,8 @@ Raw outputs and analyses, one folder per pre-registered experiment (protocol in 
 | folder | protocol | hardware | contents | used in README |
 |---|---|---|---|---|
 | `cuda_4090_portc` | PORT-C, C2, C3 | RTX 4090 48 GB | first CUDA port, kernel fixes (`c3fix*`), 8B KL and needles | Speed (4090 rows), What did not work |
-| `cuda_3090_portg` | PORT-G | RTX 3090 | dense/sparse speed 8k–128k, microbenchmarks, cost-model predictions, Qwen3 KL and needles | Speed (3090 rows), cost model, cheaper checks |
-| `cuda_3090_portr` | PORT-R | RTX 3090 | speed by budget, wall-clock with prefill | Dial, Wall-clock |
+| `cuda_3090_portg` | PORT-G | RTX 3090 (300 W) | dense/sparse speed 8k–128k, microbenchmarks, cost-model predictions, Qwen3 KL and needles | Speed (3090 rows), cost model, cheaper checks |
+| `cuda_3090_portr` | PORT-R | RTX 3090 (300 W) | speed by budget, wall-clock with prefill | Dial, Wall-clock |
 | `cuda_4090_portr` | PORT-R | RTX 4090 24 GB | RULER with mv (R1), the RULER prompt metadata, speed by budget | Quality (mv), Why mv failed |
 | `cuda_4090_portr2` | PORT-R2 | RTX 4090 24 GB | RULER with mv at 49152 and 65536 cells; re-validation of the two upstream kernel PRs | Why mv failed (larger budgets), What did not work |
 | `cuda_4090_portr3` | PORT-R3 | RTX 4090 24 GB | RULER with quest on Llama-3.1-8B; quest vs mv speed | Quality, Speed (quest vs mv) |
