@@ -20,7 +20,7 @@ RULER at 128k, 13 tasks x 20 prompts, quest:27648 (`mq_score.json`, `port_r_scor
 
 | | dense | quest | Δ [95% CI] |
 |---|---|---|---|
-| mean | 87.8 | 86.8 | −1.0 [−2.2, −0.0] |
+| mean | 87.8 | 86.8 | −1.0 [−2.2, −0.02] |
 | single needle (3) | 100.0 | 100.0 | 0.0 |
 | multi-needle (5) | 100.0 | 99.75 | −0.25 (multiquery −1.25) |
 | other (5) | 68.2 | 65.9 | −2.2 (qa_1 −5, qa_2 −5, fwe −1.7, cwe +0.5) |

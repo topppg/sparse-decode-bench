@@ -55,9 +55,10 @@ for f in llama8b_quest llama8b_mv llama8b_mv_larger qwen8b_quest llama3b_quest q
   python3 -c "
 import json, sys
 d = json.load(open(sys.argv[1]))
+c = lambda x: f'{x:+.2f}' if abs(x) < 0.05 else f'{x:+.1f}'
 for k, v in d.items():
     if k.startswith('delta_'):
-        print(f\"{sys.argv[2]:18s} {k[6:]:12s} mean {d['mean']['dense']:.1f} -> {d['mean'][k[6:]]:.1f}  delta {v['delta']:+.1f} [{v['ci95'][0]:+.1f}, {v['ci95'][1]:+.1f}]\")
+        print(f\"{sys.argv[2]:18s} {k[6:]:12s} mean {d['mean']['dense']:.1f} -> {d['mean'][k[6:]]:.1f}  delta {v['delta']:+.1f} [{c(v['ci95'][0])}, {c(v['ci95'][1])}]\")
 " "$O/$f.json" "$f"
 done
 
@@ -82,9 +83,10 @@ for f in ul8b_131072 ul8b_262144; do
   python3 -c "
 import json, sys
 d = json.load(open(sys.argv[1]))
+c = lambda x: f'{x:+.2f}' if abs(x) < 0.05 else f'{x:+.1f}'
 for k, v in d.items():
     if k.startswith('delta_'):
-        print(f\"{sys.argv[2]:18s} {k[6:]:12s} mean {d['mean']['dense']:.1f} -> {d['mean'][k[6:]]:.1f}  delta {v['delta']:+.1f} [{v['ci95'][0]:+.1f}, {v['ci95'][1]:+.1f}]\")
+        print(f\"{sys.argv[2]:18s} {k[6:]:12s} mean {d['mean']['dense']:.1f} -> {d['mean'][k[6:]]:.1f}  delta {v['delta']:+.1f} [{c(v['ci95'][0])}, {c(v['ci95'][1])}]\")
 " "$O/$f.json" "$f"
 done
 
