@@ -4,7 +4,7 @@ Training-free page-sparse decoding for ordinary GQA LLMs (dense and MoE) inside 
 
 **In short:**
 - At 128k context with the quest page score (the default), decode is **1.72× faster on Qwen3-30B-A3B** at Q4_K_M on an RTX 5090 (MoE; 1.41× at Q8_0 on an RTX 4090 48 GB) and 1.64–1.68× faster on Llama-3.1-8B and Qwen3-8B (RTX 3090). The speedup depends on the card: with the earlier mv score, which runs at the same speed, the 8Bs got 1.77–1.81× on another RTX 3090 and Llama-3.1-8B 1.31× on an RTX 4090 48 GB, so on the same kind of card the MoE gains more than the dense 8B.
-- RULER at 128k (13 tasks) holds with quest on three models: Qwen3-30B-A3B scores **86.8 against 87.8 dense** at Q4_K_M (Δ −1.0, 95% CI [−2.2, −0.0]) and **86.6 against 87.2** at Q8_0 (Δ −0.6 [−1.9, +0.4]), Llama-3.1-8B **63.6 against 64.7** (Δ −1.1 [−4.3, +2.0]) and Qwen3-8B **60.2 against 59.7** (Δ +0.4 [−2.3, +3.3]).
+- RULER at 128k (13 tasks) holds with quest on three models: Qwen3-30B-A3B scores **86.8 against 87.8 dense** at Q4_K_M (Δ −1.0, 95% CI [−2.2, −0.02]) and **86.6 against 87.2** at Q8_0 (Δ −0.6 [−1.9, +0.4]), Llama-3.1-8B **63.6 against 64.7** (Δ −1.1 [−4.3, +2.0]) and Qwen3-8B **60.2 against 59.7** (Δ +0.4 [−2.3, +3.3]).
 - Llama-3.2-3B decodes 1.35–1.55× faster but **fails** RULER at that budget (Δ −4.5 [−7.1, −1.9]), so its speed rows are not quality-safe as given.
 - Most of the loss is in multi-needle retrieval (on the Q4_K_M MoE, the small loss is in QA instead). Finding a single fact loses nothing on any model.
 - The gain grows with context: at 256k, UltraLong-8B decodes **1.86× faster** (23.0 → 42.8 tok/s).
@@ -159,7 +159,7 @@ The first MoE model: 48 layers, 32 query and 4 KV heads, 128 experts with 8 acti
 | model (KV cache) | budget | dense | quest | Δ [95% CI] | gate |
 |---|---|---|---|---|---|
 | Qwen3-30B-A3B-Instruct-2507 (q8_0) | 27648 | 87.2 | 86.6 | −0.6 [−1.9, +0.4] | **pass** |
-| Qwen3-30B-A3B-Instruct-2507, Q4_K_M weights, RTX 5090 (q8_0) | 27648 | 87.8 | 86.8 | −1.0 [−2.2, −0.0] | **pass** |
+| Qwen3-30B-A3B-Instruct-2507, Q4_K_M weights, RTX 5090 (q8_0) | 27648 | 87.8 | 86.8 | −1.0 [−2.2, −0.02] | **pass** |
 
 - The quality prediction held (pass, Δ in [−3, +1]). Its second part, that any loss would sit in multi-needle tasks, is ambiguous: one prompt was lost in multikey_3 and one in qa_2. The speed prediction did not hold (see Speed).
 - Losses: multikey_3 −5 and qa_2 −5 (one prompt each); fwe +1.7. Every other task is unchanged.
