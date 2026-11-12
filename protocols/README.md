@@ -33,3 +33,4 @@ Each protocol was committed to the project repository before the data it governs
 | PORT-RQ | `cd1e725` | 2026-11-07T18:03:41+01:00 | [port-rq.md](port-rq.md) |
 | PORT-GQ | `ad168c8` | 2026-11-11T16:13:34+01:00 | [port-gq.md](port-gq.md) |
 | PORT-MQ | `b4d68ee` | 2026-11-11T16:16:20+01:00 | [port-mq.md](port-mq.md) |
+| PORT-MQ4 | `ea0a25e` | 2026-11-11T21:40:54+01:00 | [port-mq4.md](port-mq4.md) |

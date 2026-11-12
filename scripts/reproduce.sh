@@ -12,11 +12,12 @@ UL=nvidia/Llama-3.1-Nemotron-8B-UltraLong-1M-Instruct@fa3a10b9c6ad02f42c81e1d68d
 Q30=Qwen/Qwen3-30B-A3B-Instruct-2507@0d7cf23991f47feeb3a57ecb4c9cee8ea4a17bfe
 py() { uv run -q --no-project --python 3.12 --with transformers --with numpy python "$@" > /dev/null 2>&1; }
 
-echo "== Speed table (128k), quest on the release build (PORT-GQ, PORT-MQ)"
+echo "== Speed table (128k), quest on the release build (PORT-GQ, PORT-MQ, PORT-MQ4)"
 G=$R/cuda_3090_portgq/bench
 args=(); for m in 3b 8b qwen3; do args+=("RTX 3090, $m, quest=$G/${m}_d131072_dense.jsonl,$G/${m}_d131072_quest.jsonl" "RTX 3090, $m, mv=$G/${m}_d131072_dense.jsonl,$G/${m}_d131072_mv.jsonl"); done
 python3 speed_table.py "${args[@]}" \
-  "RTX 4090 48 GB, Qwen3-30B-A3B, quest=$R/cuda_4090_48gb_portmq/bench/d131072_dense.jsonl,$R/cuda_4090_48gb_portmq/bench/d131072_quest.jsonl"
+  "RTX 4090 48 GB, Qwen3-30B-A3B, quest=$R/cuda_4090_48gb_portmq/bench/d131072_dense.jsonl,$R/cuda_4090_48gb_portmq/bench/d131072_quest.jsonl" \
+  "RTX 5090, Qwen3-30B-A3B Q4_K_M, quest=$R/cuda_5090_portmq4/bench/d131072_dense.jsonl,$R/cuda_5090_portmq4/bench/d131072_quest.jsonl"
 
 echo "== Speed table (128k, mv, PORT-G and PORT-C) and 256k"
 python3 speed_table.py \
@@ -49,7 +50,8 @@ py ruler_score.py --gen $R/cuda_4090_portr2/r4_gen.jsonl --meta $M8 --model $L8 
 py ruler_score.py --gen $R/cuda_4090_portrq/q_gen.jsonl --meta $R/cuda_4090_portrq/rulerq.i32.meta.json --model $Q8 --out "$O/qwen8b_quest.json"
 py ruler_score.py --gen $R/cuda_4090_portrq/s_gen.jsonl --meta $M8 --model $L3 --out "$O/llama3b_quest.json"
 py ruler_score.py --gen $R/cuda_4090_48gb_portmq/mq_gen.jsonl --meta $R/cuda_4090_48gb_portmq/rulermq.i32.meta.json --model $Q30 --out "$O/qwen30b_quest.json"
-for f in llama8b_quest llama8b_mv llama8b_mv_larger qwen8b_quest llama3b_quest qwen30b_quest; do
+py ruler_score.py --gen $R/cuda_5090_portmq4/mq_gen.jsonl --meta $R/cuda_5090_portmq4/rulermq.i32.meta.json --model $Q30 --out "$O/qwen30b_q4_quest.json"
+for f in llama8b_quest llama8b_mv llama8b_mv_larger qwen8b_quest llama3b_quest qwen30b_quest qwen30b_q4_quest; do
   python3 -c "
 import json, sys
 d = json.load(open(sys.argv[1]))
@@ -60,7 +62,7 @@ for k, v in d.items():
 done
 
 echo "== Task groups"
-python3 ruler_groups.py "$O/llama8b_quest.json" "$O/qwen8b_quest.json" "$O/llama3b_quest.json" "$O/qwen30b_quest.json"
+python3 ruler_groups.py "$O/llama8b_quest.json" "$O/qwen8b_quest.json" "$O/llama3b_quest.json" "$O/qwen30b_quest.json" "$O/qwen30b_q4_quest.json"
 
 echo "== Why mv failed (six-task effects)"
 py ruler_effects.py --meta $M8 --model $L8 --out "$O/mv_effects.json" \
