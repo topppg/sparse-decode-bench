@@ -30,3 +30,7 @@ Each protocol was committed to the project repository before the data it governs
 | PORT-L amendment 1 | `1baa94c` | 2026-11-06T14:08:07+01:00 | [port-l-amendment-1.md](port-l-amendment-1.md) |
 | PORT-L amendment 2 | `5932f27` | 2026-11-06T14:20:30+01:00 | [port-l-amendment-2.md](port-l-amendment-2.md) |
 | PORT-R3 | `5932f27` | 2026-11-06T14:20:30+01:00 | [port-r3.md](port-r3.md) |
+| PORT-RQ | `cd1e725` | 2026-11-07T18:03:41+01:00 | [port-rq.md](port-rq.md) |
+| PORT-GQ | `ad168c8` | 2026-11-11T16:13:34+01:00 | [port-gq.md](port-gq.md) |
+| PORT-MQ | `b4d68ee` | 2026-11-11T16:16:20+01:00 | [port-mq.md](port-mq.md) |
+| PORT-MQ4 | `ea0a25e` | 2026-11-11T21:40:54+01:00 | [port-mq4.md](port-mq4.md) |
