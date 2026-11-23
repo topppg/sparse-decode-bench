@@ -1,0 +1,17 @@
+f7d80009d4293728489cd2b961fccffa4982bad4
+4c0256e09 ggml-cuda : page select flags freed in the pool's allocation order
+7e6578da8 ggml-cuda : GGML_CUDA_FA_SELECT_CONVERT=2 without the tile alignment, GGML_CUDA_FA_SELECT_LOG counts the conversions
+8527dfc10 tests : page select q8_0 cases with n_kv_max a multiple of 128
+204e2eea8 ggml-cuda : page select converts only the q8_0 k/v pages its lists read, GGML_CUDA_FA_SELECT_CONVERT=0 disables it
+48e811dce tests : page select flash attention cases, cpu equivalence with ggml_top_k_mask
+13aced8f4 llama : LLAMA_SPARSE_PREFILL_GATHER=2 attaches the picks to the attention instead of building per-head masks
+2cb32c2aa ggml-cuda : sparse flash attention lists from the page select picks, built mask otherwise
+68ea4846a ggml : flash attention page select, the picks of a block-sparse mask without the mask, cpu
+502d9294f sparse-tail : prefill_compute_s, the prefill decode calls up to a synchronize, without the state snapshot
+39e5ae861 ggml : n_kv_max_rows promise for block-shared sparse masks, llama : LLAMA_SPARSE_PREFILL_GATHER runs the prefill emulation through the sparse gather
+75834b301 llama : count sparse prefill applications, dense-tail rows and dense fallbacks, sparse-tail : pf counts per prefill
+eedf4e6d9 llama : no reuse of sparse prefill graphs, exact ceil(F*n) in double, sparse-tail : pf:F:R row selectors without W, count reused prefill graphs
+68d85be9a llama : LLAMA_SPARSE_PREFILL_ROWS limits the sparse prefill to a position range, sparse-tail : pf:F:W:d<N>|s<N>|du configs
+09cc1da65 sparse-tail : pf:F[:W] prefill configs, combined with decode configs by +, one prefill per prefill setting
+e183f5753 llama : emulate block-sparse prefill with a per-KV-head page mask (LLAMA_SPARSE_PREFILL)
+f7d80009d llama : sparse decode only for head sizes up to 256, tests : paged FA cases for head sizes 64 (with sinks) and 256

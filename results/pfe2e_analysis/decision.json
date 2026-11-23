@@ -1,0 +1,1451 @@
+{
+ "speed_A": {
+  "run": "../results/pf_e2e/vastai48/20261121T222603Z",
+  "terminal_line": "COMPLETE 2026-11-22T01:35:27+00:00",
+  "power_line": "GATE P PASS NVIDIA GeForce RTX 5090 32607 MiB power.limit 500 W (recorded, not gated) disk 103 GB (103 free, need 60) RAM 30 GiB 2026-11-21T22:26:03+00:00",
+  "gate_b": {
+   "256": {
+    "status": "PASS",
+    "sha_g1": "3ca7441bda05ee177e40595fb48febde7c69fba361b017b68590047ee63d0406",
+    "sha_g2": "3ca7441bda05ee177e40595fb48febde7c69fba361b017b68590047ee63d0406",
+    "status_line": "GATE B 256 PASS pf logits of GATHER=2 byte-identical to GATHER=1 (31784960 bytes, 32 steps) 2026-11-21T22:51:27+00:00"
+   },
+   "128": {
+    "status": "PASS",
+    "sha_g1": "9b5ca4692ebefa8a9904303b9fded7f39fd5d55be88168897eb1445b7c80dc1f",
+    "sha_g2": "9b5ca4692ebefa8a9904303b9fded7f39fd5d55be88168897eb1445b7c80dc1f",
+    "status_line": "GATE B 128 PASS pf logits of GATHER=2 byte-identical to GATHER=1 (31784960 bytes, 32 steps) 2026-11-21T23:00:57+00:00"
+   }
+  },
+  "references": {
+   "256": {
+    "selective_per_prefill": 31936,
+    "problems": []
+   },
+   "128": {
+    "selective_per_prefill": 15680,
+    "problems": []
+   }
+  },
+  "lengths": {
+   "256": {
+    "best_dense": {
+     "1": {
+      "config": "up_dense",
+      "wall": 172.4525,
+      "ttft": 145.357974,
+      "tps": 36.99420906399947
+     },
+     "2": {
+      "config": "up_dense",
+      "wall": 172.65449999999998,
+      "ttft": 145.5192225,
+      "tps": 36.93915718897385
+     }
+    },
+    "ratios": {
+     "pfsd27648": {
+      "quoted": 1.611570054855199,
+      "per_block": {
+       "1": 1.611570054855199,
+       "2": 1.6131637834782322
+      },
+      "ttft_vs_best": 1.5751491189401536,
+      "decode_vs_best": 1.8434380053567705,
+      "ttft_vs_fork_dense": 2.366697187231665,
+      "wall_vs_fork_dense": 2.3055677559831413
+     },
+     "pfsd55296": {
+      "quoted": 1.5886918470750806,
+      "per_block": {
+       "1": 1.5886918470750806,
+       "2": 1.5894911275288268
+      },
+      "ttft_vs_best": 1.5766523984830803,
+      "decode_vs_best": 1.6591754204742613,
+      "ttft_vs_fork_dense": 2.368955898754966,
+      "wall_vs_fork_dense": 2.272756565168358
+     },
+     "pf_only": {
+      "quoted": 1.4241503325997282,
+      "per_block": {
+       "1": 1.4241503325997282,
+       "2": 1.4260834730608165
+      },
+      "ttft_vs_best": 1.568681163489208,
+      "decode_vs_best": 0.9529525548407177,
+      "ttft_vs_fork_dense": 2.3569789378362094,
+      "wall_vs_fork_dense": 2.037438631117791
+     }
+    },
+    "drift": {
+     "fork_dense": {
+      "b2_over_b1_minus_1": 0.000632304689795804,
+      "flag": false
+     },
+     "fork_dense_ub2048": {
+      "b2_over_b1_minus_1": 0.0008704512176196388,
+      "flag": false
+     },
+     "fork_mtp": {
+      "b2_over_b1_minus_1": 0.00043312441449816497,
+      "flag": false
+     },
+     "up_dense": {
+      "b2_over_b1_minus_1": 0.001171337034835629,
+      "flag": false
+     },
+     "up_mtp": {
+      "b2_over_b1_minus_1": -0.0004255477141804631,
+      "flag": false
+     },
+     "pfsd27648": {
+      "b2_over_b1_minus_1": 0.00018222766309383687,
+      "flag": false
+     },
+     "pfsd55296": {
+      "b2_over_b1_minus_1": 0.0006678949792722211,
+      "flag": false
+     },
+     "pf_only": {
+      "b2_over_b1_minus_1": -0.00018580990408079145,
+      "flag": false
+     }
+    },
+    "deterministic": {
+     "fork_dense": true,
+     "fork_dense_ub2048": true,
+     "fork_mtp": true,
+     "up_dense": true,
+     "up_mtp": true,
+     "pfsd27648": true,
+     "pfsd55296": true,
+     "pf_only": true
+    },
+    "gate_n": {
+     "status": "PASS",
+     "distinct_8gram_fraction": 1.0,
+     "first_end_position": null
+    },
+    "mtp_label": null,
+    "server_vs_reference_prefix_64": {
+     "b1 fork_dense": 64,
+     "b1 fork_dense_ub2048": 27,
+     "b1 fork_mtp": 64,
+     "b1 up_dense": 64,
+     "b1 up_mtp": 64,
+     "b1 pfsd27648": 35,
+     "b1 pfsd55296": 64,
+     "b1 pf_only": 64,
+     "b2 pf_only": 64,
+     "b2 pfsd55296": 64,
+     "b2 pfsd27648": 35,
+     "b2 up_mtp": 64,
+     "b2 up_dense": 64,
+     "b2 fork_mtp": 64,
+     "b2 fork_dense_ub2048": 27,
+     "b2 fork_dense": 64
+    }
+   },
+   "128": {
+    "best_dense": {
+     "1": {
+      "config": "up_mtp",
+      "wall": 67.3095,
+      "ttft": 54.227889000000005,
+      "tps": 76.63320899409867
+     },
+     "2": {
+      "config": "up_mtp",
+      "wall": 67.35900000000001,
+      "ttft": 54.263230500000006,
+      "tps": 76.55185935215992
+     }
+    },
+    "ratios": {
+     "pfsd27648": {
+      "quoted": 1.2710937795067418,
+      "per_block": {
+       "1": 1.2710937795067418,
+       "2": 1.2720285530838087
+      },
+      "ttft_vs_best": 1.4084548448888787,
+      "decode_vs_best": 0.9049970646958625,
+      "ttft_vs_fork_dense": 1.7429264566840363,
+      "wall_vs_fork_dense": 1.6469482947463838
+     },
+     "pfsd55296": {
+      "quoted": 1.2332264565775009,
+      "per_block": {
+       "1": 1.2332264565775009,
+       "2": 1.2340994659362605
+      },
+      "ttft_vs_best": 1.4084219770534119,
+      "decode_vs_best": 0.8133380405267746,
+      "ttft_vs_fork_dense": 1.7434099005270727,
+      "wall_vs_fork_dense": 1.5978399274479447
+     },
+     "pf_only": {
+      "quoted": 1.1397475299078001,
+      "per_block": {
+       "1": 1.1397475299078001,
+       "2": 1.141194409148666
+      },
+      "ttft_vs_best": 1.4006850037324428,
+      "decode_vs_best": 0.6425303064728287,
+      "ttft_vs_fork_dense": 1.7338327169076353,
+      "wall_vs_fork_dense": 1.4770770363973482
+     }
+    },
+    "drift": {
+     "fork_dense": {
+      "b2_over_b1_minus_1": -0.00021208056768795558,
+      "flag": false
+     },
+     "fork_dense_ub2048": {
+      "b2_over_b1_minus_1": -9.456503237281755e-05,
+      "flag": false
+     },
+     "fork_mtp": {
+      "b2_over_b1_minus_1": 6.477637428958793e-05,
+      "flag": false
+     },
+     "up_dense": {
+      "b2_over_b1_minus_1": -0.00013481105166812668,
+      "flag": false
+     },
+     "up_mtp": {
+      "b2_over_b1_minus_1": 0.0007354088204489795,
+      "flag": false
+     },
+     "pfsd27648": {
+      "b2_over_b1_minus_1": 2.220446049250313e-16,
+      "flag": false
+     },
+     "pfsd55296": {
+      "b2_over_b1_minus_1": 2.7482594357142176e-05,
+      "flag": false
+     },
+     "pf_only": {
+      "b2_over_b1_minus_1": -0.0005333875187321091,
+      "flag": false
+     }
+    },
+    "deterministic": {
+     "fork_dense": true,
+     "fork_dense_ub2048": true,
+     "fork_mtp": true,
+     "up_dense": true,
+     "up_mtp": true,
+     "pfsd27648": true,
+     "pfsd55296": true,
+     "pf_only": true
+    },
+    "gate_n": {
+     "status": "PASS",
+     "distinct_8gram_fraction": 1.0,
+     "first_end_position": null
+    },
+    "mtp_label": null,
+    "server_vs_reference_prefix_64": {
+     "b1 fork_dense": 64,
+     "b1 fork_dense_ub2048": 25,
+     "b1 fork_mtp": 64,
+     "b1 up_dense": 13,
+     "b1 up_mtp": 13,
+     "b1 pfsd27648": 34,
+     "b1 pfsd55296": 64,
+     "b1 pf_only": 64,
+     "b2 pf_only": 64,
+     "b2 pfsd55296": 64,
+     "b2 pfsd27648": 34,
+     "b2 up_mtp": 13,
+     "b2 up_dense": 13,
+     "b2 fork_mtp": 64,
+     "b2 fork_dense_ub2048": 25,
+     "b2 fork_dense": 64
+    }
+   }
+  },
+  "cells": {
+   "256 b1 fork_dense": {
+    "status": "OK",
+    "verdict": "OK wall 246.55 246.88 ttft 218.22 218.58 tok/s 35.39 35.41",
+    "wall": 246.7165,
+    "ttft": 218.4036445,
+    "tps": 35.40343682320092,
+    "acceptance": null
+   },
+   "256 b1 fork_dense_ub2048": {
+    "status": "OK",
+    "verdict": "OK wall 222.29 222.31 ttft 194.06 194.06 tok/s 35.48 35.51",
+    "wall": 222.2985,
+    "ttft": 194.060631,
+    "tps": 35.494290496231265,
+    "acceptance": null
+   },
+   "256 b1 fork_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 255.12 255.13 ttft 235.11 235.16 tok/s 50.12 50.25 acceptance 0.532",
+    "wall": 255.123,
+    "ttft": 235.1328845,
+    "tps": 50.185679970921825,
+    "acceptance": 0.5323210412147505
+   },
+   "256 b1 up_dense": {
+    "status": "OK",
+    "verdict": "OK wall 172.30 172.60 ttft 145.23 145.48 tok/s 36.96 37.03",
+    "wall": 172.4525,
+    "ttft": 145.357974,
+    "tps": 36.99420906399947,
+    "acceptance": null
+   },
+   "256 b1 up_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 175.00 175.13 ttft 156.28 156.30 tok/s 53.29 53.58 acceptance 0.583",
+    "wall": 175.0685,
+    "ttft": 156.2910545,
+    "tps": 53.43617572240143,
+    "acceptance": 0.5825688073394495
+   },
+   "256 b1 pfsd27648": {
+    "status": "OK",
+    "verdict": "OK wall 106.99 107.03 ttft 92.26 92.30 tok/s 68.19 68.20 sel 63872",
+    "wall": 107.009,
+    "ttft": 92.28204,
+    "tps": 68.19653096669055,
+    "acceptance": null,
+    "decode_ratio": 1.9262686644591336,
+    "decode_engaged": "1.926 x fork_dense >= 1.3"
+   },
+   "256 b1 pfsd55296": {
+    "status": "OK",
+    "verdict": "OK wall 108.55 108.55 ttft 92.19 92.20 tok/s 61.38 61.38 sel 63872",
+    "wall": 108.55,
+    "ttft": 92.1940525,
+    "tps": 61.37988237887405,
+    "acceptance": null,
+    "decode_ratio": 1.7337266629055064,
+    "decode_engaged": "1.734 x fork_dense >= 1.15"
+   },
+   "256 b1 pf_only": {
+    "status": "OK",
+    "verdict": "OK wall 121.04 121.14 ttft 92.61 92.71 tok/s 35.25 35.25 sel 63872",
+    "wall": 121.0915,
+    "ttft": 92.66253549999999,
+    "tps": 35.25372604184993,
+    "acceptance": null
+   },
+   "256 b2 pf_only": {
+    "status": "OK",
+    "verdict": "OK wall 121.03 121.11 ttft 92.60 92.68 tok/s 35.25 35.25 sel 63872",
+    "wall": 121.069,
+    "ttft": 92.63763200000001,
+    "tps": 35.250843079032286,
+    "acceptance": null
+   },
+   "256 b2 pfsd55296": {
+    "status": "OK",
+    "verdict": "OK wall 108.58 108.67 ttft 92.21 92.31 tok/s 61.35 61.35 sel 63872",
+    "wall": 108.6225,
+    "ttft": 92.25858400000001,
+    "tps": 61.35052149295729,
+    "acceptance": null,
+    "decode_ratio": 1.7331514336327123,
+    "decode_engaged": "1.733 x fork_dense >= 1.15"
+   },
+   "256 b2 pfsd27648": {
+    "status": "OK",
+    "verdict": "OK wall 107.00 107.06 ttft 92.27 92.32 tok/s 68.13 68.17 sel 63872",
+    "wall": 107.02850000000001,
+    "ttft": 92.291654,
+    "tps": 68.14970077762507,
+    "acceptance": null,
+    "decode_ratio": 1.9252281599259118,
+    "decode_engaged": "1.925 x fork_dense >= 1.3"
+   },
+   "256 b2 up_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 174.90 175.09 ttft 156.17 156.25 tok/s 53.27 53.58 acceptance 0.583",
+    "wall": 174.994,
+    "ttft": 156.21238449999998,
+    "tps": 53.4226686624817,
+    "acceptance": 0.5825688073394495
+   },
+   "256 b2 up_dense": {
+    "status": "OK",
+    "verdict": "OK wall 172.56 172.75 ttft 145.43 145.61 tok/s 36.94 36.94",
+    "wall": 172.65449999999998,
+    "ttft": 145.5192225,
+    "tps": 36.93915718897385,
+    "acceptance": null
+   },
+   "256 b2 fork_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 255.16 255.30 ttft 235.16 235.30 tok/s 50.15 50.16 acceptance 0.532",
+    "wall": 255.2335,
+    "ttft": 235.23119099999997,
+    "tps": 50.156114115326105,
+    "acceptance": 0.5323210412147505
+   },
+   "256 b2 fork_dense_ub2048": {
+    "status": "OK",
+    "verdict": "OK wall 222.40 222.58 ttft 194.12 194.30 tok/s 35.44 35.44",
+    "wall": 222.49200000000002,
+    "ttft": 194.20945799999998,
+    "tps": 35.43797335524168,
+    "acceptance": null
+   },
+   "256 b2 fork_dense": {
+    "status": "OK",
+    "verdict": "OK wall 246.79 246.96 ttft 218.47 218.64 tok/s 35.40 35.40",
+    "wall": 246.8725,
+    "ttft": 218.55841800000002,
+    "tps": 35.39824639810362,
+    "acceptance": null
+   },
+   "128 b1 fork_dense": {
+    "status": "OK",
+    "verdict": "OK wall 87.17 87.30 ttft 67.06 67.19 tok/s 49.82 49.82",
+    "wall": 87.231,
+    "ttft": 67.12579050000001,
+    "tps": 49.820010284951934,
+    "acceptance": null
+   },
+   "128 b1 fork_dense_ub2048": {
+    "status": "OK",
+    "verdict": "OK wall 79.28 79.34 ttft 59.23 59.29 tok/s 49.95 49.96",
+    "wall": 79.3105,
+    "ttft": 59.259293,
+    "tps": 49.954436974061196,
+    "acceptance": null
+   },
+   "128 b1 fork_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 84.89 84.93 ttft 71.64 71.71 tok/s 75.68 75.86 acceptance 0.523",
+    "wall": 84.9075,
+    "ttft": 71.6766905,
+    "tps": 75.77163539021481,
+    "acceptance": 0.5229515229515229
+   },
+   "128 b1 up_dense": {
+    "status": "OK",
+    "verdict": "OK wall 70.41 70.53 ttft 51.02 51.11 tok/s 51.59 51.64",
+    "wall": 70.469,
+    "ttft": 51.062047,
+    "tps": 51.61518307067261,
+    "acceptance": null
+   },
+   "128 b1 up_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 67.30 67.32 ttft 54.20 54.25 tok/s 76.54 76.73 acceptance 0.527",
+    "wall": 67.3095,
+    "ttft": 54.227889000000005,
+    "tps": 76.63320899409867,
+    "acceptance": 0.5269280482550625
+   },
+   "128 b1 pfsd27648": {
+    "status": "OK",
+    "verdict": "OK wall 52.92 52.99 ttft 38.47 38.53 tok/s 69.35 69.36 sel 31360",
+    "wall": 52.95399999999999,
+    "ttft": 38.501688,
+    "tps": 69.35282919788386,
+    "acceptance": null,
+    "decode_ratio": 1.3920677414800091,
+    "decode_engaged": "1.392 x fork_dense >= 1.15"
+   },
+   "128 b1 pfsd55296": {
+    "status": "OK",
+    "verdict": "OK wall 54.52 54.64 ttft 38.45 38.55 tok/s 62.31 62.35 sel 31360",
+    "wall": 54.58,
+    "ttft": 38.5025865,
+    "tps": 62.32870404253901,
+    "acceptance": null,
+    "decode_ratio": 1.2510777032369524,
+    "decode_engaged": "1.251 x fork_dense >= 1.15"
+   },
+   "128 b1 pf_only": {
+    "status": "OK",
+    "verdict": "OK wall 59.05 59.06 ttft 38.71 38.72 tok/s 49.23 49.25 sel 31360",
+    "wall": 59.0565,
+    "ttft": 38.7152635,
+    "tps": 49.239159260974546,
+    "acceptance": null
+   },
+   "128 b2 pf_only": {
+    "status": "OK",
+    "verdict": "OK wall 58.97 59.08 ttft 38.64 38.74 tok/s 49.24 49.27 sel 31360",
+    "wall": 59.025,
+    "ttft": 38.690171500000005,
+    "tps": 49.2569317270805,
+    "acceptance": null
+   },
+   "128 b2 pfsd55296": {
+    "status": "OK",
+    "verdict": "OK wall 54.57 54.59 ttft 38.49 38.50 tok/s 62.27 62.30 sel 31360",
+    "wall": 54.581500000000005,
+    "ttft": 38.49273049999999,
+    "tps": 62.28417286354287,
+    "acceptance": null,
+    "decode_ratio": 1.2498830875900475,
+    "decode_engaged": "1.250 x fork_dense >= 1.15"
+   },
+   "128 b2 pfsd27648": {
+    "status": "OK",
+    "verdict": "OK wall 52.93 52.98 ttft 38.48 38.53 tok/s 69.36 69.38 sel 31360",
+    "wall": 52.954,
+    "ttft": 38.505613499999995,
+    "tps": 69.37069653851262,
+    "acceptance": null,
+    "decode_ratio": 1.3920913835973894,
+    "decode_engaged": "1.392 x fork_dense >= 1.15"
+   },
+   "128 b2 up_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 67.32 67.39 ttft 54.21 54.32 tok/s 76.44 76.67 acceptance 0.527",
+    "wall": 67.35900000000001,
+    "ttft": 54.263230500000006,
+    "tps": 76.55185935215992,
+    "acceptance": 0.5269280482550625
+   },
+   "128 b2 up_dense": {
+    "status": "OK",
+    "verdict": "OK wall 70.44 70.48 ttft 51.05 51.08 tok/s 51.64 51.65",
+    "wall": 70.45949999999999,
+    "ttft": 51.06451,
+    "tps": 51.64684158624148,
+    "acceptance": null
+   },
+   "128 b2 fork_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 84.87 84.95 ttft 71.62 71.74 tok/s 75.66 75.87 acceptance 0.523",
+    "wall": 84.913,
+    "ttft": 71.6810835,
+    "tps": 75.76659175952275,
+    "acceptance": 0.5229515229515229
+   },
+   "128 b2 fork_dense_ub2048": {
+    "status": "OK",
+    "verdict": "OK wall 79.27 79.34 ttft 59.21 59.27 tok/s 49.92 49.94",
+    "wall": 79.303,
+    "ttft": 59.24220149999999,
+    "tps": 49.93031139577868,
+    "acceptance": null
+   },
+   "128 b2 fork_dense": {
+    "status": "OK",
+    "verdict": "OK wall 87.18 87.25 ttft 67.08 67.15 tok/s 49.83 49.84",
+    "wall": 87.2125,
+    "ttft": 67.11245249999999,
+    "tps": 49.8319990741179,
+    "acceptance": null
+   },
+   "256 bi sd27648": {
+    "status": "OK",
+    "verdict": "OK wall 230.81 236.96 ttft 216.06 222.21 tok/s 68.09 68.11",
+    "wall": 233.88299999999998,
+    "ttft": 219.1351405,
+    "tps": 68.10275789308801,
+    "acceptance": null,
+    "decode_ratio": 1.923619964727782,
+    "decode_engaged": "1.924 x fork_dense >= 1.15"
+   },
+   "128 bi sd27648": {
+    "status": "OK",
+    "verdict": "OK wall 81.22 82.50 ttft 66.78 68.06 tok/s 69.42 69.44",
+    "wall": 81.8595,
+    "ttft": 67.42335700000001,
+    "tps": 69.4299129221388,
+    "acceptance": null,
+    "decode_ratio": 1.393614985726127,
+    "decode_engaged": "1.394 x fork_dense >= 1.15"
+   },
+   "128 bi fork_dense_f16": {
+    "status": "OK",
+    "verdict": "OK wall 81.16 81.22 ttft 63.83 63.89 tok/s 57.81 57.83",
+    "wall": 81.18950000000001,
+    "ttft": 63.8617615,
+    "tps": 57.82011041506949,
+    "acceptance": null
+   },
+   "128 bi fork_mtp_f16": {
+    "status": "OK",
+    "verdict": "OK wall 77.43 77.55 ttft 68.25 68.38 tok/s 109.31 109.51 acceptance 0.562",
+    "wall": 77.4905,
+    "ttft": 68.3172995,
+    "tps": 109.41306029079342,
+    "acceptance": 0.5623318385650224
+   },
+   "128 bi pfsd27648_f16": {
+    "status": "OK",
+    "verdict": "OK wall 51.98 52.03 ttft 37.62 37.68 tok/s 69.82 69.84",
+    "wall": 52.004999999999995,
+    "ttft": 37.652567499999996,
+    "tps": 69.83262497293046,
+    "acceptance": null
+   }
+  },
+  "peak_memory_mib": {
+   "256_b1_fork_dense": 25606,
+   "256_b1_fork_dense_ub2048": 26694,
+   "256_b1_fork_mtp": 28364,
+   "256_b1_up_dense": 25604,
+   "256_b1_up_mtp": 28362,
+   "256_b1_pfsd27648": 27292,
+   "256_b1_pfsd55296": 27292,
+   "256_b1_pf_only": 27292,
+   "256_b2_pf_only": 27292,
+   "256_b2_pfsd55296": 27292,
+   "256_b2_pfsd27648": 27292,
+   "256_b2_up_mtp": 28362,
+   "256_b2_up_dense": 25604,
+   "256_b2_fork_mtp": 28364,
+   "256_b2_fork_dense_ub2048": 26694,
+   "256_b2_fork_dense": 25606,
+   "128_b1_fork_dense": 20652,
+   "128_b1_fork_dense_ub2048": 21358,
+   "128_b1_fork_mtp": 22506,
+   "128_b1_up_dense": 20650,
+   "128_b1_up_mtp": 22504,
+   "128_b1_pfsd27648": 21524,
+   "128_b1_pfsd55296": 21524,
+   "128_b1_pf_only": 21524,
+   "128_b2_pf_only": 21524,
+   "128_b2_pfsd55296": 21524,
+   "128_b2_pfsd27648": 21524,
+   "128_b2_up_mtp": 22504,
+   "128_b2_up_dense": 20650,
+   "128_b2_fork_mtp": 22506,
+   "128_b2_fork_dense_ub2048": 21358,
+   "128_b2_fork_dense": 20652,
+   "256_bi_sd27648": 26118,
+   "128_bi_sd27648": 20910,
+   "128_bi_fork_dense_f16": 24042,
+   "128_bi_fork_mtp_f16": 25606,
+   "128_bi_pfsd27648_f16": 24562
+  },
+  "length_effect": {
+   "pfsd27648": {
+    "r_256": 1.611570054855199,
+    "r_128": 1.2710937795067418,
+    "difference": 0.34047627534845715,
+    "r_256_over_r_128": 1.2678608619110556,
+    "verdict": "GROWS"
+   },
+   "pfsd55296": {
+    "r_256": 1.5886918470750806,
+    "r_128": 1.2332264565775009,
+    "difference": 0.35546539049757975,
+    "r_256_over_r_128": 1.288240159462749,
+    "verdict": "GROWS"
+   },
+   "pf_only": {
+    "r_256": 1.4241503325997282,
+    "r_128": 1.1397475299078001,
+    "difference": 0.2844028026919281,
+    "r_256_over_r_128": 1.2495314051831592,
+    "verdict": "NOT_SHOWN"
+   }
+  },
+  "status": "OK"
+ },
+ "speed_D": {
+  "run": "../results/pf_e2e/vastai51/20261121T225917Z",
+  "terminal_line": "COMPLETE 2026-11-22T00:27:17+00:00",
+  "power_line": "GATE P PASS NVIDIA GeForce RTX 4090 24564 MiB power.limit 330 W (recorded, not gated) disk 103 GB (86 free, need 45) RAM 188 GiB 2026-11-21T22:59:17+00:00",
+  "gate_b": {
+   "128": {
+    "status": "PASS",
+    "sha_g1": "32f73afb3f0d14ec133818c5e8c2f9c4b3dff38003641abaebac319e00127a5d",
+    "sha_g2": "32f73afb3f0d14ec133818c5e8c2f9c4b3dff38003641abaebac319e00127a5d",
+    "status_line": "GATE B 128 PASS pf logits of GATHER=2 byte-identical to GATHER=1 (31784960 bytes, 32 steps) 2026-11-21T23:27:21+00:00"
+   }
+  },
+  "references": {
+   "128": {
+    "selective_per_prefill": 15680,
+    "problems": []
+   }
+  },
+  "lengths": {
+   "128": {
+    "best_dense": {
+     "1": {
+      "config": "fork_mtp",
+      "wall": 102.3865,
+      "ttft": 80.958534,
+      "tps": 46.87408123715082
+     },
+     "2": {
+      "config": "up_mtp",
+      "wall": 102.554,
+      "ttft": 81.22500149999999,
+      "tps": 47.11117125158046
+     }
+    },
+    "ratios": {
+     "pfsd27648": {
+      "quoted": 1.329142797895228,
+      "per_block": {
+       "1": 1.3292804840049854,
+       "2": 1.329142797895228
+      },
+      "ttft_vs_best": 1.4986255285522674,
+      "decode_vs_best": 0.9274503600476344,
+      "ttft_vs_fork_dense": 1.3984953349530358,
+      "wall_vs_fork_dense": 1.3854902368093063
+     },
+     "pfsd55296": {
+      "quoted": 1.2913274782006487,
+      "per_block": {
+       "1": 1.2934284162255711,
+       "2": 1.2913274782006487
+      },
+      "ttft_vs_best": 1.497739364211447,
+      "decode_vs_best": 0.842149836810197,
+      "ttft_vs_fork_dense": 1.3976683794040827,
+      "wall_vs_fork_dense": 1.3481221339329703
+     },
+     "pf_only": {
+      "quoted": 1.1951496646602608,
+      "per_block": {
+       "1": 1.1959433020096597,
+       "2": 1.1951496646602608
+      },
+      "ttft_vs_best": 1.486261929861431,
+      "decode_vs_best": 0.6799808261688414,
+      "ttft_vs_fork_dense": 1.3869578062222463,
+      "wall_vs_fork_dense": 1.246514778972451
+     }
+    },
+    "drift": {
+     "fork_dense": {
+      "b2_over_b1_minus_1": 0.0035280557742043417,
+      "flag": false
+     },
+     "fork_dense_ub2048": {
+      "b2_over_b1_minus_1": 0.005232043273258213,
+      "flag": false
+     },
+     "fork_mtp": {
+      "b2_over_b1_minus_1": 0.0063240759279787895,
+      "flag": false
+     },
+     "up_dense": {
+      "b2_over_b1_minus_1": -0.004325344369345063,
+      "flag": false
+     },
+     "up_mtp": {
+      "b2_over_b1_minus_1": -0.0015820243096288378,
+      "flag": false
+     },
+     "pfsd27648": {
+      "b2_over_b1_minus_1": 0.0017397174906521595,
+      "flag": false
+     },
+     "pfsd55296": {
+      "b2_over_b1_minus_1": 0.0032655794034788244,
+      "flag": false
+     },
+     "pf_only": {
+      "b2_over_b1_minus_1": 0.0023010927270286086,
+      "flag": false
+     }
+    },
+    "deterministic": {
+     "fork_dense": true,
+     "fork_dense_ub2048": true,
+     "fork_mtp": true,
+     "up_dense": true,
+     "up_mtp": true,
+     "pfsd27648": true,
+     "pfsd55296": true,
+     "pf_only": true
+    },
+    "gate_n": {
+     "status": "PASS",
+     "distinct_8gram_fraction": 1.0,
+     "first_end_position": null
+    },
+    "mtp_label": null,
+    "server_vs_reference_prefix_64": {
+     "b1 fork_dense": 64,
+     "b1 fork_dense_ub2048": 64,
+     "b1 fork_mtp": 64,
+     "b1 up_dense": 64,
+     "b1 up_mtp": 64,
+     "b1 pfsd27648": 13,
+     "b1 pfsd55296": 64,
+     "b1 pf_only": 64,
+     "b2 pf_only": 64,
+     "b2 pfsd55296": 64,
+     "b2 pfsd27648": 13,
+     "b2 up_mtp": 64,
+     "b2 up_dense": 64,
+     "b2 fork_mtp": 64,
+     "b2 fork_dense_ub2048": 64,
+     "b2 fork_dense": 64
+    }
+   }
+  },
+  "cells": {
+   "128 b1 fork_dense": {
+    "status": "OK",
+    "verdict": "OK wall 105.92 107.51 ttft 74.94 76.15 tok/s 32.01 32.38",
+    "wall": 106.71600000000001,
+    "ttft": 75.54931499999999,
+    "tps": 32.192452478882856,
+    "acceptance": null
+   },
+   "128 b1 fork_dense_ub2048": {
+    "status": "OK",
+    "verdict": "OK wall 103.51 105.40 ttft 72.46 74.05 tok/s 32.02 32.33",
+    "wall": 104.4525,
+    "ttft": 73.254297,
+    "tps": 32.17545917261479,
+    "acceptance": null
+   },
+   "128 b1 fork_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 101.92 102.85 ttft 80.48 81.43 tok/s 46.87 46.88 acceptance 0.557",
+    "wall": 102.3865,
+    "ttft": 80.958534,
+    "tps": 46.87408123715082,
+    "acceptance": 0.5566458519179304
+   },
+   "128 b1 up_dense": {
+    "status": "OK",
+    "verdict": "OK wall 106.70 107.39 ttft 75.73 76.06 tok/s 32.02 32.40",
+    "wall": 107.0435,
+    "ttft": 75.891649,
+    "tps": 32.20752552454734,
+    "acceptance": null
+   },
+   "128 b1 up_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 102.20 103.23 ttft 80.87 81.84 tok/s 47.00 47.13 acceptance 0.557",
+    "wall": 102.7165,
+    "ttft": 81.3522735,
+    "tps": 47.06556287637273,
+    "acceptance": 0.5566458519179304
+   },
+   "128 b1 pfsd27648": {
+    "status": "OK",
+    "verdict": "OK wall 76.91 77.14 ttft 53.92 54.13 tok/s 43.68 43.69 sel 31360",
+    "wall": 77.024,
+    "ttft": 54.021857,
+    "tps": 43.68569234758109,
+    "acceptance": null,
+    "decode_ratio": 1.3570165981059505,
+    "decode_engaged": "1.357 x fork_dense >= 1.15"
+   },
+   "128 b1 pfsd55296": {
+    "status": "OK",
+    "verdict": "OK wall 79.06 79.26 ttft 53.95 54.16 tok/s 40.01 40.01 sel 31360",
+    "wall": 79.159,
+    "ttft": 54.05382,
+    "tps": 40.009887381924116,
+    "acceptance": null,
+    "decode_ratio": 1.2428344006462144,
+    "decode_engaged": "1.243 x fork_dense >= 1.15"
+   },
+   "128 b1 pf_only": {
+    "status": "OK",
+    "verdict": "OK wall 85.41 85.81 ttft 54.25 54.69 tok/s 32.21 32.25 sel 31360",
+    "wall": 85.6115,
+    "ttft": 54.4712425,
+    "tps": 32.23081690498342,
+    "acceptance": null
+   },
+   "128 b2 pf_only": {
+    "status": "OK",
+    "verdict": "OK wall 85.48 86.13 ttft 54.29 54.71 tok/s 31.90 32.17 sel 31360",
+    "wall": 85.80850000000001,
+    "ttft": 54.497840999999994,
+    "tps": 32.03469314943145,
+    "acceptance": null
+   },
+   "128 b2 pfsd55296": {
+    "status": "OK",
+    "verdict": "OK wall 79.06 79.77 ttft 53.93 54.26 tok/s 39.37 39.98 sel 31360",
+    "wall": 79.41749999999999,
+    "ttft": 54.0993215,
+    "tps": 39.67466518145572,
+    "acceptance": null,
+    "decode_ratio": 1.236751716879539,
+    "decode_engaged": "1.237 x fork_dense >= 1.15"
+   },
+   "128 b2 pfsd27648": {
+    "status": "OK",
+    "verdict": "OK wall 76.98 77.34 ttft 54.03 54.35 tok/s 43.67 43.71 sel 31360",
+    "wall": 77.158,
+    "ttft": 54.1877375,
+    "tps": 43.69327273954406,
+    "acceptance": null,
+    "decode_ratio": 1.3620210738911231,
+    "decode_engaged": "1.362 x fork_dense >= 1.15"
+   },
+   "128 b2 up_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 102.43 102.68 ttft 81.11 81.34 tok/s 47.11 47.11 acceptance 0.557",
+    "wall": 102.554,
+    "ttft": 81.22500149999999,
+    "tps": 47.11117125158046,
+    "acceptance": 0.5566458519179304
+   },
+   "128 b2 up_dense": {
+    "status": "OK",
+    "verdict": "OK wall 105.39 107.77 ttft 74.47 76.47 tok/s 32.06 32.45",
+    "wall": 106.5805,
+    "ttft": 75.472668,
+    "tps": 32.259417512969165,
+    "acceptance": null
+   },
+   "128 b2 fork_mtp": {
+    "status": "OK",
+    "verdict": "OK wall 102.58 103.48 ttft 81.16 82.10 tok/s 46.94 46.96 acceptance 0.557",
+    "wall": 103.03399999999999,
+    "ttft": 81.6327315,
+    "tps": 46.94527554294135,
+    "acceptance": 0.5566458519179304
+   },
+   "128 b2 fork_dense_ub2048": {
+    "status": "OK",
+    "verdict": "OK wall 104.25 105.75 ttft 73.22 74.38 tok/s 31.99 32.35",
+    "wall": 104.999,
+    "ttft": 73.800602,
+    "tps": 32.16676078564972,
+    "acceptance": null
+   },
+   "128 b2 fork_dense": {
+    "status": "OK",
+    "verdict": "OK wall 105.72 108.46 ttft 74.71 76.92 tok/s 31.80 32.36",
+    "wall": 107.0925,
+    "ttft": 75.814897,
+    "tps": 32.07973325604858,
+    "acceptance": null
+   },
+   "128 bi sd27648": {
+    "status": "OK",
+    "verdict": "OK wall 99.02 100.51 ttft 76.02 77.52 tok/s 43.67 43.67",
+    "wall": 99.7655,
+    "ttft": 76.7664715,
+    "tps": 43.6691778816289,
+    "acceptance": null,
+    "decode_ratio": 1.3565036062497686,
+    "decode_engaged": "1.357 x fork_dense >= 1.15"
+   }
+  },
+  "peak_memory_mib": {
+   "128_b1_fork_dense": 20534,
+   "128_b1_fork_dense_ub2048": 21244,
+   "128_b1_fork_mtp": 22384,
+   "128_b1_up_dense": 20534,
+   "128_b1_up_mtp": 22384,
+   "128_b1_pfsd27648": 21384,
+   "128_b1_pfsd55296": 21384,
+   "128_b1_pf_only": 21386,
+   "128_b2_pf_only": 21386,
+   "128_b2_pfsd55296": 21384,
+   "128_b2_pfsd27648": 21384,
+   "128_b2_up_mtp": 22384,
+   "128_b2_up_dense": 20534,
+   "128_b2_fork_mtp": 22384,
+   "128_b2_fork_dense_ub2048": 21244,
+   "128_b2_fork_dense": 20534,
+   "128_bi_sd27648": 20792
+  },
+  "d043": {
+   "ttft_ratio": 1.3984953349530358,
+   "line": 1.3,
+   "outcome": "cleared",
+   "quality_basis": "quality rests on the bit identity of GATHER=2 with GATHER=1 (gate B PASS on this card) plus PF-NT and PF-CONF at 128k; no RULER on this card",
+   "gate_b": "PASS"
+  },
+  "status": "OK"
+ },
+ "quality": {
+  "runs": {
+   "1": "../results/pf_e2e/analysis/../vastai49/20261121T222607Z",
+   "2": "../results/pf_e2e/analysis/../vastai50/20261121T222610Z"
+  },
+  "amendment_4": {
+   "requested": true,
+   "applied": [
+    1
+   ]
+  },
+  "pf_dense_prefill_median": 0.4112438633705791,
+  "gates": {
+   "gate_f_B": {
+    "status": "PASS",
+    "n": 20,
+    "n_think": 0,
+    "n_empty_or_blank": 0,
+    "kinds": {
+     "answer": 20,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "reason": "20 dense outputs: 0 with <think> text (must be 0), 0 empty or blank (at most 2)"
+   },
+   "gate_d_B": {
+    "status": "PASS",
+    "n": 10,
+    "score": 100.0,
+    "reason": "task-0 dense 100.0 >= 80"
+   },
+   "gate_f_C": {
+    "status": "PASS",
+    "n": 20,
+    "n_think": 0,
+    "n_empty_or_blank": 0,
+    "kinds": {
+     "answer": 20,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "reason": "20 dense outputs: 0 with <think> text (must be 0), 0 empty or blank (at most 2)"
+   },
+   "gate_d_C": {
+    "status": "PASS",
+    "n": 10,
+    "score": 100.0,
+    "reason": "task-0 dense 100.0 >= 80"
+   }
+  },
+  "gates_note": "registered: box B (pass 1); box C's are descriptive",
+  "late_gates": [],
+  "degenerate_rows": [],
+  "per_task": {
+   "dense": {
+    "niah_single_1": 100.0,
+    "niah_single_2": 100.0,
+    "niah_single_3": 100.0,
+    "niah_multikey_1": 100.0,
+    "niah_multikey_2": 100.0,
+    "niah_multikey_3": 100.0,
+    "niah_multivalue": 100.0,
+    "niah_multiquery": 100.0,
+    "vt": 100.0,
+    "cwe": 100.0,
+    "fwe": 98.33333333333334,
+    "qa_1": 85.0,
+    "qa_2": 55.00000000000001
+   },
+   "quest:27648:f3": {
+    "niah_single_1": 100.0,
+    "niah_single_2": 100.0,
+    "niah_single_3": 100.0,
+    "niah_multikey_1": 100.0,
+    "niah_multikey_2": 100.0,
+    "niah_multikey_3": 95.0,
+    "niah_multivalue": 100.0,
+    "niah_multiquery": 100.0,
+    "vt": 98.00000000000001,
+    "cwe": 99.49999999999999,
+    "fwe": 98.33333333333334,
+    "qa_1": 70.0,
+    "qa_2": 55.00000000000001
+   },
+   "pf:0.1:512:d512": {
+    "niah_single_1": 100.0,
+    "niah_single_2": 100.0,
+    "niah_single_3": 100.0,
+    "niah_multikey_1": 100.0,
+    "niah_multikey_2": 100.0,
+    "niah_multikey_3": 100.0,
+    "niah_multivalue": 97.5,
+    "niah_multiquery": 100.0,
+    "vt": 100.0,
+    "cwe": 90.0,
+    "fwe": 98.33333333333334,
+    "qa_1": 80.0,
+    "qa_2": 50.0
+   },
+   "pf:0.1:512:d512+quest:27648:f3": {
+    "niah_single_1": 100.0,
+    "niah_single_2": 100.0,
+    "niah_single_3": 100.0,
+    "niah_multikey_1": 100.0,
+    "niah_multikey_2": 100.0,
+    "niah_multikey_3": 100.0,
+    "niah_multivalue": 96.25,
+    "niah_multiquery": 100.0,
+    "vt": 99.0,
+    "cwe": 83.5,
+    "fwe": 98.33333333333334,
+    "qa_1": 80.0,
+    "qa_2": 50.0
+   },
+   "pf:0.1:512:d512+quest:55296:f3": {
+    "niah_single_1": 100.0,
+    "niah_single_2": 100.0,
+    "niah_single_3": 100.0,
+    "niah_multikey_1": 100.0,
+    "niah_multikey_2": 100.0,
+    "niah_multikey_3": 100.0,
+    "niah_multivalue": 95.0,
+    "niah_multiquery": 100.0,
+    "vt": 100.0,
+    "cwe": 85.50000000000001,
+    "fwe": 98.33333333333334,
+    "qa_1": 85.0,
+    "qa_2": 50.0
+   }
+  },
+  "mean": {
+   "dense": 95.25641025641025,
+   "quest:27648:f3": 93.52564102564102,
+   "pf:0.1:512:d512": 93.52564102564102,
+   "pf:0.1:512:d512+quest:27648:f3": 92.8525641025641,
+   "pf:0.1:512:d512+quest:55296:f3": 93.37179487179486
+  },
+  "per_task_delta": {
+   "quest:27648:f3": {
+    "niah_single_1": 0.0,
+    "niah_single_2": 0.0,
+    "niah_single_3": 0.0,
+    "niah_multikey_1": 0.0,
+    "niah_multikey_2": 0.0,
+    "niah_multikey_3": -5.0,
+    "niah_multivalue": 0.0,
+    "niah_multiquery": 0.0,
+    "vt": -1.9999999999999858,
+    "cwe": -0.5000000000000142,
+    "fwe": 0.0,
+    "qa_1": -15.0,
+    "qa_2": 0.0
+   },
+   "pf:0.1:512:d512": {
+    "niah_single_1": 0.0,
+    "niah_single_2": 0.0,
+    "niah_single_3": 0.0,
+    "niah_multikey_1": 0.0,
+    "niah_multikey_2": 0.0,
+    "niah_multikey_3": 0.0,
+    "niah_multivalue": -2.5,
+    "niah_multiquery": 0.0,
+    "vt": 0.0,
+    "cwe": -10.0,
+    "fwe": 0.0,
+    "qa_1": -5.0,
+    "qa_2": -5.000000000000007
+   },
+   "pf:0.1:512:d512+quest:27648:f3": {
+    "niah_single_1": 0.0,
+    "niah_single_2": 0.0,
+    "niah_single_3": 0.0,
+    "niah_multikey_1": 0.0,
+    "niah_multikey_2": 0.0,
+    "niah_multikey_3": 0.0,
+    "niah_multivalue": -3.75,
+    "niah_multiquery": 0.0,
+    "vt": -1.0,
+    "cwe": -16.5,
+    "fwe": 0.0,
+    "qa_1": -5.0,
+    "qa_2": -5.000000000000007
+   },
+   "pf:0.1:512:d512+quest:55296:f3": {
+    "niah_single_1": 0.0,
+    "niah_single_2": 0.0,
+    "niah_single_3": 0.0,
+    "niah_multikey_1": 0.0,
+    "niah_multikey_2": 0.0,
+    "niah_multikey_3": 0.0,
+    "niah_multivalue": -5.0,
+    "niah_multiquery": 0.0,
+    "vt": 0.0,
+    "cwe": -14.499999999999986,
+    "fwe": 0.0,
+    "qa_1": 0.0,
+    "qa_2": -5.000000000000007
+   }
+  },
+  "empty_outputs": {
+   "dense": 0,
+   "quest:27648:f3": 0,
+   "pf:0.1:512:d512": 0,
+   "pf:0.1:512:d512+quest:27648:f3": 0,
+   "pf:0.1:512:d512+quest:55296:f3": 0
+  },
+  "kinds": {
+   "dense": {
+    "answer": 260,
+    "emptythink": 0,
+    "think_done": 0,
+    "think_open": 0,
+    "blank": 0,
+    "empty": 0
+   },
+   "quest:27648:f3": {
+    "answer": 260,
+    "emptythink": 0,
+    "think_done": 0,
+    "think_open": 0,
+    "blank": 0,
+    "empty": 0
+   },
+   "pf:0.1:512:d512": {
+    "answer": 260,
+    "emptythink": 0,
+    "think_done": 0,
+    "think_open": 0,
+    "blank": 0,
+    "empty": 0
+   },
+   "pf:0.1:512:d512+quest:27648:f3": {
+    "answer": 260,
+    "emptythink": 0,
+    "think_done": 0,
+    "think_open": 0,
+    "blank": 0,
+    "empty": 0
+   },
+   "pf:0.1:512:d512+quest:55296:f3": {
+    "answer": 260,
+    "emptythink": 0,
+    "think_done": 0,
+    "think_open": 0,
+    "blank": 0,
+    "empty": 0
+   }
+  },
+  "stats": {
+   "pf:0.1:512:d512+quest:27648:f3": {
+    "delta": -2.4038461538461533,
+    "ci95": [
+     -4.0576923076923075,
+     -0.8846153846153844
+    ],
+    "pass": true,
+    "n_pairs": 260
+   },
+   "pf:0.1:512:d512+quest:55296:f3": {
+    "delta": -1.8846153846153846,
+    "ci95": [
+     -3.3653846153846154,
+     -0.49999999999999983
+    ],
+    "pass": true,
+    "n_pairs": 260
+   },
+   "pf:0.1:512:d512": {
+    "delta": -1.7307692307692306,
+    "ci95": [
+     -3.0384615384615383,
+     -0.7307692307692306
+    ],
+    "pass": true,
+    "n_pairs": 260
+   },
+   "quest:27648:f3": {
+    "delta": -1.7307692307692308,
+    "ci95": [
+     -3.2692307692307696,
+     -0.4615384615384615
+    ],
+    "pass": true,
+    "n_pairs": 260
+   }
+  },
+  "stats_pass1": {
+   "pf:0.1:512:d512+quest:27648:f3": {
+    "delta": -2.9615384615384617,
+    "ci95": [
+     -6.038461538461537,
+     -0.037500000000013606
+    ],
+    "pass": false,
+    "n_pairs": 130
+   },
+   "pf:0.1:512:d512+quest:55296:f3": {
+    "delta": -2.1153846153846154,
+    "ci95": [
+     -4.731730769230769,
+     0.46153846153846195
+    ],
+    "pass": true,
+    "n_pairs": 130
+   },
+   "pf:0.1:512:d512": {
+    "delta": -2.3846153846153846,
+    "ci95": [
+     -4.615384615384615,
+     -0.6923076923076922
+    ],
+    "pass": true,
+    "n_pairs": 130
+   },
+   "quest:27648:f3": {
+    "delta": -1.6923076923076923,
+    "ci95": [
+     -3.8461538461538463,
+     0.0
+    ],
+    "pass": true,
+    "n_pairs": 130
+   }
+  },
+  "stats_pass2": {
+   "pf:0.1:512:d512+quest:27648:f3": {
+    "delta": -1.846153846153846,
+    "ci95": [
+     -2.769230769230769,
+     -1.1538461538461535
+    ],
+    "pass": true,
+    "n_pairs": 130
+   },
+   "pf:0.1:512:d512+quest:55296:f3": {
+    "delta": -1.6538461538461537,
+    "ci95": [
+     -2.692307692307692,
+     -0.8076923076923075
+    ],
+    "pass": true,
+    "n_pairs": 130
+   },
+   "pf:0.1:512:d512": {
+    "delta": -1.076923076923077,
+    "ci95": [
+     -2.076923076923077,
+     -0.30769230769230765
+    ],
+    "pass": true,
+    "n_pairs": 130
+   },
+   "quest:27648:f3": {
+    "delta": -1.7692307692307694,
+    "ci95": [
+     -4.0769230769230775,
+     -0.07692307692307691
+    ],
+    "pass": true,
+    "n_pairs": 130
+   }
+  },
+  "stats_without_qa_1": {
+   "pf:0.1:512:d512+quest:27648:f3": {
+    "delta": -2.1874999999999996,
+    "ci95": [
+     -3.3333333333333326,
+     -1.333333333333333
+    ],
+    "n_pairs": 240
+   },
+   "pf:0.1:512:d512+quest:55296:f3": {
+    "delta": -2.0416666666666665,
+    "ci95": [
+     -3.166666666666667,
+     -1.1666666666666665
+    ],
+    "n_pairs": 240
+   },
+   "pf:0.1:512:d512": {
+    "delta": -1.4583333333333333,
+    "ci95": [
+     -2.5416666666666665,
+     -0.625
+    ],
+    "n_pairs": 240
+   },
+   "quest:27648:f3": {
+    "delta": -0.6250000000000001,
+    "ci95": [
+     -1.5833333333333335,
+     -0.04166666666666666
+    ],
+    "n_pairs": 240
+   }
+  },
+  "dense_vs_pf_nt_128k": {
+   "niah_single_1": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "niah_single_2": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "niah_single_3": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "niah_multikey_1": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "niah_multikey_2": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "niah_multikey_3": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "niah_multivalue": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "niah_multiquery": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "vt": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "cwe": {
+    "256k_q8_0": 100.0,
+    "128k_f16_pf_nt": 100.0
+   },
+   "fwe": {
+    "256k_q8_0": 98.33333333333334,
+    "128k_f16_pf_nt": 100.0
+   },
+   "qa_1": {
+    "256k_q8_0": 85.0,
+    "128k_f16_pf_nt": 85.0
+   },
+   "qa_2": {
+    "256k_q8_0": 55.00000000000001,
+    "128k_f16_pf_nt": 60.0
+   }
+  },
+  "decision": "PASS_27648",
+  "outcome": "PASS_27648",
+  "reason": "pf:0.1:512:d512+quest:27648:f3 delta -2.40 [-4.06, -0.88] passes"
+ },
+ "consequence": {
+  "quality": "PASS_27648",
+  "length_effect": "GROWS",
+  "length_effect_config": "pfsd27648",
+  "length_effect_detail": {
+   "r_256": 1.611570054855199,
+   "r_128": 1.2710937795067418,
+   "difference": 0.34047627534845715,
+   "r_256_over_r_128": 1.2678608619110556,
+   "verdict": "GROWS"
+  },
+  "length_effect_primary": {
+   "r_256": 1.611570054855199,
+   "r_128": 1.2710937795067418,
+   "difference": 0.34047627534845715,
+   "r_256_over_r_128": 1.2678608619110556,
+   "verdict": "GROWS"
+  },
+  "claim_config": "pfsd27648",
+  "r_256": 1.611570054855199,
+  "gain": "MODERATE",
+  "row": "PASS_27648_MODERATE",
+  "length_wording": "allowed for pfsd27648: the gain grows with context (R_256 - R_128 >= 0.3)"
+ }
+}

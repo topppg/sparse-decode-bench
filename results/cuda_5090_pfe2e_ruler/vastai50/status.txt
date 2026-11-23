@@ -1,0 +1,33 @@
+WRAPPER start run=20261121T222610Z cap=54000s window=1200s stop via /opt/instance-tools/bin/vastai; deadline stopper pid 1166 fires at 2026-11-22T13:56:10+00:00 2026-11-21T22:26:10+00:00
+SETUP START run 20261121T222610Z pass 2 units "q38:2.11 q38:2.8 q38:2.0 q38:2.1 q38:2.2 q38:2.3 q38:2.4 q38:2.5 q38:2.6 q38:2.7 q38:2.9 q38:2.10 q38:2.12" (13) (fork tree 9e3e51c75, deadline +53400s) 2026-11-21T22:26:10+00:00
+GATE P PASS NVIDIA GeForce RTX 5090 32607 MiB power.limit 500 W (recorded, not gated) disk 103 GB (103 free, need 60) RAM 30 GiB 2026-11-21T22:26:10+00:00
+SOURCE OK tree 9e3e51c7579772fa60d6d8b1688c9bf09e54d307 clean, 15 patches on f7d80009d 2026-11-21T22:27:53+00:00
+BUILD JOBS 8 (nproc 8, MemAvailable 29505856 kB) 2026-11-21T22:27:53+00:00
+BUILD DONE 2026-11-21T22:32:20+00:00
+GATE K blocks PASS 30/30 tests passed 2026-11-21T22:32:33+00:00
+GATE K sparse PASS 26/26 tests passed 2026-11-21T22:32:36+00:00
+GATE K pages PASS 128/128 tests passed 2026-11-21T22:33:02+00:00
+GATE K ops PASS 1454/1454 tests passed 2026-11-21T22:33:24+00:00
+GATE K select_c1 PASS 24/24 tests passed 2026-11-21T22:33:35+00:00
+GATE K select_c0 PASS 24/24 tests passed 2026-11-21T22:33:46+00:00
+GATE K select_c2 PASS 24/24 tests passed 2026-11-21T22:33:57+00:00
+GATE K fa_all PASS 4584/4584 tests passed 2026-11-21T22:35:53+00:00
+SETUP DONE 2026-11-21T22:36:06+00:00
+GATE A PASS 9 greedy tokens identical (id 10, len 261495) 2026-11-21T22:40:09+00:00
+RULER q38 p2 task 11 done in 3252 s (pf/dense prefill median 0.411; SEL OK 321920 selective, 0 whole) 2026-11-21T23:34:21+00:00
+RULER q38 p2 task 8 done in 3269 s (pf/dense prefill median 0.410; SEL OK 321920 selective, 0 whole) 2026-11-22T00:28:50+00:00
+FORMAT READY q38 ruler/q38_p2_t11.jsonl ruler/q38_p2_t8.jsonl: gate F on the Mac; fails -> touch /root/pfe2/out/20261121T222610Z/STOP on both boxes 2026-11-22T00:28:50+00:00
+RULER q38 p2 task 0 done in 3258 s (pf/dense prefill median 0.409; SEL OK 321920 selective, 0 whole) 2026-11-22T01:23:08+00:00
+TASK0 READY q38 ruler/q38_p2_t0.jsonl: gate D on the Mac; fails -> touch /root/pfe2/out/20261121T222610Z/STOP on both boxes 2026-11-22T01:23:08+00:00
+RULER q38 p2 task 1 done in 3265 s (pf/dense prefill median 0.411; SEL OK 321792 selective, 0 whole) 2026-11-22T02:17:33+00:00
+RULER q38 p2 task 2 done in 3280 s (pf/dense prefill median 0.411; SEL OK 321472 selective, 0 whole) 2026-11-22T03:12:13+00:00
+RULER q38 p2 task 3 done in 3259 s (pf/dense prefill median 0.411; SEL OK 321728 selective, 0 whole) 2026-11-22T04:06:32+00:00
+RULER q38 p2 task 4 done in 3260 s (pf/dense prefill median 0.412; SEL OK 321408 selective, 0 whole) 2026-11-22T05:00:52+00:00
+RULER q38 p2 task 5 done in 3275 s (pf/dense prefill median 0.410; SEL OK 321280 selective, 0 whole) 2026-11-22T05:55:27+00:00
+RULER q38 p2 task 6 done in 3291 s (pf/dense prefill median 0.411; SEL OK 321472 selective, 0 whole) 2026-11-22T06:50:18+00:00
+RULER q38 p2 task 7 done in 3331 s (pf/dense prefill median 0.411; SEL OK 321920 selective, 0 whole) 2026-11-22T07:45:49+00:00
+RULER q38 p2 task 9 done in 3310 s (pf/dense prefill median 0.411; SEL OK 321664 selective, 0 whole) 2026-11-22T08:40:59+00:00
+RULER q38 p2 task 10 done in 3035 s (pf/dense prefill median 0.418; SEL OK 307008 selective, 0 whole) 2026-11-22T09:31:34+00:00
+RULER q38 p2 task 12 done in 3202 s (pf/dense prefill median 0.412; SEL OK 318656 selective, 0 whole) 2026-11-22T10:24:56+00:00
+Q38 UNITS COMPLETE (13 units) {"model": "q38", "status": "COMPLETE", "n_units": 13, "n_rows": 650, "n_expected": 650, "gather_dense_median": "0.411", "gather_dense_max": "0.425", "g_ref": 0.85, "n_above_g_ref": 0, "problems": []} 2026-11-22T10:24:56+00:00
+COMPLETE 2026-11-22T10:24:56+00:00

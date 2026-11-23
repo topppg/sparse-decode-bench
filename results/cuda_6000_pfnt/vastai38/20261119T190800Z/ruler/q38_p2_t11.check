@@ -1,0 +1,2 @@
+{"rows": 40, "coverage": [], "invalid": [], "gather_dense_median": "0.684", "gather_dense_max": "0.689", "g_ref": 0.85, "n_above_g_ref": 0}
+TASK OK; above 0.85: 0 (informative); gather/dense prefill median 0.684

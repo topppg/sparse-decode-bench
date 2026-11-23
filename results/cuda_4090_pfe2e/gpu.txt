@@ -1,0 +1,12 @@
+name, uuid, memory.total [MiB], power.limit [W], power.default_limit [W], power.max_limit [W], enforced.power.limit [W], driver_version, compute_cap, clocks.max.sm [MHz], clocks.max.memory [MHz]
+NVIDIA GeForce RTX 4090, GPU-ba75c2e6-4dc8-fa0a-c1e7-d932209d164a, 24564 MiB, 330.00 W, 450.00 W, 450.00 W, 330.00 W, 580.173.02, 8.9, 3105 MHz, 10501 MHz
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         103G   18G   86G  17% /
+96
+               total        used        free      shared  buff/cache   available
+Mem:             188          16          96           0          77         172
+Swap:              7           2           5
+Build cuda_13.0.r13.0/compiler.36424714_0
+CPU(s):                                  96
+Model name:                              AMD EPYC 7K62 48-Core Processor
+CPU(s) scaling MHz:                      83%

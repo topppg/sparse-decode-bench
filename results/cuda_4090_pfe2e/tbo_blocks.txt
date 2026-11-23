@@ -1,0 +1,44 @@
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 24080 MiB):
+  Device 0: NVIDIA GeForce RTX 4090, compute capability 8.9, VMM: yes, VRAM: 24080 MiB
+Testing 2 devices
+
+Backend 1/2: CUDA0
+  Device description: NVIDIA GeForce RTX 4090
+  Device memory: 24080 MB (23685 MB free)
+
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=24,W=512,type_KV=f16): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=16384,nt=512,n_top=24,W=512,type_KV=f16): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=256,n_top=3,W=512,type_KV=f16): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=256,n_top=3,W=512,type_KV=q8_0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=24,W=512,type_KV=f16,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=16384,nt=512,n_top=24,W=512,type_KV=f16,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=256,n_top=3,W=512,type_KV=f16,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=196,n_top=3,W=512,type_KV=f16,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=64,nh=2,gqa=4,kv=16384,nt=512,n_top=24,W=512,type_KV=f16,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=24,W=512,type_KV=f16,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=16384,nt=512,n_top=24,W=512,type_KV=f16,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=256,n_top=3,W=512,type_KV=f16,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=196,n_top=3,W=512,type_KV=f16,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=64,nh=2,gqa=4,kv=16384,nt=512,n_top=24,W=512,type_KV=f16,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=256,n_top=3,W=512,type_KV=q8_0,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=196,n_top=3,W=512,type_KV=q8_0,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=64,nh=2,gqa=4,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=256,n_top=3,W=512,type_KV=q8_0,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=1,gqa=8,kv=8192,nt=196,n_top=3,W=512,type_KV=q8_0,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=64,nh=2,gqa=4,kv=16384,nt=512,n_top=24,W=512,type_KV=q8_0,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=23,W=512,type_KV=q8_0,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=32768,nt=512,n_top=47,W=512,type_KV=q8_0,materialise=0): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=2,gqa=8,kv=16384,nt=512,n_top=23,W=512,type_KV=q8_0,materialise=1): [1;32mOK[0m
+  FLASH_ATTN_EXT(hs=256,nh=4,gqa=6,kv=32768,nt=512,n_top=47,W=512,type_KV=q8_0,materialise=1): [1;32mOK[0m
+  30/30 tests passed
+  Backend CUDA0: [1;32mOK[0m
+Backend 2/2: CPU
+  Skipping
+2/2 backends passed
+[1;32mOK[0m

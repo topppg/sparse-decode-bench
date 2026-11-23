@@ -1,0 +1,17 @@
+128 1 fork_dense
+128 1 fork_dense_ub2048
+128 1 fork_mtp
+128 1 up_dense
+128 1 up_mtp
+128 1 pfsd27648
+128 1 pfsd55296
+128 1 pf_only
+128 2 pf_only
+128 2 pfsd55296
+128 2 pfsd27648
+128 2 up_mtp
+128 2 up_dense
+128 2 fork_mtp
+128 2 fork_dense_ub2048
+128 2 fork_dense
+128 i sd27648

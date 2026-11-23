@@ -1,0 +1,11 @@
+256 1 up_dense
+256 1 fork_dense
+256 1 pfsd27648
+256 1 pfsd55296
+256 1 pf_only
+128 1 up_mtp
+128 1 up_dense
+128 1 fork_dense
+128 1 pfsd27648
+128 1 pfsd55296
+128 1 pf_only

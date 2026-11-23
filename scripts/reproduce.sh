@@ -1,5 +1,5 @@
 #!/bin/bash
-# Recompute the README's speed, RULER and cost-model numbers from results/ (no GPU; downloads four pinned tokenizers).
+# Recompute the README's speed, RULER and cost-model numbers from results/ and rerun the sparse-prefill decisions (no GPU; downloads pinned tokenizers).
 # Usage: scripts/reproduce.sh [OUT_DIR]   Needs uv (https://docs.astral.sh/uv/).
 set -eu
 cd "$(dirname "$0")"
@@ -111,4 +111,18 @@ for f in sys.argv[1:]:
             if isinstance(v, dict) and 'pred_err' in v and not k.startswith(('8192', '16384', '32768')):
                 print(f\"{m:6s} T={k:14s} predicted {v['pred_S']:.2f}x  measured {v['S']:.2f}x  error {100 * v['pred_err']:+.1f}%\")
 " "$O/cost_3090.json" "$O/cost_256k.json"
+echo "== Sparse prefill: PF-E2E and PF-NT decisions rerun from results/ (downloads the pinned Qwen3.8-27B tokenizer)"
+pf_e2e/decide.sh "$O/pf_e2e" > /dev/null 2>&1
+for f in decision decision_as_registered; do
+  cmp -s "$O/pf_e2e/$f.json" $R/pfe2e_analysis/$f.json && echo "$f.json identical to results/pfe2e_analysis/$f.json" || echo "$f.json DIFFERS from results/pfe2e_analysis/$f.json"
+done
+python3 -c "
+import json, sys
+a, b = (json.load(open(f)) for f in sys.argv[1:])
+for d in (a, b):
+    for m in d['models'].values():
+        m.pop('vs_raw')
+print('PF-NT decision identical to results/cuda_6000_pfnt/analysis/decision.json apart from vs_raw (unpublished raw-prompt runs):', a == b)
+" "$O/pf_e2e/pf_nt_decision.json" $R/cuda_6000_pfnt/analysis/decision.json
+python3 pf_e2e/e2e_summary.py --decision "$O/pf_e2e/decision.json" --pf-nt "$O/pf_e2e/pf_nt_decision.json" --dev $R/cuda_5090_pfrebase_dev
 echo "JSON outputs in $O"

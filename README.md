@@ -1,6 +1,6 @@
 # When does sparse decode pay on consumer GPUs?
 
-Training-free page-sparse decoding for ordinary GQA LLMs (dense and MoE) inside llama.cpp (CUDA), measured on RTX 3090, RTX 4090 and RTX 5090. The first long-context speedups were predicted before they were measured (for the mv page score): dense speed and attention kernel times were measured at the target length, and only the cost of page selection was extrapolated from 8k–32k.
+Training-free page-sparse decoding for ordinary GQA LLMs (dense and MoE) inside llama.cpp (CUDA), measured on RTX 3090, RTX 4090 and RTX 5090. The first long-context speedups were predicted before they were measured (for the mv page score): dense speed and attention kernel times were measured at the target length, and only the cost of page selection was extrapolated from 8k–32k. A later prototype on a separate build of the fork adds block-sparse prefill; it is measured end to end on Qwen3.8-27B in its own section ([Sparse prefill](#sparse-prefill-one-long-request-end-to-end)).
 
 **In short:**
 - At 128k context with the quest page score (the default), decode is **1.72× faster on Qwen3-30B-A3B** at Q4_K_M on an RTX 5090 (MoE; 1.41× at Q8_0 on an RTX 4090 48 GB) and 1.64–1.68× faster on Llama-3.1-8B and Qwen3-8B (RTX 3090). The speedup depends on the card: with the earlier mv score, which runs at the same speed, the 8Bs got 1.77–1.81× on another RTX 3090 and Llama-3.1-8B 1.31× on an RTX 4090 48 GB, so on the same kind of card the MoE gains more than the dense 8B.
@@ -8,8 +8,10 @@ Training-free page-sparse decoding for ordinary GQA LLMs (dense and MoE) inside 
 - Llama-3.2-3B decodes 1.35–1.55× faster but **fails** RULER at that budget (Δ −4.5 [−7.1, −1.9]), so its speed rows are not quality-safe as given.
 - Most of the loss is in multi-needle retrieval (on the Q4_K_M MoE, the small loss is in QA instead). Finding a single fact loses nothing on any model.
 - The gain grows with context: at 256k, UltraLong-8B decodes **1.86× faster** (23.0 → 42.8 tok/s).
-- Prefill is unchanged, so a single 1k-token answer over a 128k prompt takes only 4–13% less time. The gain is in long generations.
+- With sparse decode alone, prefill is unchanged, so a single 1k-token answer over a 128k prompt takes only 4–13% less time. The gain is in long generations.
 - The full KV cache stays in VRAM. This makes decode faster; it does not let a longer context fit.
+- **Sparse prefill plus sparse decode** (prototype, Qwen3.8-27B UD-Q4_K_M, KV q8_0): one request of 259,525 prompt tokens and 1,000 generated tokens took **107.0 s against 172.5 s** for the fastest dense llama.cpp we measured (upstream) on an RTX 5090, **1.61×**; 1.27× at 128k, and 1.33× at 128k on an RTX 4090 at 330 W (speed only). We predicted 2.2× and 1.55× on the RTX 5090 and missed both.
+- Its RULER loss at 256k, **−2.40 [−4.06, −0.88]**, is inside the gate only under an amendment to our own count checker written after the data; under the rules as first registered, the 256k quality test gives no decision. At 128k with an f16 KV cache it lost 1.60 points with BF16 weights and 1.65 with UD-Q4_K_M, both inside the gate.
 
 ## How it works
 
@@ -276,9 +278,64 @@ The gated experiments were pre-registered (see [protocols/](protocols/)); analys
 - **The MoE speedup missed its prediction**: 1.41× at 128k against a predicted 1.5–2.3× (Qwen3-30B-A3B, RTX 4090 48 GB). Read after the data: the protocol assumed the KV read was about 2/3 of the MoE's dense time; it is about 80%, so the miss comes from what the prediction left out, the sparse step's own overhead across 48 layers (see Speed). At Q4_K_M on an RTX 5090 the speed prediction held (1.72×).
 - **The 8B in-engine KL was 30% above the Python reference** (gate ≤ 25%; the 3B was within 5%). The likely causes are q8_0 weights and TF32 in cuBLAS scoring; this is not resolved.
 
+## Sparse prefill: one long request end to end
+
+A prototype on a separate build of the fork, not the released `sparse-decode` branch: block-sparse prefill together with the sparse decode above, on Qwen3.8-27B. The model has 64 layers; 16 use full attention over a KV cache of the full length, the other 48 are Gated DeltaNet layers with a fixed-size state, and both sparse methods act only on the 16. Pre-registered in `protocols/pf-e2e.md` (end to end, and RULER at 256k) and `protocols/pf-nt.md` (RULER at 128k).
+
+**How it works.** The prompt is processed in blocks of 64 tokens. For each block and KV head, attention keeps the first page of the KV cache, the 512 cells just before the block, the block itself, and the best 10% of the other earlier pages, rounded up. Pages are scored with the quest bound from per-page key minima and maxima, normalised per query token, taking the maximum over the block's tokens and the query heads that share the KV head. The last 512 prompt tokens, where RULER puts the question, run with full attention. Nothing is trained. Decode then uses quest at 27648 cells. The prototype gathers the selected cells through a CUDA sparse gather path (`-ub 512`); the timed runs use a version that builds a list of the selected pages and converts only their cells when the KV cache is q8_0. Its logits were byte-identical to the earlier gather path's for 32 steps on both timed prompts on the RTX 5090, and on the 128k prompt on the RTX 4090 (gate B). That checks the gather change on those inputs; quality comes from the separate RULER runs.
+
+### End to end speed
+
+One request through `llama-server`: two public-domain PG19 books with a request to summarise them, 259,525 prompt tokens at 256k and 129,526 at 128k (a prefix of the same text), then 1,000 generated tokens, greedy, one request at a time, timed at the client. unsloth's Qwen3.8-27B UD-Q4_K_M, KV q8_0 (an f16 cache was estimated not to fit at 256k on 32 GB and was not run there). Dense ran in five ways: the fork and upstream llama.cpp (c6a25fc62), each with and without MTP speculative decoding, and the fork with `-ub 2048`. The fastest of them in each block is the baseline. Each row ran twice in each of two blocks; the table shows the lower block's speedup and that block's median times.
+
+| GPU | prompt | fastest dense | dense | sparse prefill + decode | speedup |
+|---|---|---|---|---|---|
+| RTX 5090 (500 W) | 256k | upstream | 172.5 s | 107.0 s | **1.61×** |
+| RTX 5090 (500 W) | 128k | upstream with MTP | 67.3 s | 53.0 s | 1.27× |
+| RTX 4090 (330 W) | 128k | upstream with MTP | 102.6 s | 77.2 s | 1.33× |
+
+- Most of the gain is prefill. At 256k the first token came after 92.3 s instead of 145.4 s. Sparse prefill with dense decode was already 1.42× end to end; sparse decode then took generation from 37.0 tok/s (upstream dense) to 68.2.
+- **We predicted 2.2× at 256k and 1.55× at 128k on the RTX 5090, and missed both.** The protocol expected the fork's own dense path to be the baseline, but upstream's dense prefill had become much faster than the fork's base on this card: 145.4 s to the first token at 256k against 218.4 s. Against the fork's own dense (246.7 s), an informative comparison, the 256k request was 2.31× faster.
+- The speedup grew by 0.34 from 128k to 256k, above the 0.3 registered as the line for "grows with length".
+- Doubling the decode budget to 55,296 cells cost little speed: 1.59× at 256k.
+- The RTX 4090 ran at a 330 W power limit (stock 450 W). There the fork and upstream were level at dense prefill (75.5–75.9 s to the first token), and 1.33× is inside the predicted 1.10–1.35. In the other block the fork with MTP was the fastest dense (102.4 s), with the same 1.33×. No RULER ran on this card.
+- It saves no VRAM: at 256k the sparse setup peaked at 26.7 GiB on the RTX 5090, against 25.0 GiB for upstream dense.
+- Raw rows: `results/cuda_5090_pfe2e/`, `results/cuda_4090_pfe2e/`; decision and verdict: `results/pfe2e_analysis/`.
+
+**After a rebase onto upstream (development run, not pre-registered).** We rebased the sparse path onto the same upstream commit and timed it on another RTX 5090, one block with two requests per row. The fork's dense prefill then matched upstream's (149.6 s to the first token at 256k), while the sparse times stayed within 0.6% of the registered run at 256k and were 1.0–1.3% slower at 128k. Against upstream dense the combined setup was 1.65× faster at 256k (177.3 → 107.3 s) and 1.28× at 128k (68.7 s with MTP → 53.5 s). Dense on this box was 2–3% slower than in the registered run, which lifts these ratios slightly. Our reading, not tested: upstream's gain is in its dense attention kernel, which the sparse path does not use. `results/cuda_5090_pfrebase_dev/`.
+
+### Quality at 128k and 256k
+
+RULER, 13 tasks × 20 prompts, in Qwen3.8's chat template with thinking switched off, greedy, RULER's answer lengths. The gate is the one above: Δ ≥ −3 and the lower end of the paired 95% interval ≥ −6. At 128k (`protocols/pf-nt.md`): f16 KV, one RTX PRO 6000 Blackwell 96 GB (a workstation card). At 256k (`protocols/pf-e2e.md`): UD-Q4_K_M, q8_0 KV, two RTX 5090s, prompts of 222,523–261,600 tokens.
+
+| | 128k, BF16 | 128k, UD-Q4_K_M | 256k, UD-Q4_K_M |
+|---|---|---|---|
+| dense score | 95.77 | 95.77 | 95.26 |
+| sparse decode only | −0.38 [−1.15, 0.00] | −0.38 [−1.15, 0.00] | −1.73 [−3.27, −0.46] |
+| sparse prefill only | −1.21 [−2.17, −0.58] | −1.27 [−2.25, −0.60] | −1.73 [−3.04, −0.73] |
+| **both (gated)** | **−1.60 [−3.25, −0.15]** | **−1.65 [−3.25, −0.17]** | **−2.40 [−4.06, −0.88]** |
+| both, decode budget 55,296 | — | — | −1.88 [−3.37, −0.50] |
+| gate | pass | pass | pass under amendment 4 only; as registered, no decision |
+
+- **The 256k pass needed a fix written after the data.** One prompt is 256,002 tokens long, so its prefill ends with a ubatch of a single token. The engine runs that token with full attention and does not count it as a sparse step; our count checker expected it to be counted, marked that unit of 10 prompts invalid and ended that card's run. Amendment 4 (`protocols/pf-e2e-amendment-4.md`) changed the checker to match the engine and re-checked the unit from its saved outputs, without a rerun; the score thresholds did not change. Under the rules as first registered the quality result is INVALID and gives no decision (`results/pfe2e_analysis/decision_as_registered.json`). The speed results do not depend on it.
+- Only the gated row decides; the doubled budget was the registered fallback. The 256k loss is inside the −5 to +1 we predicted: common-words extraction (cwe) −16.5, qa_1 −5, qa_2 −5, multivalue −3.75, vt −1; the other eight tasks did not change. Each half of the prompts ran on its own card; the first half alone lost 2.96 points with a lower bound of −6.04, just past the line.
+- At 256k, RULER's qa_1 puts the same documents in every prompt, by RULER's design; without that task the loss is −2.19 [−3.33, −1.33].
+- At 128k both precisions passed, as predicted, and lost almost the same amount. The largest loss is cwe, 7 task points at BF16 and 9 at UD-Q4_K_M, and it comes from sparse prefill: prefill alone loses the same on cwe, decode alone keeps it at 100.
+- Dense scored above our predictions (86–94 at 128k, 70–92 at 256k). Every one of the 2,080 outputs at 128k and 1,300 at 256k was a direct answer, with no `<think>` text and no empty output.
+- Read after the data: sparse decode alone lost 0.38 points at 128k but 1.73 at 256k. Its budget is a fixed 27,648 cells, about 21% of a 128k context and 11% of a 256k one; with the budget doubled the combined loss fell from 2.40 to 1.88, well inside the intervals. The 128k runs also used f16 KV rather than q8_0, so this does not isolate the budget.
+- In the 128k run, one of the two rented cards produced corrupted outputs (runs of one repeated token) in 13 of its 120 prefills, dense and sparse alike, not reproducible on identical inputs. It was excluded by an amendment written after its data existed (`protocols/pf-nt-amendment-1.md`), and its half of the prompts was rerun on the other card.
+- Per-task scores: `results/cuda_6000_pfnt/`, `results/cuda_5090_pfe2e_ruler/`, `results/pfe2e_analysis/`.
+
+### Limits of the sparse-prefill results
+
+- One model, 20 prompts per task, at two lengths, with an f16 cache at 128k and q8_0 at 256k. RULER is close to saturated for this model: dense scores 100 on 11 of 13 tasks at 128k and 10 of 13 at 256k, where only a loss can show. A harder benchmark or long generated answers could show losses this one cannot.
+- Speed: one RTX 5090 at 500 W and one RTX 4090 at 330 W, one model file, one book prompt per length, 1,000 generated tokens, one request at a time. The timed summaries were not scored. The rebase result is a development run.
+- In the server, the full attention on the last 512 prompt tokens is set from the known prompt length by an environment variable: a prototype control, not a server feature. The prefill is a prototype path in the fork, CUDA only, not a dedicated kernel.
+- Untested: thinking switched on, an f16 cache at 256k, a q8_0 cache with the chat format at 128k, other prefill fractions, windows and ubatch sizes, a decode budget that grows with the context, prompts with the question before the context, batched serving, prompt caching and multi-turn use, other models and cards.
+
 ## Scope and limits
 
-- Batch size 1, decode only, CUDA only. Prefill is unchanged and dominates wall-clock at 128k.
+- Batch size 1, decode only, CUDA only. Prefill is unchanged and dominates wall-clock at 128k. (The sparse-prefill prototype and its own limits are in the section above.)
 - Four GPU types (two RTX 3090 cards, RTX 4090 24 GB, RTX 4090 48 GB, RTX 5090), two model families (Llama 3.x, Qwen3): dense 3B–8B and one MoE (Qwen3-30B-A3B, about 3B active, at Q8_0 and Q4_K_M).
 - Quality: RULER at 128k on four models (the MoE at two quantizations), 20 prompts per task, one run per configuration; six RULER tasks at 128k and 256k on UltraLong-8B; KL on 4 PG19 books; 40 synthetic needle trials per model.
 - RULER is synthetic. Real long-document tasks are covered only by its two QA tasks.
@@ -289,8 +346,9 @@ The gated experiments were pre-registered (see [protocols/](protocols/)); analys
 
 - [`protocols/`](protocols/): the pre-registrations, with the commit and time each was committed.
 - [`results/`](results/): raw results and analyses, one folder per experiment; [`results/README.md`](results/README.md) maps each folder to its protocol, hardware and README section.
-- [`scripts/`](scripts/): `scripts/reproduce.sh` recomputes the speed tables, RULER and cost-model numbers in this README (not the rough MoE breakdown) from `results/` (no GPU needed), and the scripts to rerun the experiments. See [`scripts/README.md`](scripts/README.md).
+- [`scripts/`](scripts/): `scripts/reproduce.sh` recomputes the speed tables, RULER and cost-model numbers in this README (not the rough MoE breakdown) and reruns the sparse-prefill decisions from `results/` (no GPU needed), and the scripts to rerun the experiments. See [`scripts/README.md`](scripts/README.md).
 - The released fork commit e7059e52a is 5cf439778, checked against the research build in `results/cuda_4090_48gb_featcheck/`, plus the CUDA-only guard.
+- Sparse prefill: the measured code is fork commit f7d80009d (branch `sparse-decode-upstream-20261117`) plus the two patch series in `scripts/pf_e2e/box/in/patches/` and `patches2/`, applied with `git am` (trees 487a7f154 and 9e3e51c75; the box scripts check both). A later rebase onto upstream c6a25fc62 is branch [`pf-lists-rebase-20261122`](https://github.com/topppg/llama.cpp/tree/pf-lists-rebase-20261122) of the fork, measured only in the development run. `scripts/pf_e2e/decide.sh` reruns the PF-E2E and PF-NT decisions from `results/`.
 
 ## References
 

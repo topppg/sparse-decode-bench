@@ -1,0 +1,3 @@
+b901deded0d6e423a125dae8179a8fa1e57427fbebb85efb63b5a796f86a0cc4  /root/pfe2/in/pfe_matrix.tsv
+d66f088a2a37bf4e96f82ebb738944526b6756f35110c975e464e92addaf0bb6  /root/pfe2/in/pfe_book_q38.i32
+1bce504dfecd84153666928a41d8a66706f0158d3a317bc5196b72819d7dc529 Qwen3.8-27B-UD-Q4_K_M.gguf

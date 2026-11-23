@@ -1,0 +1,30 @@
+From c28d85ae69b0ca64dd2cc785feead12bcbdd6286 Mon Sep 17 00:00:00 2001
+From: topppg <giorgio.srn@gmail.com>
+Date: Fri, 20 Nov 2026 14:31:57 +0100
+Subject: [PATCH 6/6] tests : page select q8_0 cases with n_kv_max a multiple
+ of 128
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ tests/test-backend-ops.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/tests/test-backend-ops.cpp b/tests/test-backend-ops.cpp
+index aaf09928b..f0a81e9fe 100644
+--- a/tests/test-backend-ops.cpp
++++ b/tests/test-backend-ops.cpp
+@@ -13830,6 +13830,11 @@ static std::vector<std::unique_ptr<test_case>> make_test_cases_eval() {
+             test_cases.emplace_back(new test_flash_attn_ext_page_select(64,  2, 4, 16384, 512, 24, 512, type_KV, materialise));
+         }
+     }
++    // q8_0 K/V with page select and n_kv_max a multiple of 128 (64*(23 + 1) + 640): the selective conversion of listed pages
++    for (bool materialise : {false, true}) {
++        test_cases.emplace_back(new test_flash_attn_ext_page_select(256, 2, 8, 16384, 512, 23, 512, GGML_TYPE_Q8_0, materialise));
++        test_cases.emplace_back(new test_flash_attn_ext_page_select(256, 4, 6, 32768, 512, 47, 512, GGML_TYPE_Q8_0, materialise));
++    }
+ 
+     // sparse mask with large batch size
+     test_cases.emplace_back(new test_flash_attn_ext(512, 512, 1, { 8, 1}, 4096, 64, true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_F16, GGML_TYPE_F16, {0, 1, 2, 3}, true, false,  512));
+-- 
+2.50.1 (Apple Git-155)
+

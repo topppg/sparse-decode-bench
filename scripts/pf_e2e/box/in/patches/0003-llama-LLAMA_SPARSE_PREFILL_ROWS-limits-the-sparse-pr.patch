@@ -1,0 +1,201 @@
+From 1f9e8a63857be7ddf5373aac5ccf19e8935488d6 Mon Sep 17 00:00:00 2001
+From: topppg <giorgio.srn@gmail.com>
+Date: Tue, 17 Nov 2026 14:39:08 +0100
+Subject: [PATCH 3/7] llama : LLAMA_SPARSE_PREFILL_ROWS limits the sparse
+ prefill to a position range, sparse-tail : pf:F:W:d<N>|s<N>|du configs
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ src/llama-graph.cpp               | 50 +++++++++++++++++++++++++++++--
+ tools/sparse-tail/sparse-tail.cpp | 36 ++++++++++++++++++++--
+ 2 files changed, 81 insertions(+), 5 deletions(-)
+
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index abb5faee4..bc07e5cae 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -654,6 +654,8 @@ void llm_graph_input_attn_no_cache::set_input(const llama_ubatch * ubatch) {
+ //                                       KV head's query heads. The other pages are -inf in the mask, flash attention runs per KV head.
+ //   LLAMA_SPARSE_PREFILL_WINDOW=<W>     the window: the pages from the one holding cell (block start - W) to the block (default 512)
+ //   LLAMA_SPARSE_PREFILL_MIN_CTX=<n>    only caches of at least n cells use it (default 0)
++//   LLAMA_SPARSE_PREFILL_ROWS=<lo>:<hi> only the query rows at positions lo <= pos < hi are sparse, the others are dense
++//                                       (hi may be empty: no upper limit). The page picks of a block still use all its rows.
+ // Needs flash attention, one sequence whose cell index equals its position, no ALiBi. Composes with LLAMA_SPARSE_DECODE,
+ // which then selects from the K written by the sparse prefill.
+ static float llama_sparse_prefill_frac() {
+@@ -670,6 +672,20 @@ static int64_t llama_sparse_prefill_window() {
+     return w;
+ }
+ 
++// [lo, hi) positions of the sparse query rows, default all
++static std::pair<int64_t, int64_t> llama_sparse_prefill_rows() {
++    const char * e = getenv("LLAMA_SPARSE_PREFILL_ROWS");
++    if (!e || !*e) {
++        return {0, INT64_MAX};
++    }
++    const char * c = strchr(e, ':');
++    GGML_ASSERT(c && "LLAMA_SPARSE_PREFILL_ROWS must be lo:hi");
++    const int64_t lo = atoll(e);
++    const int64_t hi = c[1] ? atoll(c + 1) : INT64_MAX;
++    GGML_ASSERT(lo >= 0 && hi >= lo && "LLAMA_SPARSE_PREFILL_ROWS must be lo:hi with 0 <= lo <= hi");
++    return {lo, hi};
++}
++
+ static int64_t llama_sparse_prefill_min_ctx() {
+     const char * e = getenv("LLAMA_SPARSE_PREFILL_MIN_CTX");
+     return e ? atoll(e) : 0;
+@@ -897,7 +913,8 @@ void llm_sparse_pages::set_input(const ggml_tensor * mask, const llama_ubatch *
+ bool llm_sparse_pages::can_reuse() const {
+     // a sparse prefill graph depends on the positions of its ubatch
+     return sp_budget == llama_sparse_pages_budget() && sp_score == llama_sparse_pages_score() && sp_fused == llama_sparse_pages_fused() &&
+-        pf_frac == llama_sparse_prefill_frac() && pf_window == llama_sparse_prefill_window() && !pf_tmask;
++        pf_frac == llama_sparse_prefill_frac() && pf_window == llama_sparse_prefill_window() && !pf_tmask &&
++        (pf_frac == 0.0f || !getenv("LLAMA_SPARSE_PREFILL_ROWS"));
+ }
+ 
+ void llm_graph_input_attn_kv::set_input(const llama_ubatch * ubatch) {
+@@ -3860,9 +3877,26 @@ ggml_tensor * llm_graph_context::build_sparse_prefill(
+ 
+     // a reserve ubatch has no real positions: plan for the deepest one
+     int64_t c0 = ubatch.pos ? ubatch.pos[0] : 0;
+-    if (!ubatch.pos || ubatch.pos[nt - 1] - c0 != nt - 1) {
++    const bool real = ubatch.pos && ubatch.pos[nt - 1] - c0 == nt - 1;
++    if (!real) {
+         c0 = n_kv - nt;
+     }
++    // the sparse rows r0 .. r1 - 1 of a real ubatch; a reserve ubatch plans for the sparse path and the dense rows
++    int64_t r0 = 0;
++    int64_t r1 = nt;
++    const auto [rlo, rhi] = llama_sparse_prefill_rows();
++    if (rlo > 0 || rhi < INT64_MAX) {
++        if (real) {
++            r0 = std::clamp<int64_t>(rlo - c0, 0, nt);
++            r1 = std::clamp<int64_t>(rhi == INT64_MAX ? nt : rhi - c0, 0, nt);
++            if (r0 >= r1) {
++                return nullptr;
++            }
++        } else {
++            r0 = nt/2;
++        }
++    }
++
+     const llama_sparse_prefill_plan pl = llama_sparse_prefill_make_plan(c0, nt, sp->pf_frac, sp->pf_window);
+     if (pl.n_top == 0) {
+         return nullptr; // no query block has a selectable page
+@@ -3951,6 +3985,18 @@ ggml_tensor * llm_graph_context::build_sparse_prefill(
+         cur = cur ? ggml_concat(ctx0, cur, oh, 0) : oh;
+     }
+ 
++    if (r0 > 0 || r1 < nt) {
++        // the dense rows from a dense attention of the whole ubatch
++        ggml_tensor * dense = build_attn_mha(q, k, v, nullptr, kq_mask, nullptr, sinks, nullptr, 0, kq_scale, il, nullptr);
++        GGML_ASSERT(ggml_are_same_shape(dense, cur) && ggml_n_dims(cur) <= 2);
++        auto rows = [&](ggml_tensor * t, int64_t a, int64_t b) { return ggml_view_2d(ctx0, t, t->ne[0], b - a, t->nb[1], a*t->nb[1]); };
++        ggml_tensor * out = r0 > 0 ? ggml_concat(ctx0, rows(dense, 0, r0), rows(cur, r0, r1), 1) : rows(cur, r0, r1);
++        if (r1 < nt) {
++            out = ggml_concat(ctx0, out, rows(dense, r1, nt), 1);
++        }
++        cur = out;
++    }
++
+     return cur;
+ }
+ 
+diff --git a/tools/sparse-tail/sparse-tail.cpp b/tools/sparse-tail/sparse-tail.cpp
+index 7a312dd33..6f926eb35 100644
+--- a/tools/sparse-tail/sparse-tail.cpp
++++ b/tools/sparse-tail/sparse-tail.cpp
+@@ -3,6 +3,8 @@
+ // and score:budget:f0|f1|f2|f3 also LLAMA_SPARSE_DECODE_FUSED (without the suffix the variable is left as it is).
+ // A config pf:F[:W] sets LLAMA_SPARSE_PREFILL=F (and LLAMA_SPARSE_PREFILL_WINDOW=W) during the prefill, with dense decode;
+ // pf:F[:W]+score:budget[:fN] combines both. Configs with the same prefill share one prefill.
++// pf:F:W:R limits the sparse query rows of a prefill of n tokens (LLAMA_SPARSE_PREFILL_ROWS): R = d<N> keeps the last N
++// rows dense, s<N> makes only the last N rows sparse, du keeps the last ubatch dense.
+ 
+ #include "llama.h"
+ #include "ggml-backend.h"
+@@ -25,8 +27,21 @@ struct tail_config {
+     std::string fused;
+     std::string pf;        // LLAMA_SPARSE_PREFILL, empty for a dense prefill
+     std::string pf_window; // LLAMA_SPARSE_PREFILL_WINDOW, empty for the default
++    std::string pf_rows;   // d<N>, s<N> or du, empty for all rows
+ };
+ 
++// LLAMA_SPARSE_PREFILL_ROWS for a prefill of n tokens in ubatches of n_ubatch from position 0
++static std::string prefill_rows(const std::string & r, int n, int n_ubatch) {
++    if (r.empty()) {
++        return "";
++    }
++    if (r == "du") {
++        return "0:" + std::to_string((n - 1)/n_ubatch*n_ubatch);
++    }
++    const int m = std::max(0, n - std::stoi(r.substr(1)));
++    return r[0] == 'd' ? "0:" + std::to_string(m) : std::to_string(m) + ":";
++}
++
+ static void set_prefill_env(const std::string & pf, const std::string & window) {
+     if (pf.empty()) {
+         unsetenv("LLAMA_SPARSE_PREFILL");
+@@ -184,11 +199,18 @@ int main(int argc, char ** argv) {
+             if (p.size() < 2) { fprintf(stderr, "bad config %s\n", c.c_str()); return 1; }
+             if (p[0] == "pf") {
+                 const double f = std::stod(p[1]);
+-                if (!(f > 0.0 && f <= 1.0) || p.size() > 3) { fprintf(stderr, "bad config %s\n", c.c_str()); return 1; }
++                if (!(f > 0.0 && f <= 1.0) || p.size() > 4) { fprintf(stderr, "bad config %s\n", c.c_str()); return 1; }
+                 tc.pf = p[1];
+                 if (p.size() > 2) {
+                     tc.pf_window = p[2];
+                 }
++                if (p.size() > 3) {
++                    const std::string & r = p[3];
++                    if (r != "du" && !(r.size() > 1 && (r[0] == 'd' || r[0] == 's') && strspn(r.c_str() + 1, "0123456789") == r.size() - 1)) {
++                        fprintf(stderr, "bad config %s\n", c.c_str()); return 1;
++                    }
++                    tc.pf_rows = r;
++                }
+                 continue;
+             }
+             tc.score  = p[0];
+@@ -205,7 +227,7 @@ int main(int argc, char ** argv) {
+     {
+         std::map<std::string, size_t> gi;
+         for (size_t i = 0; i < configs.size(); ++i) {
+-            const std::string key = configs[i].pf + ":" + configs[i].pf_window;
++            const std::string key = configs[i].pf + ":" + configs[i].pf_window + ":" + configs[i].pf_rows;
+             if (!gi.count(key)) {
+                 gi[key] = groups.size();
+                 groups.emplace_back();
+@@ -345,6 +367,13 @@ int main(int argc, char ** argv) {
+         const tail_config & c0 = configs[groups[g][0]];
+         unsetenv("LLAMA_SPARSE_DECODE");
+         set_prefill_env(c0.pf, c0.pf_window);
++        const std::string rows = c0.pf.empty() ? "" : prefill_rows(c0.pf_rows, n, cp.n_ubatch);
++        if (rows.empty()) {
++            unsetenv("LLAMA_SPARSE_PREFILL_ROWS");
++        } else {
++            setenv("LLAMA_SPARSE_PREFILL_ROWS", rows.c_str(), 1);
++            fprintf(stderr, "prefill %s: LLAMA_SPARSE_PREFILL_ROWS=%s\n", c0.name.c_str(), rows.c_str());
++        }
+         llama_memory_clear(mem, true);
+         // --dump-configs naming this config: the pf_ tensors and kqv_out of the prefill, the last ubatch's are kept
+         ds.active = dump_set.count(c0.name) > 0;
+@@ -363,6 +392,7 @@ int main(int argc, char ** argv) {
+         }
+         ds.active = false;
+         set_prefill_env("", "");
++        unsetenv("LLAMA_SPARSE_PREFILL_ROWS");
+         snapshot();
+     };
+ 
+@@ -420,7 +450,7 @@ int main(int argc, char ** argv) {
+                 fprintf(out, "]}\n");
+                 fflush(out);
+             }
+-            fprintf(stderr, "prompt %zu (%d tokens): prefill %.1f s (%s)\n", pi, Pt + 1, t_pre, configs[groups[g][0]].pf.empty() ? "dense" : ("pf:" + configs[groups[g][0]].pf).c_str());
++            fprintf(stderr, "prompt %zu (%d tokens): prefill %.1f s (%s)\n", pi, Pt + 1, t_pre, configs[groups[g][0]].name.c_str());
+         }
+     }
+ 
+-- 
+2.50.1 (Apple Git-155)
+

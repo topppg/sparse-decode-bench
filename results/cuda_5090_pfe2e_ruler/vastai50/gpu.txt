@@ -1,0 +1,12 @@
+name, uuid, memory.total [MiB], power.limit [W], power.default_limit [W], power.max_limit [W], enforced.power.limit [W], driver_version, compute_cap, clocks.max.sm [MHz], clocks.max.memory [MHz]
+NVIDIA GeForce RTX 5090, GPU-567440a4-e8d2-b340-9a62-1b90a3726a1c, 32607 MiB, 500.00 W, 600.00 W, 600.00 W, 500.00 W, 580.178.04, 12.0, 3105 MHz, 14001 MHz
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         103G  383M  103G   1% /
+8
+               total        used        free      shared  buff/cache   available
+Mem:              30           2          11           0          16          28
+Swap:              7           0           7
+Build cuda_13.0.r13.0/compiler.36424714_0
+CPU(s):                                  8
+Model name:                              AMD Ryzen 7 7800X3D 8-Core Processor
+CPU(s) scaling MHz:                      82%

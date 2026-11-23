@@ -1,0 +1,2 @@
+{"id": 0, "config": "dense", "len": 261495, "prefill_s": 229.125, "prefill_compute_s": 224.359, "gen_s": 0.308, "pf": {"sparse": 0, "sparse_rows": 0, "dense_rows": 0, "no_sel": 0, "fallback": 0, "layers": 0, "ub_min": 0, "ub_max": 0}, "out": [2972, 20, 21, 21, 18, 21, 17, 18, 159034]}
+{"id": 0, "config": "quest:262144:f3", "len": 261495, "prefill_s": 229.125, "prefill_compute_s": 224.359, "gen_s": 0.299, "pf": {"sparse": 0, "sparse_rows": 0, "dense_rows": 0, "no_sel": 0, "fallback": 0, "layers": 0, "ub_min": 0, "ub_max": 0}, "out": [2972, 20, 21, 21, 18, 21, 17, 18, 159034]}
