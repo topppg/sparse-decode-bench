@@ -1,0 +1,274 @@
+From e19575dab3fd2f5cbf5abeb3f7526d316df60b5c Mon Sep 17 00:00:00 2001
+From: topppg <giorgio.srn@gmail.com>
+Date: Wed, 18 Nov 2026 09:24:54 +0100
+Subject: [PATCH 6/7] ggml : n_kv_max_rows promise for block-shared sparse
+ masks, llama : LLAMA_SPARSE_PREFILL_GATHER runs the prefill emulation through
+ the sparse gather
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ ggml/include/ggml.h                 |  6 ++
+ ggml/src/ggml-cuda/fattn-common.cuh |  5 +-
+ ggml/src/ggml-cuda/fattn.cu         |  4 +-
+ ggml/src/ggml.c                     |  9 +++
+ src/llama-graph.cpp                 | 17 ++++-
+ src/llama-graph.h                   |  3 +-
+ tests/test-backend-ops.cpp          | 97 +++++++++++++++++++++++++++++
+ 7 files changed, 136 insertions(+), 5 deletions(-)
+
+diff --git a/ggml/include/ggml.h b/ggml/include/ggml.h
+index 97567a03d..3d433645c 100644
+--- a/ggml/include/ggml.h
++++ b/ggml/include/ggml.h
+@@ -2287,6 +2287,12 @@ extern "C" {
+             struct ggml_tensor * a,
+             int32_t              n_kv_max);
+ 
++    // Promise that n_kv_max also bounds the union of the finite entries of every n_rows consecutive mask rows
++    // starting at a multiple of n_rows (rows of a block share their selection). Set 0 to disable.
++    GGML_API void ggml_flash_attn_ext_set_n_kv_max_rows(
++            struct ggml_tensor * a,
++            int32_t              n_rows);
++
+     // Attend only to the cells of listed chunks of 32 cells; the mask still applies to them. Needs n_kv_max >= 32*n of every row.
+     // list: [n_kv/32 + 1, n_head, n_seq] i32, row = [n, c_0 < c_1 < ... < c_{n-1}] (n_head, n_seq as in q)
+     GGML_API void ggml_flash_attn_ext_set_chunk_list(
+diff --git a/ggml/src/ggml-cuda/fattn-common.cuh b/ggml/src/ggml-cuda/fattn-common.cuh
+index ccb2fc3b9..9ec9db079 100644
+--- a/ggml/src/ggml-cuda/fattn-common.cuh
++++ b/ggml/src/ggml-cuda/fattn-common.cuh
+@@ -1220,7 +1220,10 @@ void launch_fattn(
+         GGML_ASSERT(mask != nullptr);
+         const int32_t n_kv_max_query = ggml_get_op_params_i32(KQV, 4);
+         GGML_ASSERT(n_kv_max_query > 0);
+-        n_kv_max = std::min<int64_t>(K->ne[1], int64_t(ncols1)*n_kv_max_query);
++        // rows that share their selection in aligned groups of a multiple of ncols1 have a union of at most n_kv_max_query
++        const int32_t n_rows_shared = ggml_get_op_params_i32(KQV, 6);
++        const bool    union_bound   = ncols1 > 1 && n_rows_shared > 0 && n_rows_shared % ncols1 == 0;
++        n_kv_max = std::min<int64_t>(K->ne[1], int64_t(union_bound ? 1 : ncols1)*n_kv_max_query);
+ 
+         const size_t n_lists = size_t(ntiles_x) * mask->ne[3];
+ 
+diff --git a/ggml/src/ggml-cuda/fattn.cu b/ggml/src/ggml-cuda/fattn.cu
+index 9a371e9ae..806a10f34 100644
+--- a/ggml/src/ggml-cuda/fattn.cu
++++ b/ggml/src/ggml-cuda/fattn.cu
+@@ -159,7 +159,9 @@ bool ggml_cuda_flash_attn_ext_mma_f16_shall_use_sparse(const int cc, const ggml_
+     const int32_t n_kv_max = ggml_get_op_params_i32(dst, 4);
+ 
+     // the dense kernel handles up to 64/ncols2 queries per K/V pass, the single-query gather has to beat that
+-    const int64_t n_gather = (ncols1 == 1 ? std::min<int64_t>(Q->ne[1], 64/ncols2) : ncols1) * (int64_t) n_kv_max;
++    const int32_t n_rows_shared = ggml_get_op_params_i32(dst, 6);
++    const bool    union_bound   = ncols1 > 1 && n_rows_shared > 0 && n_rows_shared % ncols1 == 0;
++    const int64_t n_gather = (ncols1 == 1 ? std::min<int64_t>(Q->ne[1], 64/ncols2) : union_bound ? 1 : ncols1) * (int64_t) n_kv_max;
+ 
+     return ((GGML_CUDA_CC_IS_NVIDIA(cc) && turing_mma_available(cc)) || amd_mfma_available(cc)) && dst->src[5] == nullptr &&
+         mask != nullptr && n_kv_max > 0 && max_bias == 0.0f && logit_softcap == 0.0f &&
+diff --git a/ggml/src/ggml.c b/ggml/src/ggml.c
+index 24288717f..7c3f504b8 100644
+--- a/ggml/src/ggml.c
++++ b/ggml/src/ggml.c
+@@ -5516,6 +5516,15 @@ void ggml_flash_attn_ext_set_n_kv_max(
+     ggml_set_op_params_i32(a, 4, n_kv_max);
+ }
+ 
++void ggml_flash_attn_ext_set_n_kv_max_rows(
++        struct ggml_tensor * a,
++        int32_t              n_rows) {
++    GGML_ASSERT(a->op == GGML_OP_FLASH_ATTN_EXT);
++    GGML_ASSERT(n_rows >= 0);
++
++    ggml_set_op_params_i32(a, 6, n_rows);
++}
++
+ void ggml_flash_attn_ext_set_chunk_list(
+         struct ggml_tensor * a,
+         struct ggml_tensor * list) {
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index 68d76b46f..8821d6c17 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -693,6 +693,13 @@ static int64_t llama_sparse_prefill_min_ctx() {
+     return e ? atoll(e) : 0;
+ }
+ 
++// LLAMA_SPARSE_PREFILL_GATHER=1: the masked attentions of the emulation declare their selection (n_kv_max, shared by the
++// 64 rows of a query block), so a backend with a sparse gather computes only the selected cells
++static bool llama_sparse_prefill_gather() {
++    const char * e = getenv("LLAMA_SPARSE_PREFILL_GATHER");
++    return e && atoi(e) != 0;
++}
++
+ // per query block b (rows 64b .. 64b + 63 of a ubatch at cells c0 ..): the window starts at page wsp[b], pages 1 .. wsp[b] - 1
+ // are selectable and k[b] of them are kept. Every row gets n_top picks: n_top - k[b] dummies (pages >= n_page, skipped) first.
+ struct llama_sparse_prefill_plan {
+@@ -3353,7 +3360,8 @@ ggml_tensor * llm_graph_context::build_attn_mha(
+              int64_t   n_kv_max,
+                float   kq_scale,
+                  int   il,
+-         ggml_tensor * chunk_list) const {
++         ggml_tensor * chunk_list,
++             int32_t   n_kv_max_rows) const {
+     const bool v_trans = v->nb[1] > v->nb[2];
+ 
+     // split the batch into streams if needed
+@@ -3400,6 +3408,7 @@ ggml_tensor * llm_graph_context::build_attn_mha(
+         ggml_flash_attn_ext_add_sinks(cur, sinks);
+         GGML_ASSERT(n_kv_max >= 0 && n_kv_max <= INT32_MAX);
+         ggml_flash_attn_ext_set_n_kv_max(cur, static_cast<int32_t>(n_kv_max));
++        ggml_flash_attn_ext_set_n_kv_max_rows(cur, n_kv_max > 0 ? n_kv_max_rows : 0);
+         // one mask per head with an n_kv_max only comes from page-sparse decode, whose masks are whole 64-cell pages
+         ggml_flash_attn_ext_set_mask_chunked(cur, n_kv_max > 0 && kq_mask && kq_mask->ne[2] > 1);
+         if (chunk_list) {
+@@ -4027,6 +4036,10 @@ ggml_tensor * llm_graph_context::build_sparse_prefill(
+     picks = ggml_reshape_3d(ctx0, picks, n_top, 64*n_qblk, n_kv_h);
+     cb(picks, "pf_picks", il);
+ 
++    // finite cells of a row, and of the union of a query block's rows: n_top pages, page 0 and at most W + 127 window cells
++    const bool    gather   = llama_sparse_prefill_gather();
++    const int64_t n_kv_sel = gather ? std::min<int64_t>(n_kv, 64*n_top + 64 + sp->pf_window + 128) : 0;
++
+     // one masked flash attention per KV head, so the mask is per KV head and not per query head
+     ggml_tensor * cur = nullptr;
+     for (int64_t h = 0; h < n_kv_h; ++h) {
+@@ -4039,7 +4052,7 @@ ggml_tensor * llm_graph_context::build_sparse_prefill(
+         ggml_tensor * vh = ggml_view_4d(ctx0, v, v->ne[0], 1, v->ne[2], v->ne[3], v->nb[1], v->nb[2], v->nb[3], h*v->nb[1]);
+         ggml_tensor * sh = sinks ? ggml_view_1d(ctx0, sinks, n_gqa, h*n_gqa*sinks->nb[0]) : nullptr;
+ 
+-        ggml_tensor * oh = build_attn_mha(qh, kh, vh, nullptr, mk, nullptr, sh, nullptr, 0, kq_scale, il, nullptr); // [dv*n_gqa, nt]
++        ggml_tensor * oh = build_attn_mha(qh, kh, vh, nullptr, mk, nullptr, sh, nullptr, n_kv_sel, kq_scale, il, nullptr, gather ? 64 : 0); // [dv*n_gqa, nt]
+         cur = cur ? ggml_concat(ctx0, cur, oh, 0) : oh;
+     }
+ 
+diff --git a/src/llama-graph.h b/src/llama-graph.h
+index bd87630fb..5d3b5ea37 100644
+--- a/src/llama-graph.h
++++ b/src/llama-graph.h
+@@ -1323,7 +1323,8 @@ struct llm_graph_context {
+                 int64_t   n_kv_max,
+                   float   kq_scale,
+                     int   il,
+-            ggml_tensor * chunk_list = nullptr) const; // I32 [n_kv/32 + 1, n_head_q, n_stream], see ggml_flash_attn_ext_set_chunk_list
++            ggml_tensor * chunk_list = nullptr, // I32 [n_kv/32 + 1, n_head_q, n_stream], see ggml_flash_attn_ext_set_chunk_list
++                int32_t   n_kv_max_rows = 0) const; // see ggml_flash_attn_ext_set_n_kv_max_rows
+ 
+     llm_graph_input_attn_no_cache * build_attn_inp_no_cache() const;
+ 
+diff --git a/tests/test-backend-ops.cpp b/tests/test-backend-ops.cpp
+index d2dc1ae98..c45a67dd7 100644
+--- a/tests/test-backend-ops.cpp
++++ b/tests/test-backend-ops.cpp
+@@ -9006,6 +9006,96 @@ struct test_leaky_relu : public test_case {
+     }
+ };
+ 
++// GGML_OP_FLASH_ATTN_EXT, a prefill ubatch of nt rows at the end of the cache with a block-sparse mask (sparse prefill):
++// each 64-row query block keeps page 0, n_top random pages before its window and a causal window of W cells,
++// with n_kv_max bounding the union of each block's rows (ggml_flash_attn_ext_set_n_kv_max_rows)
++struct test_flash_attn_ext_blocks : public test_case {
++    const int64_t   hs;
++    const int64_t   nh;     // KV heads
++    const int64_t   gqa;    // q heads per KV head
++    const int64_t   kv;
++    const int64_t   nt;
++    const int64_t   n_top;
++    const int64_t   W;
++    const ggml_type type_KV;
++
++    std::string vars() override {
++        return VARS_TO_STR8(hs, nh, gqa, kv, nt, n_top, W, type_KV);
++    }
++
++    double max_nmse_err() override {
++        return 5e-4;
++    }
++
++    int64_t n_kv_sel() const {
++        return std::min<int64_t>(kv, 64*n_top + 64 + W + 128);
++    }
++
++    uint64_t op_flops(ggml_tensor * t) override {
++        GGML_UNUSED(t);
++        return 2 * 2 * nt * nh*gqa * n_kv_sel() * hs;
++    }
++
++    test_flash_attn_ext_blocks(int64_t hs = 256, int64_t nh = 1, int64_t gqa = 8, int64_t kv = 16384, int64_t nt = 512,
++                               int64_t n_top = 24, int64_t W = 512, ggml_type type_KV = GGML_TYPE_F16)
++        : hs(hs), nh(nh), gqa(gqa), kv(kv), nt(nt), n_top(n_top), W(W), type_KV(type_KV) {}
++
++    ggml_tensor * build_graph(ggml_context * ctx) override {
++        ggml_tensor * q = ggml_new_tensor_4d(ctx, GGML_TYPE_F32, hs, nt, nh*gqa, 1);
++        ggml_set_name(q, "q");
++        ggml_tensor * k = ggml_new_tensor_4d(ctx, type_KV, hs, kv, nh, 1);
++        ggml_set_name(k, "k");
++        ggml_tensor * v = ggml_new_tensor_4d(ctx, type_KV, hs, kv, nh, 1);
++        ggml_set_name(v, "v");
++        ggml_tensor * m = ggml_new_tensor_4d(ctx, GGML_TYPE_F16, kv, nt, 1, 1);
++        ggml_set_name(m, "m");
++
++        ggml_tensor * out = ggml_flash_attn_ext(ctx, q, k, v, m, 1.0f/sqrtf(hs), 0.0f, 0.0f);
++        ggml_flash_attn_ext_set_n_kv_max(out, int32_t(n_kv_sel()));
++        ggml_flash_attn_ext_set_n_kv_max_rows(out, 64);
++        ggml_prec_set_acc(out, GGML_PREC_F32);
++        ggml_set_name(out, "out");
++        return out;
++    }
++
++    void initialize_tensors(ggml_context * ctx) override {
++        for (ggml_tensor * t = ggml_get_first_tensor(ctx); t != NULL; t = ggml_get_next_tensor(ctx, t)) {
++            if (strcmp(t->name, "m") != 0) {
++                init_tensor_uniform(t);
++                continue;
++            }
++            const int64_t c0 = kv - nt;
++            std::mt19937 gen(0xB10C);
++            std::vector<float> f(kv*nt, -INFINITY);
++            for (int64_t b = 0; b < nt/64; ++b) {
++                const int64_t ws  = c0 + 64*b - W;
++                const int64_t wsp = ws < 64 ? 1 : ws/64;
++                std::vector<int64_t> pages;
++                for (int64_t p = 1; p < wsp; ++p) {
++                    pages.push_back(p);
++                }
++                std::shuffle(pages.begin(), pages.end(), gen);
++                pages.resize(std::min<int64_t>(n_top, pages.size()));
++                pages.push_back(0);
++                for (int64_t r = 64*b; r < 64*b + 64; ++r) {
++                    float * row = f.data() + r*kv;
++                    for (int64_t p : pages) {
++                        for (int64_t c = 64*p; c < 64*p + 64; ++c) {
++                            row[c] = -0.03125f * float(1 + (c + r) % 7);
++                        }
++                    }
++                    for (int64_t c = std::max<int64_t>(0, 64*wsp); c <= c0 + r; ++c) {
++                        row[c] = -0.03125f * float(1 + (c + r) % 5);
++                    }
++                }
++            }
++            std::vector<ggml_fp16_t> h(f.size());
++            ggml_fp32_to_fp16_row(f.data(), h.data(), h.size());
++            ggml_backend_tensor_set(t, h.data(), 0, h.size()*sizeof(ggml_fp16_t));
++        }
++    }
++};
++
+ // GGML_OP_FLASH_ATTN_EXT, one decode token with one mask per q head made of 64-cell pages (page-sparse decode)
+ // every row keeps page 0, n_pages random pages and a last page cut off part-way, like the recent window
+ struct test_flash_attn_ext_pages : public test_case {
+@@ -13592,6 +13682,13 @@ static std::vector<std::unique_ptr<test_case>> make_test_cases_eval() {
+         }
+     }
+ 
++    // sparse prefill: block-sparse masks whose 64-row blocks share their selection (Qwen3.6: 2 KV heads x 8, Qwen3.8: 4 x 6)
++    for (ggml_type type_KV : {GGML_TYPE_F16, GGML_TYPE_Q8_0}) {
++        test_cases.emplace_back(new test_flash_attn_ext_blocks(256, 2, 8, 16384, 512, 24, 512, type_KV));
++        test_cases.emplace_back(new test_flash_attn_ext_blocks(256, 4, 6, 16384, 512, 24, 512, type_KV));
++        test_cases.emplace_back(new test_flash_attn_ext_blocks(256, 1, 8, 8192,  256, 3,  512, type_KV));
++    }
++
+     // sparse mask with large batch size
+     test_cases.emplace_back(new test_flash_attn_ext(512, 512, 1, { 8, 1}, 4096, 64, true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_F16, GGML_TYPE_F16, {0, 1, 2, 3}, true, false,  512));
+     test_cases.emplace_back(new test_flash_attn_ext(512, 512, 1, { 8, 1}, 4096, 64, true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_F16, GGML_TYPE_F16, {0, 1, 2, 3}, true, false, 2048));
+-- 
+2.50.1 (Apple Git-155)
+

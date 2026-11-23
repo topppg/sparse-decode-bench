@@ -1,0 +1,40 @@
+04962dd ggml-cuda : page select flags freed in the pool's allocation order
+c78f4a5 ggml-cuda : GGML_CUDA_FA_SELECT_CONVERT=2 without the tile alignment, GGML_CUDA_FA_SELECT_LOG counts the conversions
+17c0471 tests : page select q8_0 cases with n_kv_max a multiple of 128
+4bacd74 ggml-cuda : page select converts only the q8_0 k/v pages its lists read, GGML_CUDA_FA_SELECT_CONVERT=0 disables it
+e98deee tests : page select flash attention cases, cpu equivalence with ggml_top_k_mask
+1ab91a9 llama : LLAMA_SPARSE_PREFILL_GATHER=2 attaches the picks to the attention instead of building per-head masks
+1ffd5d3 ggml-cuda : sparse flash attention lists from the page select picks, built mask otherwise
+fa444f1 ggml : flash attention page select, the picks of a block-sparse mask without the mask, cpu
+5879ca3 sparse-tail : prefill_compute_s, the prefill decode calls up to a synchronize, without the state snapshot
+2f8ff81 ggml : n_kv_max_rows promise for block-shared sparse masks, llama : LLAMA_SPARSE_PREFILL_GATHER runs the prefill emulation through the sparse gather
+50de014 llama : count sparse prefill applications, dense-tail rows and dense fallbacks, sparse-tail : pf counts per prefill
+be88662 llama : no reuse of sparse prefill graphs, exact ceil(F*n) in double, sparse-tail : pf:F:R row selectors without W, count reused prefill graphs
+66e1ff8 llama : LLAMA_SPARSE_PREFILL_ROWS limits the sparse prefill to a position range, sparse-tail : pf:F:W:d<N>|s<N>|du configs
+35e02f6 sparse-tail : pf:F[:W] prefill configs, combined with decode configs by +, one prefill per prefill setting
+d295dc2 llama : emulate block-sparse prefill with a per-KV-head page mask (LLAMA_SPARSE_PREFILL)
+60447cc llama : sparse decode only for head sizes up to 256, tests : paged FA cases for head sizes 64 (with sinks) and 256
+d3bb602 sparse-tail : restore the sequence state after the prefill for recurrent and hybrid models
+3faea61 llama : sparse decode on the full-attention layers of iSWA and hybrid models (gemma4, gpt-oss, qwen35), and on CPU-only builds
+4c4de0f ggml-cuda : page_top_k keeps the warp-per-page score kernel, which also writes per-block log-sum-exp partials
+9dce1c8 ggml-cuda : page_top_k scores a (page, head) per thread from statistics staged in shared memory, select merges per-block log-sum-exp
+27240ae llama : sparse decode sets sp_upd64 only when the graph uses it
+0825ad4 llama : sparse decode checks the mask cell by cell only when the cache size changes
+0fe56fd ggml : add ggml_page_stats, the page statistics refresh in one op (cpu, cuda), sparse decode FUSED=3 uses it
+0e95539 sparse-tail : accept the f3 config suffix (FUSED=3)
+acaf9d9 ggml : flash attention reads a chunk list, page_top_k_chunks writes one, sparse decode FUSED=3 uses it (no per-head mask)
+a59213f sparse-tail : --dump-steps/--dump-configs also dump picks in --gen mode, per prompt and step
+55f70f3 sparse-tail : score:budget:f0|f1|f2 configs set LLAMA_SPARSE_DECODE_FUSED, fused and unfused on one prefill
+7c66902 ggml-cuda : page_top_k pads lse in shared memory, vector loads overlapped the group scores (racecheck)
+8644a35 tests : page_top_k compares the output node only
+a47b1f8 ggml-cuda : page_top_k launch bounds and view alignment check, tests tolerate only near-tie swaps against a double reference
+dbad399 ggml-cuda : page_top_k for any group size and page count, sparse decode FUSED=2 computes the unfused picks too
+8d5fc5b ggml-cuda : page_top_k, read the remaining count before any lane updates it
+600159b ggml : add ggml_page_top_k, the page selection of sparse decode in one op (cpu, cuda)
+f069bbb llama : refuse LLAMA_SPARSE_DECODE unless all layers and the KV cache are on CUDA
+c968e08 llama : sparse decode defaults to the quest page score
+5e4147c CUDA: top_k_mask keeps the fused kernel when rows fill the GPU
+8c47a59 CUDA: top_k_mask sizes the scatter thread group to the block
+6d70031 llama : sparse decode env vars, chunked-mask hint for CUDA, page-mask FA tests
+1526dad llama : page-sparse decode for dense GQA models (CUDA), WIP
+c6a25fc ui: load highlight.js languages on demand (#32661)

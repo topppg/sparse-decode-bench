@@ -1,0 +1,9 @@
+f7d80009d4293728489cd2b961fccffa4982bad4
+f3d2d1c3e sparse-tail : prefill_compute_s, the prefill decode calls up to a synchronize, without the state snapshot
+0262a3a53 ggml : n_kv_max_rows promise for block-shared sparse masks, llama : LLAMA_SPARSE_PREFILL_GATHER runs the prefill emulation through the sparse gather
+e4bcb75d4 llama : count sparse prefill applications, dense-tail rows and dense fallbacks, sparse-tail : pf counts per prefill
+60672b6e0 llama : no reuse of sparse prefill graphs, exact ceil(F*n) in double, sparse-tail : pf:F:R row selectors without W, count reused prefill graphs
+68a09f88d llama : LLAMA_SPARSE_PREFILL_ROWS limits the sparse prefill to a position range, sparse-tail : pf:F:W:d<N>|s<N>|du configs
+5fd313f5c sparse-tail : pf:F[:W] prefill configs, combined with decode configs by +, one prefill per prefill setting
+dfd002993 llama : emulate block-sparse prefill with a per-KV-head page mask (LLAMA_SPARSE_PREFILL)
+f7d80009d llama : sparse decode only for head sizes up to 256, tests : paged FA cases for head sizes 64 (with sinks) and 256

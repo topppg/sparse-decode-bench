@@ -1,0 +1,44 @@
+WRAPPER start run=20261119T103525Z cap=39600s window=1200s stop via /opt/instance-tools/bin/vastai; deadline stopper pid 1345 fires at 2026-11-19T22:05:25+00:00 2026-11-19T10:35:25+00:00
+SETUP START run 20261119T103525Z models b38,q38 units "b38:1.11 b38:1.8 b38:1.0 b38:1.1 b38:1.2 b38:1.3 b38:1.4 b38:1.5 b38:1.6 b38:1.7 b38:1.9 b38:1.10 b38:1.12 q38:1.11 q38:1.8 q38:1.0 q38:1.1 q38:1.2 q38:1.3 q38:1.4 q38:1.5 q38:1.6 q38:1.7 q38:1.9 q38:1.10 q38:1.12" (26) (patches bb64b4bb5, tree 487a7f154, deadline +39000s) 2026-11-19T10:35:25+00:00
+GATE P PASS NVIDIA RTX PRO 6000 Blackwell Workstation Edition 97887 MiB power.limit 450 W (recorded, not gated) disk 150 GB (150 free, need 100) 2026-11-19T10:35:25+00:00
+LEAD wrapper pid 1339 killed (no post-run stop; the lead stops the box after a verified pull; deadline stopper pid 1345 kept, fires 22:05 UTC) 2026-11-19T10:36:16+00:00
+SOURCE OK tree 487a7f15479d39eac0b3bf4be0ab46160eca0fb7 clean, 7 patches on f7d80009d 2026-11-19T10:37:03+00:00
+BUILD DONE 2026-11-19T10:41:18+00:00
+GATE K blocks PASS 6/6 tests passed 2026-11-19T10:41:21+00:00
+GATE K sparse PASS 26/26 tests passed 2026-11-19T10:41:24+00:00
+GATE K pages PASS 128/128 tests passed 2026-11-19T10:41:54+00:00
+GATE K ops PASS 1454/1454 tests passed 2026-11-19T10:42:15+00:00
+SETUP DONE 2026-11-19T10:51:56+00:00
+GATE U PASS gather 1.445604 s, emulation 0 s 2026-11-19T10:54:30+00:00
+RULER b38 p1 task 11 done in 1065 s (gather/dense prefill median 0.676) 2026-11-19T11:12:15+00:00
+RULER b38 p1 task 8 done in 1096 s (gather/dense prefill median 0.675) 2026-11-19T11:30:31+00:00
+FORMAT READY b38 ruler/b38_p1_t11.jsonl ruler/b38_p1_t8.jsonl: gate F on the Mac; fails -> touch /root/pfn/out/20261119T103525Z/STOP on both boxes 2026-11-19T11:30:31+00:00
+RULER b38 p1 task 0 done in 1084 s (gather/dense prefill median 0.674) 2026-11-19T11:48:35+00:00
+TASK0 READY b38 ruler/b38_p1_t0.jsonl: gate D on the Mac; fails -> touch /root/pfn/out/20261119T103525Z/STOP on both boxes 2026-11-19T11:48:35+00:00
+RULER b38 p1 task 1 done in 1085 s (gather/dense prefill median 0.674) 2026-11-19T12:06:40+00:00
+RULER b38 p1 task 2 done in 1511 s (gather/dense prefill median 0.676) 2026-11-19T12:31:51+00:00
+RULER b38 p1 task 3 done in 1787 s (gather/dense prefill median 0.706) 2026-11-19T13:01:38+00:00
+RULER b38 p1 task 4 done in 1075 s (gather/dense prefill median 0.673) 2026-11-19T13:19:33+00:00
+RULER b38 p1 task 5 done in 1113 s (gather/dense prefill median 0.675) 2026-11-19T13:38:06+00:00
+RULER b38 p1 task 6 done in 1135 s (gather/dense prefill median 0.675) 2026-11-19T13:57:01+00:00
+RULER b38 p1 task 7 done in 1173 s (gather/dense prefill median 0.675) 2026-11-19T14:16:34+00:00
+RULER b38 p1 task 9 done in 1134 s (gather/dense prefill median 0.673) 2026-11-19T14:35:28+00:00
+RULER b38 p1 task 10 done in 999 s (gather/dense prefill median 0.688) 2026-11-19T14:52:07+00:00
+RULER b38 p1 task 12 done in 1038 s (gather/dense prefill median 0.679) 2026-11-19T15:09:25+00:00
+B38 UNITS COMPLETE (13 units) {"model": "b38", "status": "COMPLETE", "n_units": 13, "n_rows": 520, "n_expected": 520, "gather_dense_median": "0.675", "gather_dense_max": "1.451", "g_ref": 0.85, "n_above_g_ref": 1, "problems": []} 2026-11-19T15:09:25+00:00
+RULER q38 p1 task 11 done in 1072 s (gather/dense prefill median 0.683) 2026-11-19T15:27:17+00:00
+RULER q38 p1 task 8 done in 1093 s (gather/dense prefill median 0.682) 2026-11-19T15:45:30+00:00
+RULER q38 p1 task 0 done in 1087 s (gather/dense prefill median 0.681) 2026-11-19T16:03:37+00:00
+RULER q38 p1 task 1 done in 1090 s (gather/dense prefill median 0.682) 2026-11-19T16:21:47+00:00
+RULER q38 p1 task 2 done in 1150 s (gather/dense prefill median 0.681) 2026-11-19T16:40:57+00:00
+RULER q38 p1 task 3 done in 1092 s (gather/dense prefill median 0.680) 2026-11-19T16:59:09+00:00
+RULER q38 p1 task 4 done in 1083 s (gather/dense prefill median 0.681) 2026-11-19T17:17:12+00:00
+RULER q38 p1 task 5 done in 1101 s (gather/dense prefill median 0.685) 2026-11-19T17:35:33+00:00
+RULER q38 p1 task 6 done in 1132 s (gather/dense prefill median 0.684) 2026-11-19T17:54:25+00:00
+RULER q38 p1 task 7 done in 1154 s (gather/dense prefill median 0.684) 2026-11-19T18:13:39+00:00
+RULER q38 p1 task 9 done in 1127 s (gather/dense prefill median 0.681) 2026-11-19T18:32:26+00:00
+RULER q38 p1 task 10 done in 993 s (gather/dense prefill median 0.696) 2026-11-19T18:48:59+00:00
+RULER q38 p1 task 12 done in 1050 s (gather/dense prefill median 0.686) 2026-11-19T19:06:29+00:00
+Q38 UNITS COMPLETE (13 units) {"model": "q38", "status": "COMPLETE", "n_units": 13, "n_rows": 520, "n_expected": 520, "gather_dense_median": "0.683", "gather_dense_max": "0.708", "g_ref": 0.85, "n_above_g_ref": 0, "problems": []} 2026-11-19T19:06:29+00:00
+COMPLETE 2026-11-19T19:06:29+00:00
+LEAD run 1 deadline stopper 1345/1350 cancelled by chain_pfn.sh after run 2 launch (/root/pfn/out/20261119T190800Z) 2026-11-19T19:08:08+00:00

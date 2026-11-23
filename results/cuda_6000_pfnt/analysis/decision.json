@@ -1,0 +1,3560 @@
+{
+ "manifest": "../results/pf_nt/analysis/manifest.json",
+ "runs": {
+  "b38 pass 1": "../results/pf_nt/analysis/../vastai38/20261119T103525Z",
+  "b38 pass 2": "../results/pf_nt/analysis/../vastai38/20261119T190800Z",
+  "q38 pass 1": "../results/pf_nt/analysis/../vastai38/20261119T103525Z",
+  "q38 pass 2": "../results/pf_nt/analysis/../vastai38/20261119T190800Z"
+ },
+ "terminal_line": {
+  "../results/pf_nt/analysis/../vastai38/20261119T103525Z": "COMPLETE 2026-11-19T19:06:29+00:00",
+  "../results/pf_nt/analysis/../vastai38/20261119T190800Z": "COMPLETE 2026-11-20T03:10:40+00:00"
+ },
+ "ignored_unit_files": [],
+ "gate_f": {
+  "b38": {
+   "status": "PASS",
+   "n": 20,
+   "n_think": 0,
+   "n_empty_or_blank": 0,
+   "kinds": {
+    "answer": 20,
+    "emptythink": 0,
+    "think_done": 0,
+    "think_open": 0,
+    "blank": 0,
+    "empty": 0
+   },
+   "reason": "20 dense outputs: 0 with <think> text (must be 0), 0 empty or blank (at most 2)",
+   "rows": [
+    {
+     "id": 8000,
+     "kind": "answer",
+     "n_tokens": 14
+    },
+    {
+     "id": 8001,
+     "kind": "answer",
+     "n_tokens": 17
+    },
+    {
+     "id": 8002,
+     "kind": "answer",
+     "n_tokens": 16
+    },
+    {
+     "id": 8003,
+     "kind": "answer",
+     "n_tokens": 14
+    },
+    {
+     "id": 8004,
+     "kind": "answer",
+     "n_tokens": 15
+    },
+    {
+     "id": 8005,
+     "kind": "answer",
+     "n_tokens": 16
+    },
+    {
+     "id": 8006,
+     "kind": "answer",
+     "n_tokens": 16
+    },
+    {
+     "id": 8007,
+     "kind": "answer",
+     "n_tokens": 16
+    },
+    {
+     "id": 8008,
+     "kind": "answer",
+     "n_tokens": 15
+    },
+    {
+     "id": 8009,
+     "kind": "answer",
+     "n_tokens": 16
+    },
+    {
+     "id": 11000,
+     "kind": "answer",
+     "n_tokens": 1
+    },
+    {
+     "id": 11001,
+     "kind": "answer",
+     "n_tokens": 12
+    },
+    {
+     "id": 11002,
+     "kind": "answer",
+     "n_tokens": 5
+    },
+    {
+     "id": 11003,
+     "kind": "answer",
+     "n_tokens": 2
+    },
+    {
+     "id": 11004,
+     "kind": "answer",
+     "n_tokens": 5
+    },
+    {
+     "id": 11005,
+     "kind": "answer",
+     "n_tokens": 6
+    },
+    {
+     "id": 11006,
+     "kind": "answer",
+     "n_tokens": 3
+    },
+    {
+     "id": 11007,
+     "kind": "answer",
+     "n_tokens": 2
+    },
+    {
+     "id": 11008,
+     "kind": "answer",
+     "n_tokens": 2
+    },
+    {
+     "id": 11009,
+     "kind": "answer",
+     "n_tokens": 4
+    }
+   ],
+   "run": "../results/pf_nt/analysis/../vastai38/20261119T103525Z",
+   "units": [
+    "1.11",
+    "1.8"
+   ]
+  },
+  "q38": {
+   "status": "PASS",
+   "n": 20,
+   "n_think": 0,
+   "n_empty_or_blank": 0,
+   "kinds": {
+    "answer": 20,
+    "emptythink": 0,
+    "think_done": 0,
+    "think_open": 0,
+    "blank": 0,
+    "empty": 0
+   },
+   "reason": "20 dense outputs: 0 with <think> text (must be 0), 0 empty or blank (at most 2)",
+   "rows": [
+    {
+     "id": 8010,
+     "kind": "answer",
+     "n_tokens": 12
+    },
+    {
+     "id": 8011,
+     "kind": "answer",
+     "n_tokens": 15
+    },
+    {
+     "id": 8012,
+     "kind": "answer",
+     "n_tokens": 15
+    },
+    {
+     "id": 8013,
+     "kind": "answer",
+     "n_tokens": 15
+    },
+    {
+     "id": 8014,
+     "kind": "answer",
+     "n_tokens": 16
+    },
+    {
+     "id": 8015,
+     "kind": "answer",
+     "n_tokens": 18
+    },
+    {
+     "id": 8016,
+     "kind": "answer",
+     "n_tokens": 14
+    },
+    {
+     "id": 8017,
+     "kind": "answer",
+     "n_tokens": 14
+    },
+    {
+     "id": 8018,
+     "kind": "answer",
+     "n_tokens": 16
+    },
+    {
+     "id": 8019,
+     "kind": "answer",
+     "n_tokens": 15
+    },
+    {
+     "id": 11010,
+     "kind": "answer",
+     "n_tokens": 4
+    },
+    {
+     "id": 11011,
+     "kind": "answer",
+     "n_tokens": 6
+    },
+    {
+     "id": 11012,
+     "kind": "answer",
+     "n_tokens": 4
+    },
+    {
+     "id": 11013,
+     "kind": "answer",
+     "n_tokens": 2
+    },
+    {
+     "id": 11014,
+     "kind": "answer",
+     "n_tokens": 2
+    },
+    {
+     "id": 11015,
+     "kind": "answer",
+     "n_tokens": 4
+    },
+    {
+     "id": 11016,
+     "kind": "answer",
+     "n_tokens": 3
+    },
+    {
+     "id": 11017,
+     "kind": "answer",
+     "n_tokens": 4
+    },
+    {
+     "id": 11018,
+     "kind": "answer",
+     "n_tokens": 8
+    },
+    {
+     "id": 11019,
+     "kind": "answer",
+     "n_tokens": 8
+    }
+   ],
+   "run": "../results/pf_nt/analysis/../vastai38/20261119T190800Z",
+   "units": [
+    "2.11",
+    "2.8"
+   ]
+  },
+  "status": "PASS"
+ },
+ "gate_d": {
+  "b38": {
+   "status": "PASS",
+   "n": 10,
+   "score": 100.0,
+   "reason": "task-0 dense 100.0 >= 80",
+   "run": "../results/pf_nt/analysis/../vastai38/20261119T103525Z",
+   "unit": "1.0"
+  },
+  "q38": {
+   "status": "PASS",
+   "n": 10,
+   "score": 100.0,
+   "reason": "task-0 dense 100.0 >= 80",
+   "run": "../results/pf_nt/analysis/../vastai38/20261119T190800Z",
+   "unit": "2.0"
+  }
+ },
+ "stop": {
+  "live_stop": false,
+  "per_run": {
+   "../results/pf_nt/analysis/../vastai38/20261119T103525Z": {
+    "stop_file": false,
+    "lead_stop_lines": []
+   },
+   "../results/pf_nt/analysis/../vastai38/20261119T190800Z": {
+    "stop_file": false,
+    "lead_stop_lines": []
+   }
+  },
+  "late_gates": [
+   "D",
+   "F"
+  ],
+  "notes": []
+ },
+ "models": {
+  "b38": {
+   "gather_dense_prefill": {
+    "median": 0.6748214750976149,
+    "max": 1.4512485820907792,
+    "n": 260,
+    "n_above_0.85": 1,
+    "per_prompt": {
+     "0": 0.6770831612849946,
+     "1": 0.6760440787636925,
+     "10": 0.676126905644829,
+     "1000": 0.6757464900138422,
+     "10000": 0.6753090544604076,
+     "10001": 0.7006495957408769,
+     "10002": 0.6863490314881115,
+     "10003": 0.6934950171286204,
+     "10004": 0.6876352107422604,
+     "10005": 0.6780819571027206,
+     "10006": 0.6961151646618023,
+     "10007": 0.6887217763810165,
+     "10008": 0.6922855553210676,
+     "10009": 0.6770648766525829,
+     "1001": 0.675404350250976,
+     "10010": 0.683865811921266,
+     "10011": 0.6910438974132539,
+     "10012": 0.6702323744322296,
+     "10013": 0.6964525293978376,
+     "10014": 0.6735224941200021,
+     "10015": 0.6935839424527208,
+     "10016": 0.68346756111998,
+     "10017": 0.6895789199836474,
+     "10018": 0.7057224665947381,
+     "10019": 0.6766590545008351,
+     "1002": 0.6741366581904684,
+     "1003": 0.6728919723149259,
+     "1004": 0.6748447976160914,
+     "1005": 0.673602101978816,
+     "1006": 0.6735659373151981,
+     "1007": 0.6748550879324784,
+     "1008": 0.6738966365873666,
+     "1009": 0.6743415114466235,
+     "1010": 0.6767741616869969,
+     "1011": 0.6757226191256472,
+     "1012": 0.6742715822919566,
+     "1013": 0.6743709532005573,
+     "1014": 0.6741112422930604,
+     "1015": 0.6746496099431443,
+     "1016": 0.6748196721311476,
+     "1017": 0.6734231646670714,
+     "1018": 0.6747413992531148,
+     "1019": 0.674644604222069,
+     "11": 0.6774937064766077,
+     "11000": 0.6825205093361518,
+     "11001": 0.6757495431121062,
+     "11002": 0.6764405957973219,
+     "11003": 0.6739577801380775,
+     "11004": 0.6760626250268653,
+     "11005": 0.6786544301005955,
+     "11006": 0.6771097187041727,
+     "11007": 0.6757113719196175,
+     "11008": 0.6757537936017868,
+     "11009": 0.6778044176911697,
+     "11010": 0.6764210178453403,
+     "11011": 0.6752876874701611,
+     "11012": 0.6782540866852065,
+     "11013": 0.6761594118913191,
+     "11014": 0.6728077974250058,
+     "11015": 0.6786324497149527,
+     "11016": 0.6791253496058988,
+     "11017": 0.6767008125506809,
+     "11018": 0.6765726681127983,
+     "11019": 0.6783997856556759,
+     "12": 0.6727841705512273,
+     "12000": 0.6773849977177054,
+     "12001": 0.6802142733713495,
+     "12002": 0.6783171299465973,
+     "12003": 0.6825955208804988,
+     "12004": 0.674260484168821,
+     "12005": 0.6833425252183813,
+     "12006": 0.6752671884204327,
+     "12007": 0.6806806979921485,
+     "12008": 0.6725126865794998,
+     "12009": 0.6792256168409541,
+     "12010": 0.682405016599041,
+     "12011": 0.6802123186157929,
+     "12012": 0.6744854471571575,
+     "12013": 0.6747132368854779,
+     "12014": 0.6745922902794071,
+     "12015": 0.675330559097926,
+     "12016": 0.6760678214279772,
+     "12017": 0.6733898806588421,
+     "12018": 0.6772663830359695,
+     "12019": 0.6820465083602641,
+     "13": 0.6737512066624127,
+     "14": 0.6738083538083539,
+     "15": 0.6732804666251598,
+     "16": 0.6731554520556932,
+     "17": 0.673469052970029,
+     "18": 0.6741084610084971,
+     "19": 0.6732799895061323,
+     "2": 0.6732561005669213,
+     "2000": 0.6764012334482132,
+     "2001": 0.6759482787129204,
+     "2002": 0.6754436744347596,
+     "2003": 0.6739227598536641,
+     "2004": 0.6748345466578425,
+     "2005": 0.6755879430274926,
+     "2006": 1.4512485820907792,
+     "2007": 0.7402520510868645,
+     "2008": 0.7395065468376586,
+     "2009": 0.7302658963387223,
+     "2010": 0.6761657178584356,
+     "2011": 0.6765476445484354,
+     "2012": 0.6745381737883757,
+     "2013": 0.6747982240414611,
+     "2014": 0.6747224791859389,
+     "2015": 0.6747778108170616,
+     "2016": 0.67507462197002,
+     "2017": 0.6745987461843963,
+     "2018": 0.6740043304245129,
+     "2019": 0.6753441843573574,
+     "3": 0.6741100856954516,
+     "3000": 0.7108168669790181,
+     "3001": 0.7223212891668243,
+     "3002": 0.7195757289614639,
+     "3003": 0.7144346268170528,
+     "3004": 0.7059363997820908,
+     "3005": 0.7057648262755226,
+     "3006": 0.40958136380861204,
+     "3007": 0.6743766349879134,
+     "3008": 0.6753664522119784,
+     "3009": 0.67452206125554,
+     "3010": 0.6767125559794327,
+     "3011": 0.6737836375264427,
+     "3012": 0.6754929670583958,
+     "3013": 0.6748128686858672,
+     "3014": 0.6741818062569686,
+     "3015": 0.6742227872343939,
+     "3016": 0.6742736206585401,
+     "3017": 0.6746263275206503,
+     "3018": 0.6738692066822959,
+     "3019": 0.6744380365685825,
+     "4": 0.6740909016083099,
+     "4000": 0.674821120975222,
+     "4001": 0.6735830963560611,
+     "4002": 0.6719890133527475,
+     "4003": 0.672652574382082,
+     "4004": 0.6729041544646845,
+     "4005": 0.6739490509159571,
+     "4006": 0.6733498759305211,
+     "4007": 0.6722200119355481,
+     "4008": 0.6723447225533042,
+     "4009": 0.6733879645724692,
+     "4010": 0.6741680869723495,
+     "4011": 0.6730461994564769,
+     "4012": 0.6731423662734992,
+     "4013": 0.672367207064716,
+     "4014": 0.6733660049832516,
+     "4015": 0.6727443733086925,
+     "4016": 0.672485549132948,
+     "4017": 0.6726576554273737,
+     "4018": 0.6728606760098929,
+     "4019": 0.6729139880658029,
+     "5": 0.6738400789733465,
+     "5000": 0.6801021616318799,
+     "5001": 0.6790627795877715,
+     "5002": 0.6754830775451068,
+     "5003": 0.6748748947133726,
+     "5004": 0.6755536514632217,
+     "5005": 0.6744320242688033,
+     "5006": 0.6743368382826298,
+     "5007": 0.6748156579403177,
+     "5008": 0.6780657992314434,
+     "5009": 0.674535533538847,
+     "5010": 0.6752440840642066,
+     "5011": 0.6783060044827179,
+     "5012": 0.6744467612833792,
+     "5013": 0.6727879248274268,
+     "5014": 0.6736836899541723,
+     "5015": 0.6730547407968889,
+     "5016": 0.6715131134299326,
+     "5017": 0.6772795494021822,
+     "5018": 0.6771834024336805,
+     "5019": 0.6766949009550164,
+     "6": 0.6740478736530394,
+     "6000": 0.6774826290767645,
+     "6001": 0.6756412377957968,
+     "6002": 0.6728761447526348,
+     "6003": 0.6752377481029855,
+     "6004": 0.6741151498198213,
+     "6005": 0.674006055818852,
+     "6006": 0.6748869640106661,
+     "6007": 0.6754902123286536,
+     "6008": 0.6738140261448656,
+     "6009": 0.6747746553552492,
+     "6010": 0.6769511184755592,
+     "6011": 0.6740319727445457,
+     "6012": 0.674821829220008,
+     "6013": 0.6747315818118846,
+     "6014": 0.6744677339494966,
+     "6015": 0.674320716707339,
+     "6016": 0.6744433529796988,
+     "6017": 0.675317176183327,
+     "6018": 0.674075417566654,
+     "6019": 0.6744017284317121,
+     "7": 0.6740726111714558,
+     "7000": 0.6775346656469258,
+     "7001": 0.6737959130034825,
+     "7002": 0.6750145023618132,
+     "7003": 0.6753986145163148,
+     "7004": 0.6740787069802656,
+     "7005": 0.674870316047664,
+     "7006": 0.6759245556048871,
+     "7007": 0.6745614035087719,
+     "7008": 0.6740878372823389,
+     "7009": 0.6755048634770158,
+     "7010": 0.6773969315304282,
+     "7011": 0.6749783351591753,
+     "7012": 0.6748739246514388,
+     "7013": 0.6745605708487448,
+     "7014": 0.6748090847614178,
+     "7015": 0.6750507166301067,
+     "7016": 0.6739475190059675,
+     "7017": 0.6745405093546526,
+     "7018": 0.6749831200698253,
+     "7019": 0.6739848836828846,
+     "8": 0.6732242053709365,
+     "8000": 0.677565160013197,
+     "8001": 0.6753810486854437,
+     "8002": 0.6760912779904384,
+     "8003": 0.6759764597580221,
+     "8004": 0.6751840978793893,
+     "8005": 0.6753722155649305,
+     "8006": 0.6744977476736922,
+     "8007": 0.6753144395914749,
+     "8008": 0.6752573088855695,
+     "8009": 0.6752777823368182,
+     "8010": 0.6772067645076997,
+     "8011": 0.675059794895318,
+     "8012": 0.6744547522047154,
+     "8013": 0.674497853795996,
+     "8014": 0.6748977923139821,
+     "8015": 0.6747222540373383,
+     "8016": 0.6746703404841566,
+     "8017": 0.675570267435763,
+     "8018": 0.6749025772014278,
+     "8019": 0.6746648310223883,
+     "9": 0.6739319821818959,
+     "9000": 0.6750580816461998,
+     "9001": 0.6729770840911347,
+     "9002": 0.6749682086175289,
+     "9003": 0.6738545808516607,
+     "9004": 0.6733258486329414,
+     "9005": 0.6737129162879101,
+     "9006": 0.6716778301496733,
+     "9007": 0.6731864855912554,
+     "9008": 0.6736481906997503,
+     "9009": 0.6725081422454411,
+     "9010": 0.6751729032897018,
+     "9011": 0.6749182241070402,
+     "9012": 0.6713926215891709,
+     "9013": 0.6730073059961824,
+     "9014": 0.6724280106870733,
+     "9015": 0.6723076416554177,
+     "9016": 0.6721041899625074,
+     "9017": 0.6726475802744764,
+     "9018": 0.6718875832032213,
+     "9019": 0.671202411742418
+    }
+   },
+   "degenerate_rows": {
+    "n": 0,
+    "rows": []
+   },
+   "per_task": {
+    "dense": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 100.0,
+     "niah_multivalue": 100.0,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 100.0,
+     "fwe": 100.0,
+     "qa_1": 85.0,
+     "qa_2": 60.0
+    },
+    "quest:27648:f3": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 100.0,
+     "niah_multivalue": 100.0,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 100.0,
+     "fwe": 100.0,
+     "qa_1": 80.0,
+     "qa_2": 60.0
+    },
+    "pf:0.1:512:d512": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 100.0,
+     "niah_multivalue": 96.25,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 93.0,
+     "fwe": 100.0,
+     "qa_1": 85.0,
+     "qa_2": 55.00000000000001
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 95.0,
+     "niah_multivalue": 96.25,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 93.0,
+     "fwe": 100.0,
+     "qa_1": 85.0,
+     "qa_2": 55.00000000000001
+    }
+   },
+   "per_pass": {
+    "1": {
+     "per_task": {
+      "dense": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 70.0,
+       "qa_2": 80.0
+      },
+      "quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 60.0,
+       "qa_2": 80.0
+      },
+      "pf:0.1:512:d512": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 95.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 92.00000000000001,
+       "fwe": 100.0,
+       "qa_1": 70.0,
+       "qa_2": 70.0
+      },
+      "pf:0.1:512:d512+quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 90.0,
+       "niah_multivalue": 95.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 94.0,
+       "fwe": 100.0,
+       "qa_1": 70.0,
+       "qa_2": 70.0
+      }
+     },
+     "mean": {
+      "dense": 96.15384615384616,
+      "quest:27648:f3": 95.38461538461539,
+      "pf:0.1:512:d512": 94.38461538461539,
+      "pf:0.1:512:d512+quest:27648:f3": 93.76923076923077
+     }
+    },
+    "2": {
+     "per_task": {
+      "dense": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 100.0,
+       "qa_2": 40.0
+      },
+      "quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 100.0,
+       "qa_2": 40.0
+      },
+      "pf:0.1:512:d512": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 97.5,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 94.0,
+       "fwe": 100.0,
+       "qa_1": 100.0,
+       "qa_2": 40.0
+      },
+      "pf:0.1:512:d512+quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 97.5,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 92.00000000000001,
+       "fwe": 100.0,
+       "qa_1": 100.0,
+       "qa_2": 40.0
+      }
+     },
+     "mean": {
+      "dense": 95.38461538461539,
+      "quest:27648:f3": 95.38461538461539,
+      "pf:0.1:512:d512": 94.73076923076923,
+      "pf:0.1:512:d512+quest:27648:f3": 94.57692307692308
+     }
+    }
+   },
+   "per_task_delta": {
+    "quest:27648:f3": {
+     "niah_single_1": 0.0,
+     "niah_single_2": 0.0,
+     "niah_single_3": 0.0,
+     "niah_multikey_1": 0.0,
+     "niah_multikey_2": 0.0,
+     "niah_multikey_3": 0.0,
+     "niah_multivalue": 0.0,
+     "niah_multiquery": 0.0,
+     "vt": 0.0,
+     "cwe": 0.0,
+     "fwe": 0.0,
+     "qa_1": -5.0,
+     "qa_2": 0.0
+    },
+    "pf:0.1:512:d512": {
+     "niah_single_1": 0.0,
+     "niah_single_2": 0.0,
+     "niah_single_3": 0.0,
+     "niah_multikey_1": 0.0,
+     "niah_multikey_2": 0.0,
+     "niah_multikey_3": 0.0,
+     "niah_multivalue": -3.75,
+     "niah_multiquery": 0.0,
+     "vt": 0.0,
+     "cwe": -7.0,
+     "fwe": 0.0,
+     "qa_1": 0.0,
+     "qa_2": -4.999999999999993
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "niah_single_1": 0.0,
+     "niah_single_2": 0.0,
+     "niah_single_3": 0.0,
+     "niah_multikey_1": 0.0,
+     "niah_multikey_2": 0.0,
+     "niah_multikey_3": -5.0,
+     "niah_multivalue": -3.75,
+     "niah_multiquery": 0.0,
+     "vt": 0.0,
+     "cwe": -7.0,
+     "fwe": 0.0,
+     "qa_1": 0.0,
+     "qa_2": -4.999999999999993
+    }
+   },
+   "mean": {
+    "dense": 95.76923076923077,
+    "quest:27648:f3": 95.38461538461539,
+    "pf:0.1:512:d512": 94.5576923076923,
+    "pf:0.1:512:d512+quest:27648:f3": 94.17307692307692
+   },
+   "empty_outputs": {
+    "dense": 0,
+    "quest:27648:f3": 0,
+    "pf:0.1:512:d512": 0,
+    "pf:0.1:512:d512+quest:27648:f3": 0
+   },
+   "kinds": {
+    "dense": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "quest:27648:f3": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "pf:0.1:512:d512": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    }
+   },
+   "kinds_per_task": {
+    "dense": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    },
+    "quest:27648:f3": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    },
+    "pf:0.1:512:d512": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    }
+   },
+   "stats": {
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "delta": -1.5961538461538458,
+     "ci95": [
+      -3.25,
+      -0.15384615384615377
+     ],
+     "pass": true,
+     "n_pairs": 260
+    },
+    "quest:27648:f3": {
+     "delta": -0.38461538461538464,
+     "ci95": [
+      -1.1538461538461537,
+      0.0
+     ],
+     "pass": true,
+     "n_pairs": 260
+    },
+    "pf:0.1:512:d512": {
+     "delta": -1.2115384615384612,
+     "ci95": [
+      -2.173076923076923,
+      -0.5769230769230768
+     ],
+     "pass": true,
+     "n_pairs": 260
+    }
+   },
+   "stats_pass1": {
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "delta": -2.384615384615385,
+     "ci95": [
+      -5.5769230769230775,
+      0.46153846153846173
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "quest:27648:f3": {
+     "delta": -0.7692307692307693,
+     "ci95": [
+      -2.3076923076923075,
+      0.0
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "pf:0.1:512:d512": {
+     "delta": -1.7692307692307694,
+     "ci95": [
+      -3.4999999999999996,
+      -0.6153846153846153
+     ],
+     "pass": true,
+     "n_pairs": 130
+    }
+   },
+   "stats_pass2": {
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "delta": -0.8076923076923075,
+     "ci95": [
+      -1.3076923076923077,
+      -0.3846153846153845
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "quest:27648:f3": {
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "pf:0.1:512:d512": {
+     "delta": -0.6538461538461539,
+     "ci95": [
+      -1.1153846153846152,
+      -0.30769230769230765
+     ],
+     "pass": true,
+     "n_pairs": 130
+    }
+   },
+   "dense_floors": {
+    "niah_single_1": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_single_2": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_single_3": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multikey_1": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multikey_2": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multikey_3": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multivalue": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multiquery": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "vt": {
+     "dense": 100.0,
+     "floor": 80.0
+    },
+    "cwe": {
+     "dense": 100.0,
+     "floor": 60.0
+    },
+    "fwe": {
+     "dense": 100.0,
+     "floor": 70.0
+    },
+    "qa_1": {
+     "dense": 85.0,
+     "floor": 40.0
+    },
+    "qa_2": {
+     "dense": 60.0,
+     "floor": 10.0
+    }
+   },
+   "decision": "PASS",
+   "reason": "pf:0.1:512:d512+quest:27648:f3 delta -1.60 [-3.25, -0.15] passes the gate",
+   "vs_raw": {
+    "raw": "../results/pf_bf16/analysis/decision.json",
+    "note": "PF-BF16: raw prompts, BF16, f16 KV; differs in prompt format, box and unit placement (descriptive only)",
+    "per_task": {
+     "dense": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 88.00000000000001,
+       "here_minus_raw": 11.999999999999986
+      },
+      "cwe": {
+       "here": 100.0,
+       "raw": 78.0,
+       "here_minus_raw": 22.0
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 90.0,
+       "here_minus_raw": 10.0
+      },
+      "qa_1": {
+       "here": 85.0,
+       "raw": 25.0,
+       "here_minus_raw": 60.0
+      },
+      "qa_2": {
+       "here": 60.0,
+       "raw": 30.0,
+       "here_minus_raw": 30.0
+      }
+     },
+     "quest:27648:f3": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 95.0,
+       "here_minus_raw": 5.0
+      },
+      "niah_multikey_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 62.999999999999986,
+       "here_minus_raw": 37.000000000000014
+      },
+      "cwe": {
+       "here": 100.0,
+       "raw": 78.0,
+       "here_minus_raw": 22.0
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 90.0,
+       "here_minus_raw": 10.0
+      },
+      "qa_1": {
+       "here": 80.0,
+       "raw": 40.0,
+       "here_minus_raw": 40.0
+      },
+      "qa_2": {
+       "here": 60.0,
+       "raw": 25.0,
+       "here_minus_raw": 35.0
+      }
+     },
+     "pf:0.1:512:d512": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 95.0,
+       "here_minus_raw": 5.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 96.25,
+       "raw": 98.75,
+       "here_minus_raw": -2.5
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 93.75,
+       "here_minus_raw": 6.25
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 80.0,
+       "here_minus_raw": 20.0
+      },
+      "cwe": {
+       "here": 93.0,
+       "raw": 49.999999999999986,
+       "here_minus_raw": 43.000000000000014
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 85.0,
+       "here_minus_raw": 15.0
+      },
+      "qa_1": {
+       "here": 85.0,
+       "raw": 45.0,
+       "here_minus_raw": 40.0
+      },
+      "qa_2": {
+       "here": 55.00000000000001,
+       "raw": 10.0,
+       "here_minus_raw": 45.00000000000001
+      }
+     },
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 95.0,
+       "here_minus_raw": 5.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 95.0,
+       "raw": 100.0,
+       "here_minus_raw": -5.0
+      },
+      "niah_multivalue": {
+       "here": 96.25,
+       "raw": 100.0,
+       "here_minus_raw": -3.75
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 97.5,
+       "here_minus_raw": 2.5
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 41.0,
+       "here_minus_raw": 59.0
+      },
+      "cwe": {
+       "here": 93.0,
+       "raw": 56.49999999999999,
+       "here_minus_raw": 36.50000000000001
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 80.0,
+       "here_minus_raw": 20.0
+      },
+      "qa_1": {
+       "here": 85.0,
+       "raw": 35.0,
+       "here_minus_raw": 50.0
+      },
+      "qa_2": {
+       "here": 55.00000000000001,
+       "raw": 10.0,
+       "here_minus_raw": 45.00000000000001
+      }
+     }
+    },
+    "per_task_delta": {
+     "quest:27648:f3": {
+      "niah_single_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 0.0,
+       "raw": -5.0
+      },
+      "niah_multikey_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "vt": {
+       "here": 0.0,
+       "raw": -25.00000000000003
+      },
+      "cwe": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "fwe": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "qa_1": {
+       "here": -5.0,
+       "raw": 15.0
+      },
+      "qa_2": {
+       "here": 0.0,
+       "raw": -5.0
+      }
+     },
+     "pf:0.1:512:d512": {
+      "niah_single_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 0.0,
+       "raw": -5.0
+      },
+      "niah_single_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": -3.75,
+       "raw": -1.25
+      },
+      "niah_multiquery": {
+       "here": 0.0,
+       "raw": -6.25
+      },
+      "vt": {
+       "here": 0.0,
+       "raw": -8.000000000000014
+      },
+      "cwe": {
+       "here": -7.0,
+       "raw": -28.000000000000014
+      },
+      "fwe": {
+       "here": 0.0,
+       "raw": -5.0
+      },
+      "qa_1": {
+       "here": 0.0,
+       "raw": 20.0
+      },
+      "qa_2": {
+       "here": -4.999999999999993,
+       "raw": -20.0
+      }
+     },
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "niah_single_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 0.0,
+       "raw": -5.0
+      },
+      "niah_single_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": -5.0,
+       "raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": -3.75,
+       "raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 0.0,
+       "raw": -2.5
+      },
+      "vt": {
+       "here": 0.0,
+       "raw": -47.000000000000014
+      },
+      "cwe": {
+       "here": -7.0,
+       "raw": -21.500000000000007
+      },
+      "fwe": {
+       "here": 0.0,
+       "raw": -10.0
+      },
+      "qa_1": {
+       "here": 0.0,
+       "raw": 10.0
+      },
+      "qa_2": {
+       "here": -4.999999999999993,
+       "raw": -20.0
+      }
+     }
+    },
+    "delta": {
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "here": -1.5961538461538458,
+      "raw": -7.384615384615384
+     },
+     "quest:27648:f3": {
+      "here": -0.38461538461538464,
+      "raw": -1.5384615384615385
+     },
+     "pf:0.1:512:d512": {
+      "here": -1.2115384615384612,
+      "raw": -4.115384615384616
+     }
+    },
+    "mean": {
+     "dense": {
+      "here": 95.76923076923077,
+      "raw": 85.46153846153847
+     },
+     "quest:27648:f3": {
+      "here": 95.38461538461539,
+      "raw": 83.92307692307692
+     },
+     "pf:0.1:512:d512": {
+      "here": 94.5576923076923,
+      "raw": 81.34615384615384
+     },
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "here": 94.17307692307692,
+      "raw": 78.07692307692308
+     }
+    }
+   }
+  },
+  "q38": {
+   "gather_dense_prefill": {
+    "median": 0.6824703090691359,
+    "max": 0.7118647532605585,
+    "n": 260,
+    "n_above_0.85": 0,
+    "per_prompt": {
+     "0": 0.6820904267439211,
+     "1": 0.6828514748447104,
+     "10": 0.6840729814660425,
+     "1000": 0.6836170143521985,
+     "10000": 0.682943986389216,
+     "10001": 0.7084874440334826,
+     "10002": 0.693498173442027,
+     "10003": 0.702104880799893,
+     "10004": 0.6948169560365174,
+     "10005": 0.6864214159441031,
+     "10006": 0.7036649620331629,
+     "10007": 0.696310173195952,
+     "10008": 0.7011910146238504,
+     "10009": 0.6839790645954217,
+     "1001": 0.6828551956902706,
+     "10010": 0.6896958506436888,
+     "10011": 0.6983717848650414,
+     "10012": 0.6780167652219118,
+     "10013": 0.7045830495280724,
+     "10014": 0.6809796751984715,
+     "10015": 0.701432741286224,
+     "10016": 0.6906313068724995,
+     "10017": 0.6968498168498168,
+     "10018": 0.7118647532605585,
+     "10019": 0.6843841518833944,
+     "1002": 0.6820152294978162,
+     "1003": 0.6797076735688186,
+     "1004": 0.681763829055349,
+     "1005": 0.6811514067328021,
+     "1006": 0.6815321833287268,
+     "1007": 0.6839176495400638,
+     "1008": 0.6842770352369381,
+     "1009": 0.6910916298707577,
+     "1010": 0.6847389236706003,
+     "1011": 0.6854404600271544,
+     "1012": 0.6836166307557258,
+     "1013": 0.683488509510197,
+     "1014": 0.6833261456386666,
+     "1015": 0.6835528646420406,
+     "1016": 0.684500103961742,
+     "1017": 0.6816598491627253,
+     "1018": 0.6837360549912265,
+     "1019": 0.6838949034909567,
+     "11": 0.6848653489413421,
+     "11000": 0.6835876928099242,
+     "11001": 0.6819568392016875,
+     "11002": 0.6819254443142626,
+     "11003": 0.6811470428827171,
+     "11004": 0.6830667167764178,
+     "11005": 0.6864577391537765,
+     "11006": 0.6839165678133651,
+     "11007": 0.6837988457277042,
+     "11008": 0.682513395031661,
+     "11009": 0.6849324290210203,
+     "11010": 0.6891675868092749,
+     "11011": 0.6834024558835489,
+     "11012": 0.6871848141136261,
+     "11013": 0.6832118458470892,
+     "11014": 0.6818522623549355,
+     "11015": 0.6855322777508401,
+     "11016": 0.6858998020200665,
+     "11017": 0.6827715968586388,
+     "11018": 0.6824617210291233,
+     "11019": 0.684429008517324,
+     "12": 0.6821707906143536,
+     "12000": 0.6844282036375717,
+     "12001": 0.6869173188159238,
+     "12002": 0.6855618034277248,
+     "12003": 0.6883714564335939,
+     "12004": 0.6814178302900107,
+     "12005": 0.6898972392906535,
+     "12006": 0.6828122925793176,
+     "12007": 0.6881866961928286,
+     "12008": 0.6796050169998862,
+     "12009": 0.6859711021505376,
+     "12010": 0.6890002592240559,
+     "12011": 0.6878566576086956,
+     "12012": 0.6828891023657945,
+     "12013": 0.6821248584139074,
+     "12014": 0.6826653175794765,
+     "12015": 0.6832047163249759,
+     "12016": 0.6838193065651511,
+     "12017": 0.6806269145367024,
+     "12018": 0.6849055663527184,
+     "12019": 0.6901713849569803,
+     "13": 0.6835475496009488,
+     "14": 0.6835856765200673,
+     "15": 0.682333925456495,
+     "16": 0.6827040194884287,
+     "17": 0.6827750966024788,
+     "18": 0.6833552357447353,
+     "19": 0.6827214064976862,
+     "2": 0.680515386865109,
+     "2000": 0.6858706451969026,
+     "2001": 0.6831947277577279,
+     "2002": 0.6817150457710663,
+     "2003": 0.6807765654797262,
+     "2004": 0.6801403508771929,
+     "2005": 0.679895830084521,
+     "2006": 0.6808939309404253,
+     "2007": 0.6802592534749337,
+     "2008": 0.6803295314474732,
+     "2009": 0.6813677992060764,
+     "2010": 0.6844519015659956,
+     "2011": 0.6849183169111275,
+     "2012": 0.6847565970158842,
+     "2013": 0.6836100085172032,
+     "2014": 0.6827705042111536,
+     "2015": 0.6803200671108458,
+     "2016": 0.6789821621013012,
+     "2017": 0.6807116862110797,
+     "2018": 0.6822911601672663,
+     "2019": 0.681311165752064,
+     "3": 0.6807344522508457,
+     "3000": 0.676151004315296,
+     "3001": 0.6728399968206026,
+     "3002": 0.6796008690754003,
+     "3003": 0.6796859856561349,
+     "3004": 0.6801827342092048,
+     "3005": 0.6813297406096808,
+     "3006": 0.6810023045214061,
+     "3007": 0.6813346623310839,
+     "3008": 0.6808010192414491,
+     "3009": 0.6819779321618308,
+     "3010": 0.6823942511840602,
+     "3011": 0.6812850338593137,
+     "3012": 0.6809631792746791,
+     "3013": 0.6820016010194246,
+     "3014": 0.6814364461738003,
+     "3015": 0.6814030853527281,
+     "3016": 0.6813204613191655,
+     "3017": 0.681821863003936,
+     "3018": 0.6811481517478213,
+     "3019": 0.6814367182943426,
+     "4": 0.6807791109810425,
+     "4000": 0.6814237100477066,
+     "4001": 0.6812259787635984,
+     "4002": 0.6798110595325352,
+     "4003": 0.680237862495927,
+     "4004": 0.681083719794972,
+     "4005": 0.6803320042314265,
+     "4006": 0.6814642252052653,
+     "4007": 0.6799889071956411,
+     "4008": 0.6808299106851816,
+     "4009": 0.6815905791782878,
+     "4010": 0.6812443056097879,
+     "4011": 0.6801704720390206,
+     "4012": 0.6801007556675064,
+     "4013": 0.680793712652637,
+     "4014": 0.6802085702218902,
+     "4015": 0.6804432367346274,
+     "4016": 0.6806975835341627,
+     "4017": 0.6799973988815191,
+     "4018": 0.6806456331984201,
+     "4019": 0.680732393450087,
+     "5": 0.6804234352895263,
+     "5000": 0.6857790519367958,
+     "5001": 0.6865942632508245,
+     "5002": 0.6816920136291864,
+     "5003": 0.6815995042319672,
+     "5004": 0.6824818112273963,
+     "5005": 0.6825541619156215,
+     "5006": 0.6846581189618938,
+     "5007": 0.685828421103912,
+     "5008": 0.6900659188157742,
+     "5009": 0.6847632065610678,
+     "5010": 0.682447811666775,
+     "5011": 0.6855589804779424,
+     "5012": 0.6817271900074447,
+     "5013": 0.6802736564993419,
+     "5014": 0.6810238420061067,
+     "5015": 0.680524666807357,
+     "5016": 0.6788109038364749,
+     "5017": 0.6852325581395348,
+     "5018": 0.6840385476620943,
+     "5019": 0.6839752007047522,
+     "6": 0.6809206245933638,
+     "6000": 0.6855346928222861,
+     "6001": 0.6859853496401949,
+     "6002": 0.6828054226220011,
+     "6003": 0.6847249326645485,
+     "6004": 0.68345346788403,
+     "6005": 0.6838783062849453,
+     "6006": 0.6842995713963457,
+     "6007": 0.6844619456458589,
+     "6008": 0.6838588732935974,
+     "6009": 0.6843965906889649,
+     "6010": 0.6830814475941508,
+     "6011": 0.6804612200012937,
+     "6012": 0.682014717159686,
+     "6013": 0.682656706193218,
+     "6014": 0.681197932799687,
+     "6015": 0.6811272803794293,
+     "6016": 0.6818615635969524,
+     "6017": 0.6811792491245214,
+     "6018": 0.6812604891401757,
+     "6019": 0.6815817366490012,
+     "7": 0.6806718589941627,
+     "7000": 0.684683812014659,
+     "7001": 0.6837904838064773,
+     "7002": 0.6848597226701064,
+     "7003": 0.6840354944440004,
+     "7004": 0.6838729285302962,
+     "7005": 0.6842986651208476,
+     "7006": 0.683537228095953,
+     "7007": 0.6843604183427192,
+     "7008": 0.6833777721009691,
+     "7009": 0.6837523560042169,
+     "7010": 0.6830373146488512,
+     "7011": 0.6811095494272927,
+     "7012": 0.6824788971091484,
+     "7013": 0.6809422880903457,
+     "7014": 0.6810475399423462,
+     "7015": 0.6821072197221679,
+     "7016": 0.6811350363192209,
+     "7017": 0.682137558892095,
+     "7018": 0.6823784171021997,
+     "7019": 0.6811280177222967,
+     "8": 0.6806032308968748,
+     "8000": 0.6826003513109101,
+     "8001": 0.6819030304997808,
+     "8002": 0.6826746733749899,
+     "8003": 0.6816506761473401,
+     "8004": 0.6814456579950989,
+     "8005": 0.6825541174751133,
+     "8006": 0.682074353185753,
+     "8007": 0.6821606000584473,
+     "8008": 0.6828995014857997,
+     "8009": 0.6815615264797508,
+     "8010": 0.682494362701361,
+     "8011": 0.6822692045786181,
+     "8012": 0.6816578197824962,
+     "8013": 0.6819914051731127,
+     "8014": 0.682482579808783,
+     "8015": 0.6865308900014582,
+     "8016": 0.6862067852416153,
+     "8017": 0.6855189458986664,
+     "8018": 0.6840361686804832,
+     "8019": 0.6838432979131993,
+     "9": 0.6797938244906587,
+     "9000": 0.6828626866150319,
+     "9001": 0.6829518332826091,
+     "9002": 0.681407147772923,
+     "9003": 0.6802988847821565,
+     "9004": 0.6829123851595762,
+     "9005": 0.6827850209821571,
+     "9006": 0.6770965718054729,
+     "9007": 0.6785587217388491,
+     "9008": 0.68039498646085,
+     "9009": 0.6798928919182085,
+     "9010": 0.6809238249594813,
+     "9011": 0.6815701261477175,
+     "9012": 0.6794447687617565,
+     "9013": 0.6800997764747805,
+     "9014": 0.6800812017864393,
+     "9015": 0.6802342558645079,
+     "9016": 0.6793917878389989,
+     "9017": 0.6804881206706804,
+     "9018": 0.6797545416275379,
+     "9019": 0.678889845234422
+    }
+   },
+   "degenerate_rows": {
+    "n": 0,
+    "rows": []
+   },
+   "per_task": {
+    "dense": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 100.0,
+     "niah_multivalue": 100.0,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 100.0,
+     "fwe": 100.0,
+     "qa_1": 85.0,
+     "qa_2": 60.0
+    },
+    "quest:27648:f3": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 100.0,
+     "niah_multivalue": 100.0,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 100.0,
+     "fwe": 100.0,
+     "qa_1": 80.0,
+     "qa_2": 60.0
+    },
+    "pf:0.1:512:d512": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 100.0,
+     "niah_multivalue": 97.5,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 90.99999999999999,
+     "fwe": 100.0,
+     "qa_1": 85.0,
+     "qa_2": 55.00000000000001
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "niah_single_1": 100.0,
+     "niah_single_2": 100.0,
+     "niah_single_3": 100.0,
+     "niah_multikey_1": 100.0,
+     "niah_multikey_2": 100.0,
+     "niah_multikey_3": 100.0,
+     "niah_multivalue": 97.5,
+     "niah_multiquery": 100.0,
+     "vt": 100.0,
+     "cwe": 90.99999999999999,
+     "fwe": 100.0,
+     "qa_1": 80.0,
+     "qa_2": 55.00000000000001
+    }
+   },
+   "per_pass": {
+    "1": {
+     "per_task": {
+      "dense": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 70.0,
+       "qa_2": 80.0
+      },
+      "quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 60.0,
+       "qa_2": 80.0
+      },
+      "pf:0.1:512:d512": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 95.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 92.00000000000001,
+       "fwe": 100.0,
+       "qa_1": 70.0,
+       "qa_2": 70.0
+      },
+      "pf:0.1:512:d512+quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 95.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 90.99999999999999,
+       "fwe": 100.0,
+       "qa_1": 70.0,
+       "qa_2": 70.0
+      }
+     },
+     "mean": {
+      "dense": 96.15384615384616,
+      "quest:27648:f3": 95.38461538461539,
+      "pf:0.1:512:d512": 94.38461538461539,
+      "pf:0.1:512:d512+quest:27648:f3": 94.3076923076923
+     }
+    },
+    "2": {
+     "per_task": {
+      "dense": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 100.0,
+       "qa_2": 40.0
+      },
+      "quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 100.0,
+       "fwe": 100.0,
+       "qa_1": 100.0,
+       "qa_2": 40.0
+      },
+      "pf:0.1:512:d512": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 90.0,
+       "fwe": 100.0,
+       "qa_1": 100.0,
+       "qa_2": 40.0
+      },
+      "pf:0.1:512:d512+quest:27648:f3": {
+       "niah_single_1": 100.0,
+       "niah_single_2": 100.0,
+       "niah_single_3": 100.0,
+       "niah_multikey_1": 100.0,
+       "niah_multikey_2": 100.0,
+       "niah_multikey_3": 100.0,
+       "niah_multivalue": 100.0,
+       "niah_multiquery": 100.0,
+       "vt": 100.0,
+       "cwe": 90.99999999999999,
+       "fwe": 100.0,
+       "qa_1": 90.0,
+       "qa_2": 40.0
+      }
+     },
+     "mean": {
+      "dense": 95.38461538461539,
+      "quest:27648:f3": 95.38461538461539,
+      "pf:0.1:512:d512": 94.61538461538461,
+      "pf:0.1:512:d512+quest:27648:f3": 93.92307692307692
+     }
+    }
+   },
+   "per_task_delta": {
+    "quest:27648:f3": {
+     "niah_single_1": 0.0,
+     "niah_single_2": 0.0,
+     "niah_single_3": 0.0,
+     "niah_multikey_1": 0.0,
+     "niah_multikey_2": 0.0,
+     "niah_multikey_3": 0.0,
+     "niah_multivalue": 0.0,
+     "niah_multiquery": 0.0,
+     "vt": 0.0,
+     "cwe": 0.0,
+     "fwe": 0.0,
+     "qa_1": -5.0,
+     "qa_2": 0.0
+    },
+    "pf:0.1:512:d512": {
+     "niah_single_1": 0.0,
+     "niah_single_2": 0.0,
+     "niah_single_3": 0.0,
+     "niah_multikey_1": 0.0,
+     "niah_multikey_2": 0.0,
+     "niah_multikey_3": 0.0,
+     "niah_multivalue": -2.5,
+     "niah_multiquery": 0.0,
+     "vt": 0.0,
+     "cwe": -9.000000000000014,
+     "fwe": 0.0,
+     "qa_1": 0.0,
+     "qa_2": -4.999999999999993
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "niah_single_1": 0.0,
+     "niah_single_2": 0.0,
+     "niah_single_3": 0.0,
+     "niah_multikey_1": 0.0,
+     "niah_multikey_2": 0.0,
+     "niah_multikey_3": 0.0,
+     "niah_multivalue": -2.5,
+     "niah_multiquery": 0.0,
+     "vt": 0.0,
+     "cwe": -9.000000000000014,
+     "fwe": 0.0,
+     "qa_1": -5.0,
+     "qa_2": -4.999999999999993
+    }
+   },
+   "mean": {
+    "dense": 95.76923076923077,
+    "quest:27648:f3": 95.38461538461539,
+    "pf:0.1:512:d512": 94.5,
+    "pf:0.1:512:d512+quest:27648:f3": 94.11538461538461
+   },
+   "empty_outputs": {
+    "dense": 0,
+    "quest:27648:f3": 0,
+    "pf:0.1:512:d512": 0,
+    "pf:0.1:512:d512+quest:27648:f3": 0
+   },
+   "kinds": {
+    "dense": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "quest:27648:f3": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "pf:0.1:512:d512": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "answer": 260,
+     "emptythink": 0,
+     "think_done": 0,
+     "think_open": 0,
+     "blank": 0,
+     "empty": 0
+    }
+   },
+   "kinds_per_task": {
+    "dense": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    },
+    "quest:27648:f3": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    },
+    "pf:0.1:512:d512": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    },
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "niah_single_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_single_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multikey_3": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multivalue": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "niah_multiquery": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "vt": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "cwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "fwe": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_1": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     },
+     "qa_2": {
+      "answer": 20,
+      "emptythink": 0,
+      "think_done": 0,
+      "think_open": 0,
+      "blank": 0,
+      "empty": 0
+     }
+    }
+   },
+   "stats": {
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "delta": -1.6538461538461537,
+     "ci95": [
+      -3.25,
+      -0.1730769230769229
+     ],
+     "pass": true,
+     "n_pairs": 260
+    },
+    "quest:27648:f3": {
+     "delta": -0.38461538461538464,
+     "ci95": [
+      -1.1538461538461537,
+      0.0
+     ],
+     "pass": true,
+     "n_pairs": 260
+    },
+    "pf:0.1:512:d512": {
+     "delta": -1.269230769230769,
+     "ci95": [
+      -2.25,
+      -0.596153846153846
+     ],
+     "pass": true,
+     "n_pairs": 260
+    }
+   },
+   "stats_pass1": {
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "delta": -1.8461538461538463,
+     "ci95": [
+      -4.653846153846153,
+      0.8076923076923077
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "quest:27648:f3": {
+     "delta": -0.7692307692307693,
+     "ci95": [
+      -2.3076923076923075,
+      0.0
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "pf:0.1:512:d512": {
+     "delta": -1.7692307692307694,
+     "ci95": [
+      -3.5384615384615383,
+      -0.5769230769230768
+     ],
+     "pass": true,
+     "n_pairs": 130
+    }
+   },
+   "stats_pass2": {
+    "pf:0.1:512:d512+quest:27648:f3": {
+     "delta": -1.4615384615384615,
+     "ci95": [
+      -3.0769230769230766,
+      -0.5384615384615382
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "quest:27648:f3": {
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "pass": true,
+     "n_pairs": 130
+    },
+    "pf:0.1:512:d512": {
+     "delta": -0.7692307692307692,
+     "ci95": [
+      -1.3846153846153846,
+      -0.30769230769230765
+     ],
+     "pass": true,
+     "n_pairs": 130
+    }
+   },
+   "dense_floors": {
+    "niah_single_1": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_single_2": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_single_3": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multikey_1": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multikey_2": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multikey_3": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multivalue": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "niah_multiquery": {
+     "dense": 100.0,
+     "floor": 90.0
+    },
+    "vt": {
+     "dense": 100.0,
+     "floor": 80.0
+    },
+    "cwe": {
+     "dense": 100.0,
+     "floor": 60.0
+    },
+    "fwe": {
+     "dense": 100.0,
+     "floor": 70.0
+    },
+    "qa_1": {
+     "dense": 85.0,
+     "floor": 40.0
+    },
+    "qa_2": {
+     "dense": 60.0,
+     "floor": 10.0
+    }
+   },
+   "decision": "PASS",
+   "reason": "pf:0.1:512:d512+quest:27648:f3 delta -1.65 [-3.25, -0.17] passes the gate",
+   "vs_raw": {
+    "raw": "../results/pf_conf/analysis/decision_q38.json",
+    "note": "PF-CONF: raw prompts, UD-Q4_K_M, q8_0 KV; differs in prompt format, KV type, card, driver and toolkit (descriptive only)",
+    "per_task": {
+     "dense": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "cwe": {
+       "here": 100.0,
+       "raw": 82.0,
+       "here_minus_raw": 18.0
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 80.0,
+       "here_minus_raw": 20.0
+      },
+      "qa_1": {
+       "here": 85.0,
+       "raw": 60.0,
+       "here_minus_raw": 25.0
+      },
+      "qa_2": {
+       "here": 60.0,
+       "raw": 25.0,
+       "here_minus_raw": 35.0
+      }
+     },
+     "quest:27648:f3": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 99.0,
+       "here_minus_raw": 1.0
+      },
+      "cwe": {
+       "here": 100.0,
+       "raw": 86.99999999999999,
+       "here_minus_raw": 13.000000000000014
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 75.0,
+       "here_minus_raw": 25.0
+      },
+      "qa_1": {
+       "here": 80.0,
+       "raw": 60.0,
+       "here_minus_raw": 20.0
+      },
+      "qa_2": {
+       "here": 60.0,
+       "raw": 25.0,
+       "here_minus_raw": 35.0
+      }
+     },
+     "pf:0.1:512:d512": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 97.5,
+       "raw": 100.0,
+       "here_minus_raw": -2.5
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 96.0,
+       "here_minus_raw": 4.0
+      },
+      "cwe": {
+       "here": 90.99999999999999,
+       "raw": 60.00000000000001,
+       "here_minus_raw": 30.99999999999998
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 85.0,
+       "here_minus_raw": 15.0
+      },
+      "qa_1": {
+       "here": 85.0,
+       "raw": 70.0,
+       "here_minus_raw": 15.0
+      },
+      "qa_2": {
+       "here": 55.00000000000001,
+       "raw": 25.0,
+       "here_minus_raw": 30.000000000000007
+      }
+     },
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "niah_single_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 97.5,
+       "raw": 97.5,
+       "here_minus_raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 100.0,
+       "raw": 100.0,
+       "here_minus_raw": 0.0
+      },
+      "vt": {
+       "here": 100.0,
+       "raw": 80.0,
+       "here_minus_raw": 20.0
+      },
+      "cwe": {
+       "here": 90.99999999999999,
+       "raw": 58.5,
+       "here_minus_raw": 32.499999999999986
+      },
+      "fwe": {
+       "here": 100.0,
+       "raw": 80.0,
+       "here_minus_raw": 20.0
+      },
+      "qa_1": {
+       "here": 80.0,
+       "raw": 75.0,
+       "here_minus_raw": 5.0
+      },
+      "qa_2": {
+       "here": 55.00000000000001,
+       "raw": 25.0,
+       "here_minus_raw": 30.000000000000007
+      }
+     }
+    },
+    "per_task_delta": {
+     "quest:27648:f3": {
+      "niah_single_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "vt": {
+       "here": 0.0,
+       "raw": -1.0
+      },
+      "cwe": {
+       "here": 0.0,
+       "raw": 4.999999999999986
+      },
+      "fwe": {
+       "here": 0.0,
+       "raw": -5.0
+      },
+      "qa_1": {
+       "here": -5.0,
+       "raw": 0.0
+      },
+      "qa_2": {
+       "here": 0.0,
+       "raw": 0.0
+      }
+     },
+     "pf:0.1:512:d512": {
+      "niah_single_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": -2.5,
+       "raw": 0.0
+      },
+      "niah_multiquery": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "vt": {
+       "here": 0.0,
+       "raw": -4.0
+      },
+      "cwe": {
+       "here": -9.000000000000014,
+       "raw": -21.999999999999993
+      },
+      "fwe": {
+       "here": 0.0,
+       "raw": 5.0
+      },
+      "qa_1": {
+       "here": 0.0,
+       "raw": 10.0
+      },
+      "qa_2": {
+       "here": -4.999999999999993,
+       "raw": 0.0
+      }
+     },
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "niah_single_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_single_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_1": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_2": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multikey_3": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "niah_multivalue": {
+       "here": -2.5,
+       "raw": -2.5
+      },
+      "niah_multiquery": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "vt": {
+       "here": 0.0,
+       "raw": -20.0
+      },
+      "cwe": {
+       "here": -9.000000000000014,
+       "raw": -23.5
+      },
+      "fwe": {
+       "here": 0.0,
+       "raw": 0.0
+      },
+      "qa_1": {
+       "here": -5.0,
+       "raw": 15.0
+      },
+      "qa_2": {
+       "here": -4.999999999999993,
+       "raw": 0.0
+      }
+     }
+    },
+    "delta": {
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "here": -1.6538461538461537,
+      "raw": -2.384615384615385
+     },
+     "quest:27648:f3": {
+      "here": -0.38461538461538464,
+      "raw": -0.07692307692307689
+     },
+     "pf:0.1:512:d512": {
+      "here": -1.269230769230769,
+      "raw": -0.8461538461538458
+     }
+    },
+    "mean": {
+     "dense": {
+      "here": 95.76923076923077,
+      "raw": 88.23076923076923
+     },
+     "quest:27648:f3": {
+      "here": 95.38461538461539,
+      "raw": 88.15384615384616
+     },
+     "pf:0.1:512:d512": {
+      "here": 94.5,
+      "raw": 87.38461538461539
+     },
+     "pf:0.1:512:d512+quest:27648:f3": {
+      "here": 94.11538461538461,
+      "raw": 85.84615384615384
+     }
+    }
+   }
+  }
+ },
+ "b38_minus_q38": {
+  "combined_delta": 0.05769230769230793,
+  "per_task_combined_delta": {
+   "niah_single_1": 0.0,
+   "niah_single_2": 0.0,
+   "niah_single_3": 0.0,
+   "niah_multikey_1": 0.0,
+   "niah_multikey_2": 0.0,
+   "niah_multikey_3": -5.0,
+   "niah_multivalue": -1.25,
+   "niah_multiquery": 0.0,
+   "vt": 0.0,
+   "cwe": 2.000000000000014,
+   "fwe": 0.0,
+   "qa_1": 5.0,
+   "qa_2": 0.0
+  },
+  "note": "descriptive"
+ },
+ "dense_token_identity_b38_q38": {
+  "identical": 210,
+  "n": 260,
+  "complete": true,
+  "per_task": {
+   "niah_single_1": "20/20",
+   "niah_single_2": "20/20",
+   "niah_single_3": "18/20",
+   "niah_multikey_1": "20/20",
+   "niah_multikey_2": "15/20",
+   "niah_multikey_3": "14/20",
+   "niah_multivalue": "17/20",
+   "niah_multiquery": "20/20",
+   "vt": "20/20",
+   "cwe": "4/20",
+   "fwe": "4/20",
+   "qa_1": "19/20",
+   "qa_2": "19/20"
+  }
+ },
+ "outcome": "BOTH_PASS",
+ "outcome_reason": "gate F PASS, b38 PASS, q38 PASS"
+}

@@ -1,0 +1,199 @@
+From 30c5909ce8f1cb5897d4e701b9005621270d9faa Mon Sep 17 00:00:00 2001
+From: topppg <giorgio.srn@gmail.com>
+Date: Tue, 17 Nov 2026 18:59:36 +0100
+Subject: [PATCH 5/7] llama : count sparse prefill applications, dense-tail
+ rows and dense fallbacks, sparse-tail : pf counts per prefill
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ include/llama.h                   | 14 ++++++++
+ src/llama-graph.cpp               | 56 ++++++++++++++++++++++++++++++-
+ tools/sparse-tail/sparse-tail.cpp | 18 ++++++++--
+ 3 files changed, 84 insertions(+), 4 deletions(-)
+
+diff --git a/include/llama.h b/include/llama.h
+index 3b2baa3bc..4186d7f73 100644
+--- a/include/llama.h
++++ b/include/llama.h
+@@ -1710,6 +1710,20 @@ extern "C" {
+     LLAMA_API void                           llama_perf_context_print(const struct llama_context * ctx);
+     LLAMA_API void                           llama_perf_context_reset(      struct llama_context * ctx);
+ 
++    // sparse prefill emulation (LLAMA_SPARSE_PREFILL), counted while multi-token graphs of real ubatches are built, all contexts
++    struct llama_sparse_prefill_counts {
++        int64_t n_sparse;        // (layer, ubatch, KV head) attentions that ran with the page mask
++        int64_t n_sparse_rows;   // (layer, row) pairs with sparse attention
++        int64_t n_dense_rows;    // (layer, row) pairs kept dense by LLAMA_SPARSE_PREFILL_ROWS in layers on the sparse path
++        int64_t n_no_sel;        // (layer, ubatch) without a selectable page (dense, e.g. the first ubatch)
++        int64_t n_fallback;      // (layer, ubatch) that fell back to dense for an unsupported condition
++        int32_t n_layers;        // layers with at least one sparse ubatch
++        int32_t ub_min;          // sparse ubatches per such layer: min and max
++        int32_t ub_max;
++    };
++    // returns the counts since the last reset; reset = true starts a new count
++    LLAMA_API struct llama_sparse_prefill_counts llama_sparse_prefill_counts_get(bool reset);
++
+     // NOTE: the following work only with samplers constructed via llama_sampler_chain_init
+     LLAMA_API struct llama_perf_sampler_data llama_perf_sampler      (const struct llama_sampler * chain);
+     LLAMA_API void                           llama_perf_sampler_print(const struct llama_sampler * chain);
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index 3176d3ad1..68d76b46f 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -26,6 +26,8 @@
+ #include <sstream>
+ #include <string>
+ #include <unordered_set>
++#include <map>
++#include <mutex>
+ 
+ // dedup helpers
+ 
+@@ -720,6 +722,40 @@ static llama_sparse_prefill_plan llama_sparse_prefill_make_plan(int64_t c0, int6
+     return pl;
+ }
+ 
++// counters of the sparse prefill emulation, see llama_sparse_prefill_counts in llama.h
++static std::mutex                 g_pf_mutex;
++static llama_sparse_prefill_counts g_pf_counts = {};
++static std::map<int, int32_t>     g_pf_layer_ub;
++
++static void llama_sparse_prefill_count(int il, int64_t sparse, int64_t sparse_rows, int64_t dense_rows, int64_t no_sel, int64_t fallback) {
++    std::lock_guard<std::mutex> lock(g_pf_mutex);
++    g_pf_counts.n_sparse      += sparse;
++    g_pf_counts.n_sparse_rows += sparse_rows;
++    g_pf_counts.n_dense_rows  += dense_rows;
++    g_pf_counts.n_no_sel      += no_sel;
++    g_pf_counts.n_fallback    += fallback;
++    if (sparse > 0) {
++        g_pf_layer_ub[il]++;
++    }
++}
++
++llama_sparse_prefill_counts llama_sparse_prefill_counts_get(bool reset) {
++    std::lock_guard<std::mutex> lock(g_pf_mutex);
++    llama_sparse_prefill_counts c = g_pf_counts;
++    c.n_layers = (int32_t) g_pf_layer_ub.size();
++    c.ub_min = 0;
++    c.ub_max = 0;
++    for (const auto & [il, n] : g_pf_layer_ub) {
++        c.ub_min = c.ub_min == 0 ? n : std::min(c.ub_min, n);
++        c.ub_max = std::max(c.ub_max, n);
++    }
++    if (reset) {
++        g_pf_counts = {};
++        g_pf_layer_ub.clear();
++    }
++    return c;
++}
++
+ static int llama_sparse_pages_budget() {
+     const char * e = getenv("LLAMA_SPARSE_DECODE");
+     const int b = e ? atoi(e) : 0;
+@@ -3864,11 +3900,20 @@ ggml_tensor * llm_graph_context::build_sparse_prefill(
+     if (sp->pf_frac > 0.0 && nt > 1) {
+         sp->pf_seen = true;
+     }
+-    if (sp->pf_frac <= 0.0 || !ps || nt <= 1 || hparams.is_swa(il) || kv_rows || kq_b || v_mla || !cparams.flash_attn || cparams.training ||
++    // counted only for real ubatches (a reserve ubatch has no consecutive positions) of layers meant for the sparse path
++    const bool counted = sp->pf_frac > 0.0 && nt > 1 && ps && !hparams.is_swa(il) &&
++                         ubatch.pos && ubatch.pos[nt - 1] - ubatch.pos[0] == nt - 1;
++    if (sp->pf_frac <= 0.0 || !ps || nt <= 1 || hparams.is_swa(il)) {
++        return nullptr;
++    }
++    if (kv_rows || kq_b || v_mla || !cparams.flash_attn || cparams.training ||
+             hparams.use_alibi || hparams.f_max_alibi_bias != 0.0f || (sinks && (!ggml_is_vector(sinks) || sinks->type != GGML_TYPE_F32)) ||
+             kq_mask->type != GGML_TYPE_F16 || kq_mask->ne[1] != nt || kq_mask->ne[2] != 1 || kq_mask->ne[3] != 1 ||
+             k->ne[3] != 1 || k->ne[2] % 64 != 0 || k->ne[2] < llama_sparse_prefill_min_ctx() || v->nb[1] > v->nb[2] ||
+             q->ne[1] % k->ne[1] != 0 || v->ne[1] != k->ne[1]) {
++        if (counted) {
++            llama_sparse_prefill_count(il, 0, 0, 0, 0, 1);
++        }
+         return nullptr;
+     }
+ 
+@@ -3894,6 +3939,9 @@ ggml_tensor * llm_graph_context::build_sparse_prefill(
+             r0 = std::clamp<int64_t>(rlo - c0, 0, nt);
+             r1 = std::clamp<int64_t>(rhi == INT64_MAX ? nt : rhi - c0, 0, nt);
+             if (r0 >= r1) {
++                if (counted) {
++                    llama_sparse_prefill_count(il, 0, 0, nt, 0, 0);
++                }
+                 return nullptr;
+             }
+         } else {
+@@ -3903,8 +3951,14 @@ ggml_tensor * llm_graph_context::build_sparse_prefill(
+ 
+     const llama_sparse_prefill_plan pl = llama_sparse_prefill_make_plan(c0, nt, sp->pf_frac, sp->pf_window);
+     if (pl.n_top == 0) {
++        if (counted) {
++            llama_sparse_prefill_count(il, 0, 0, 0, 1, 0);
++        }
+         return nullptr; // no query block has a selectable page
+     }
++    if (counted) {
++        llama_sparse_prefill_count(il, n_kv_h, r1 - r0, nt - (r1 - r0), 0, 0);
++    }
+     const int64_t n_qblk = pl.n_qblk;
+     const int64_t n_top  = pl.n_top;
+     const int64_t n_col  = n_page + pl.n_dummy;
+diff --git a/tools/sparse-tail/sparse-tail.cpp b/tools/sparse-tail/sparse-tail.cpp
+index 7d3c16fc9..68c51220d 100644
+--- a/tools/sparse-tail/sparse-tail.cpp
++++ b/tools/sparse-tail/sparse-tail.cpp
+@@ -366,6 +366,7 @@ int main(int argc, char ** argv) {
+     FILE * out = out_path.empty() ? stdout : fopen(out_path.c_str(), "w");
+     llama_batch_ext * batch = llama_batch_ext_init(ctx);
+ 
++    std::string pf_counts = "{}"; // the sparse prefill counts of the last prefill, as JSON
+     // prefill of ids[0 .. n) under the prefill setting of group g, then the state saved for the rewinds
+     auto prefill = [&](const int32_t * ids, int n, size_t g) {
+         const tail_config & c0 = configs[groups[g][0]];
+@@ -385,6 +386,7 @@ int main(int argc, char ** argv) {
+         ds.prefix = "prefill_" + c0.name;
+         std::replace(ds.prefix.begin(), ds.prefix.end(), ':', '-');
+         const int32_t n_reused0 = llama_perf_context(ctx).n_reused;
++        llama_sparse_prefill_counts_get(true);
+         for (int i = 0; i < n; i += cp.n_batch) {
+             const int m = std::min<int>(cp.n_batch, n - i);
+             llama_batch_ext_clear(batch);
+@@ -396,6 +398,15 @@ int main(int argc, char ** argv) {
+             if (llama_process(ctx, LLAMA_PROCESS_TYPE_DECODE, batch)) { fprintf(stderr, "prefill failed\n"); exit(1); }
+         }
+         ds.active = false;
++        {
++            const llama_sparse_prefill_counts pc = llama_sparse_prefill_counts_get(true);
++            char buf[320];
++            snprintf(buf, sizeof(buf), "{\"sparse\": %lld, \"sparse_rows\": %lld, \"dense_rows\": %lld, \"no_sel\": %lld, \"fallback\": %lld, "
++                     "\"layers\": %d, \"ub_min\": %d, \"ub_max\": %d}", (long long) pc.n_sparse, (long long) pc.n_sparse_rows,
++                     (long long) pc.n_dense_rows, (long long) pc.n_no_sel, (long long) pc.n_fallback, pc.n_layers, pc.ub_min, pc.ub_max);
++            pf_counts = buf;
++            fprintf(stderr, "prefill %s: pf counts %s\n", c0.name.c_str(), buf);
++        }
+         const int32_t n_reused = llama_perf_context(ctx).n_reused - n_reused0;
+         if (n_reused > 0) {
+             fprintf(stderr, "prefill %s: %d graphs reused\n", c0.name.c_str(), n_reused);
+@@ -454,7 +465,7 @@ int main(int argc, char ** argv) {
+                 }
+                 ds.active = false;
+                 const double t_gen = (ggml_time_us() - t1)/1e6;
+-                fprintf(out, "{\"id\": %d, \"config\": \"%s\", \"len\": %d, \"prefill_s\": %.3f, \"gen_s\": %.3f, \"out\": [", gp.id, c.name.c_str(), Pt + 1, t_pre, t_gen);
++                fprintf(out, "{\"id\": %d, \"config\": \"%s\", \"len\": %d, \"prefill_s\": %.3f, \"gen_s\": %.3f, \"pf\": %s, \"out\": [", gp.id, c.name.c_str(), Pt + 1, t_pre, t_gen, pf_counts.c_str());
+                 for (size_t i = 0; i < outv.size(); ++i) fprintf(out, "%s%d", i ? ", " : "", outv[i]);
+                 fprintf(out, "]}\n");
+                 fflush(out);
+@@ -589,8 +600,9 @@ int main(int argc, char ** argv) {
+                 double mean = 0.0;
+                 for (double x : kl) mean += x;
+                 mean /= n_tail;
+-                fprintf(out, "{\"book\": %d, \"T\": %d, \"config\": \"%s\", \"kl_mean\": %.9g, \"kl_p99\": %.9g, \"kl_max\": %.9g, \"flip\": %.6g, \"reads\": %.3f, \"max_abs_logit_diff\": %.9g, \"tail_s\": %.3f, \"kl_rows\": [",
+-                        b, T, c.name.c_str(), mean, srt[(size_t) std::floor(0.99*(n_tail - 1))], srt.back(), (double) flips/n_tail, reads/n_tail, max_diff, sec);
++                fprintf(out, "{\"book\": %d, \"T\": %d, \"config\": \"%s\", \"kl_mean\": %.9g, \"kl_p99\": %.9g, \"kl_max\": %.9g, \"flip\": %.6g, \"reads\": %.3f, \"max_abs_logit_diff\": %.9g, \"tail_s\": %.3f, \"pf\": %s, \"kl_rows\": [",
++                        b, T, c.name.c_str(), mean, srt[(size_t) std::floor(0.99*(n_tail - 1))], srt.back(), (double) flips/n_tail, reads/n_tail, max_diff, sec,
++                        pf_counts.c_str());
+                 for (int s = 0; s < n_tail; ++s) fprintf(out, "%s%.6g", s ? ", " : "", kl[s]);
+                 fprintf(out, "]}\n");
+                 fflush(out);
+-- 
+2.50.1 (Apple Git-155)
+

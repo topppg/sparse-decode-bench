@@ -1,6 +1,6 @@
 # Pre-registrations
 
-Each protocol was committed to the project repository before the data it governs existed. Commit hashes and times are from that repository.
+Each protocol was committed to the project repository before the data it governs existed; the amendments marked "after data existed" or "after the data" were written after some or all of their data. Commit hashes and times are from that repository.
 
 | protocol | commit | committed at | file |
 |---|---|---|---|
@@ -34,3 +34,11 @@ Each protocol was committed to the project repository before the data it governs
 | PORT-GQ | `ad168c8` | 2026-11-11T16:13:34+01:00 | [port-gq.md](port-gq.md) |
 | PORT-MQ | `b4d68ee` | 2026-11-11T16:16:20+01:00 | [port-mq.md](port-mq.md) |
 | PORT-MQ4 | `ea0a25e` | 2026-11-11T21:40:54+01:00 | [port-mq4.md](port-mq4.md) |
+| PF-NT | `74b0eac` | 2026-11-19T10:37:20+01:00 | [pf-nt.md](pf-nt.md) |
+| PF-NT amendment 1 (after data existed) | `3058b9a` | 2026-11-19T14:25:06+01:00 | [pf-nt-amendment-1.md](pf-nt-amendment-1.md) |
+| PF-E2E | `b9c4085` | 2026-11-21T14:12:56+01:00 | [pf-e2e.md](pf-e2e.md) |
+| PF-E2E amendment 1 | `d7bf656` | 2026-11-21T23:22:56+01:00 | [pf-e2e-amendment-1.md](pf-e2e-amendment-1.md) |
+| PF-E2E amendment 2 | `ff017b4` | 2026-11-21T23:51:41+01:00 | [pf-e2e-amendment-2.md](pf-e2e-amendment-2.md) |
+| PF-E2E amendment 3 | `d875a39` | 2026-11-22T00:00:21+01:00 | [pf-e2e-amendment-3.md](pf-e2e-amendment-3.md) |
+| PF-E2E amendment 4 (after the data) | `5e2bd48` | 2026-11-22T12:21:01+01:00 | [pf-e2e-amendment-4.md](pf-e2e-amendment-4.md) |
+| PF-E2E amendment 4, revision 1 (after the data) | `cb9472b` | 2026-11-22T12:34:58+01:00 | [pf-e2e-amendment-4.md](pf-e2e-amendment-4.md) |

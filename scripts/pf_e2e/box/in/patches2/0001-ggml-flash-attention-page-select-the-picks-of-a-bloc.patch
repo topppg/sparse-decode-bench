@@ -1,0 +1,162 @@
+From a4c437a6f45b85e9e65589a888c4205ed1a977bd Mon Sep 17 00:00:00 2001
+From: topppg <giorgio.srn@gmail.com>
+Date: Fri, 20 Nov 2026 14:26:36 +0100
+Subject: [PATCH 1/4] ggml : flash attention page select, the picks of a
+ block-sparse mask without the mask, cpu
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ ggml/include/ggml.h       | 13 +++++++++++
+ ggml/src/ggml-cpu/ops.cpp | 45 +++++++++++++++++++++++++++++++++++++--
+ ggml/src/ggml.c           | 20 +++++++++++++++++
+ 3 files changed, 76 insertions(+), 2 deletions(-)
+
+diff --git a/ggml/include/ggml.h b/ggml/include/ggml.h
+index 3d433645c..8ef606680 100644
+--- a/ggml/include/ggml.h
++++ b/ggml/include/ggml.h
+@@ -2299,6 +2299,19 @@ extern "C" {
+             struct ggml_tensor * a,
+             struct ggml_tensor * list);
+ 
++    // Page select (block-sparse prefill): the result equals the result with mask replaced by
++    // ggml_top_k_mask(mask, picks, NULL, blocks, extra), without materialising that mask. A cell c is visible to row r
++    // iff mask[r][c] is finite and c is in the block list of a page picked for r, or c is in extra[:, r].
++    // picks:  [n_top, n_rows, 1, n_seq]   i32, pages; values outside [0, n_page) are skipped
++    // blocks: [n_blk, n_page]             i32, the cells of each page; cells outside [0, n_kv) are skipped
++    // extra:  [n_extra, n_rows, 1, n_seq] i32, cells; values outside [0, n_kv) are skipped
++    // n_rows and n_seq as in the mask, whose ne[2] must be 1. Cannot be combined with kv_rows or a chunk list.
++    GGML_API void ggml_flash_attn_ext_set_page_select(
++            struct ggml_tensor * a,
++            struct ggml_tensor * picks,
++            struct ggml_tensor * blocks,
++            struct ggml_tensor * extra);
++
+     GGML_API void ggml_flash_attn_ext_add_sinks(
+             struct ggml_tensor * a,
+             struct ggml_tensor * sinks);
+diff --git a/ggml/src/ggml-cpu/ops.cpp b/ggml/src/ggml-cpu/ops.cpp
+index 55672237e..03d9e1756 100644
+--- a/ggml/src/ggml-cpu/ops.cpp
++++ b/ggml/src/ggml-cpu/ops.cpp
+@@ -8788,6 +8788,10 @@ static void ggml_compute_forward_flash_attn_ext_f16_one_chunk(
+     const ggml_tensor * sinks = dst->src[4];
+     const ggml_tensor * kv_rows = dst->src[5];
+     const ggml_tensor * chunk_list = dst->src[6];
++    // page select (ggml_flash_attn_ext_set_page_select): picks, blocks, extra
++    const ggml_tensor * ps_picks  = dst->src[7];
++    const ggml_tensor * ps_blocks = dst->src[8];
++    const ggml_tensor * ps_extra  = dst->src[9];
+ 
+     GGML_TENSOR_LOCALS(int64_t, neq, q,   ne)
+     GGML_TENSOR_LOCALS(size_t,  nbq, q,   nb)
+@@ -8897,6 +8901,35 @@ static void ggml_compute_forward_flash_attn_ext_f16_one_chunk(
+         const int32_t * cl_b = cl ? cl + 1 : nullptr;
+         const int32_t * cl_e = cl ? cl + 1 + cl[0] : nullptr;
+ 
++        // page select: the cells of the picked pages and the extra cells of this row
++        thread_local std::vector<uint8_t> ps_sel;
++        thread_local std::vector<int32_t> ps_set;
++        if (ps_picks) {
++            ps_sel.resize(nek1);
++            const int64_t ps3 = iq3 % ps_picks->ne[3];
++            const int32_t * pr = (const int32_t *) ((const char *) ps_picks->data + iq1*ps_picks->nb[1] + ps3*ps_picks->nb[3]);
++            const int32_t * er = (const int32_t *) ((const char *) ps_extra->data + iq1*ps_extra->nb[1] + ps3*ps_extra->nb[3]);
++            const auto mark = [&](int32_t c) {
++                if (c >= 0 && c < nek1 && !ps_sel[c]) {
++                    ps_sel[c] = 1;
++                    ps_set.push_back(c);
++                }
++            };
++            for (int64_t i = 0; i < ps_picks->ne[0]; ++i) {
++                const int32_t pg = pr[i];
++                if (pg < 0 || pg >= ps_blocks->ne[1]) {
++                    continue;
++                }
++                const int32_t * br = (const int32_t *) ((const char *) ps_blocks->data + pg*ps_blocks->nb[1]);
++                for (int64_t j = 0; j < ps_blocks->ne[0]; ++j) {
++                    mark(br[j]);
++                }
++            }
++            for (int64_t i = 0; i < ps_extra->ne[0]; ++i) {
++                mark(er[i]);
++            }
++        }
++
+         // online softmax / attention
+         // loop over n_kv and n_head_kv
+         // ref: https://arxiv.org/pdf/2112.05682.pdf
+@@ -8909,6 +8942,9 @@ static void ggml_compute_forward_flash_attn_ext_f16_one_chunk(
+             if (cl && !std::binary_search(cl_b, cl_e, (int32_t) (ic/32))) {
+                 continue;
+             }
++            if (ps_picks && !ps_sel[ic]) {
++                continue;
++            }
+ 
+             const int64_t ik1 = rows ? rows[ic] : ic;
+             if (ik1 < 0) {
+@@ -8961,6 +8997,11 @@ static void ggml_compute_forward_flash_attn_ext_f16_one_chunk(
+             S = S*ms + vs; // scale and increment sum with partial sum
+         }
+ 
++        for (const int32_t c : ps_set) {
++            ps_sel[c] = 0;
++        }
++        ps_set.clear();
++
+         // sinks - apply only on the first kv-chunk
+         if (sinks && ic_start == 0) {
+             const float s = ((float *)((char *) sinks->data))[h];
+@@ -9423,7 +9464,7 @@ static void ggml_compute_forward_flash_attn_ext_f16(
+     const int64_t n_kv_cols = kv_rows ? kv_rows->ne[0] : nek1;
+ 
+     const bool kv_is_f32_or_f16 = (k->type == GGML_TYPE_F32 || k->type == GGML_TYPE_F16);
+-    const bool use_split_kv_path = !use_ref && !kv_rows && (neq1 == 1 && neq3 == 1) && kv_is_f32_or_f16 && (k->type == v->type) && q->type == GGML_TYPE_F32 && nek1 >= 512;
++    const bool use_split_kv_path = !use_ref && !kv_rows && !dst->src[7] && (neq1 == 1 && neq3 == 1) && kv_is_f32_or_f16 && (k->type == v->type) && q->type == GGML_TYPE_F32 && nek1 >= 512;
+ 
+     if (use_split_kv_path) {
+         const int64_t chunk_size = (nek1 + nth - 1) / nth;
+@@ -9480,7 +9521,7 @@ static void ggml_compute_forward_flash_attn_ext_f16(
+         const int64_t dr = (nr + nchunk - 1) / nchunk;
+ 
+         static constexpr int64_t Q_TILE_SZ  = ggml_fa_tile_config::Q;
+-        bool use_tiled = !use_ref && !dst->src[6] &&
++        bool use_tiled = !use_ref && !dst->src[6] && !dst->src[7] &&
+                                (q->type == GGML_TYPE_F32 &&
+                                 kv_is_f32_or_f16 &&
+                                 k->type == v->type &&
+diff --git a/ggml/src/ggml.c b/ggml/src/ggml.c
+index 7c3f504b8..5dc228106 100644
+--- a/ggml/src/ggml.c
++++ b/ggml/src/ggml.c
+@@ -5540,6 +5540,26 @@ void ggml_flash_attn_ext_set_chunk_list(
+     ggml_set_op_params_i32(a, 5, 32); // listed chunks are whole chunks
+ }
+ 
++void ggml_flash_attn_ext_set_page_select(
++        struct ggml_tensor * a,
++        struct ggml_tensor * picks,
++        struct ggml_tensor * blocks,
++        struct ggml_tensor * extra) {
++    GGML_ASSERT(a->op == GGML_OP_FLASH_ATTN_EXT);
++    GGML_ASSERT(a->src[5] == NULL && a->src[6] == NULL && "page select cannot be combined with kv_rows or a chunk list");
++    const struct ggml_tensor * mask = a->src[3];
++    GGML_ASSERT(mask && mask->ne[2] == 1);
++    GGML_ASSERT(picks->type == GGML_TYPE_I32 && blocks->type == GGML_TYPE_I32 && extra->type == GGML_TYPE_I32);
++    GGML_ASSERT(picks->ne[1] == mask->ne[1] && picks->ne[2] == 1 && picks->ne[3] == mask->ne[3]);
++    GGML_ASSERT(extra->ne[1] == mask->ne[1] && extra->ne[2] == 1 && extra->ne[3] == mask->ne[3]);
++    GGML_ASSERT(blocks->ne[2] == 1 && blocks->ne[3] == 1);
++    GGML_ASSERT(picks->nb[0] == sizeof(int32_t) && blocks->nb[0] == sizeof(int32_t) && extra->nb[0] == sizeof(int32_t));
++
++    a->src[7] = picks;
++    a->src[8] = blocks;
++    a->src[9] = extra;
++}
++
+ void ggml_flash_attn_ext_add_sinks(
+         struct ggml_tensor * a,
+         struct ggml_tensor * sinks) {
+-- 
+2.50.1 (Apple Git-155)
+

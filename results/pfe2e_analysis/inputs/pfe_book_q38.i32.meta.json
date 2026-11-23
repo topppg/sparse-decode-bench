@@ -1,0 +1,46 @@
+{
+ "128": {
+  "len": 129526,
+  "doc_tokens": 129500,
+  "books": [
+   1
+  ],
+  "server_ctx": 132096,
+  "max_new": 1000,
+  "chars": 564869
+ },
+ "256": {
+  "len": 259525,
+  "doc_tokens": 259500,
+  "books": [
+   1,
+   2
+  ],
+  "server_ctx": 262144,
+  "max_new": 1000,
+  "chars": 1111608
+ },
+ "source": {
+  "file": "books128k_qwen3.i32",
+  "sha256": "d2ab5fa03a3cf642468da71881ee5d0e60089b6cfca003d2b4d24cdf3c56e2d2",
+  "books": [
+   1,
+   2
+  ],
+  "book_tokens": 131072,
+  "decode_tokenizers": [
+   "Qwen/Qwen3-8B-Base",
+   "Qwen/Qwen3-30B-A3B-Instruct-2507"
+  ],
+  "doc_tokens_total": 263805
+ },
+ "tokenizer": {
+  "name": "Qwen/Qwen3.8-27B",
+  "revision": "37561816e66b5b9153b1b64c10968c18c1e6f4a0"
+ },
+ "instruction": "Summarize the text above in detail, section by section.",
+ "end_ids": {
+  "<|im_end|>": 248046,
+  "<|endoftext|>": 248044
+ }
+}

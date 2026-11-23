@@ -1,0 +1,1 @@
+{"model": "b38", "status": "COMPLETE", "n_units": 13, "n_rows": 520, "n_expected": 520, "gather_dense_median": "0.675", "gather_dense_max": "1.451", "g_ref": 0.85, "n_above_g_ref": 1, "problems": []}

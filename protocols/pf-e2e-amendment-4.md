@@ -1,0 +1,17 @@
+<!-- first committed in the project repository as 5e2bd48 at 2026-11-22T12:21:01+01:00 -->
+
+## PF-E2E amendment 4 (2026-11-22): one-token ubatches in the count rule (written after the data)
+
+**Read after the data.** Seen at writing: all four arms' data. Box B's run 20261121T222607Z ended `FAILED pass 1 task 12 (rc 2, see status)` at 10:30:06 UTC after its 13th and last unit, with `TASK INVALID` on one prompt (id 12004, the three `pf` configs): sparse-prefill counts `dense_rows 8176` against the expected `8192`, every other count equal. The box left that unit's three files in `tmp/` (pulled, SHA-256 equal to the box). The speed decision had already been run. The route (a re-check on the saved outputs, no GPU rerun) was chosen by the project owner before the amended result was known to him; the amended quality decision was run while this text was being written.
+
+- **Cause:** id 12004 has length 256,002, so its prefill (n = len − 1 = 256,001 tokens) ends in a **one-token ubatch**. The engine counts sparse-prefill rows only for multi-token ubatches (`build_sparse_prefill`: `counted` requires `nt > 1`); a one-token ubatch is not on the sparse path at all and runs dense attention, as the d512 tail requires. `pfe_check.expected_counts` added that ubatch as one dense row per layer (16 layers → 16 rows). It is the only prompt of the 260 (and of the two book prompts) whose prefill ends in a one-token ubatch; none of the earlier 128k runs' prompts (PF-NT's included) did, so their checks were unaffected.
+- **Change:** `pfe_check.expected_counts` (the PF-E2E copy only) skips ubatches with `nt ≤ 1`. `e2e_decide.py --amend4`: pass 1 may end in exactly `FAILED pass 1 task 12` without `Q38 UNITS COMPLETE` when that unit's `.jsonl`, `.err` and `.check` are in the run's `tmp/`; the unit is then read from `tmp/` and re-checked with every registered unit rule (coverage, counts with the corrected rule, length, 16 layers, no reused graph, the selective-conversion line). Everything else in the decision is unchanged. Stubbed tests added; 93 tests, 0 failures.
+- **Unit re-check:** `pfn_check.py task` on `tmp/q38_p1_t12.jsonl` with the corrected rule: `TASK OK` (50 rows, gather/dense prefill median 0.414).
+- **Both outcomes are reported:** as registered (without `--amend4`): quality INVALID → NO_DECISION, consequence SPEED_ONLY (`decision_as_registered.json`). With amendment 4: see the verdict (`decision.json`). The verdict states that the quality outcome rests on this post-data amendment.
+- No GPU rerun: the run is deterministic, so a rerun of pass 1 would reproduce the same rows and counts.
+
+<!-- revision 1 first committed in the project repository as cb9472b at 2026-11-22T12:34:58+01:00 -->
+
+## PF-E2E amendment 4, revision 1 (2026-11-22): after an independent review
+
+Read after the data, as amendment 4. An independent review (Codex) found no High problem, confirmed the cause, reproduced every quality field, and found two Medium and two Low gaps in `--amend4`, none changing this dataset's result. Fixed: `tmp/` is read for (pass 1, task 12) only, not for every pass-1 unit; the recovered unit also gets the box's graph-reuse rejection (`prefill … graphs reused`; its log says `graphs reused in total: 0`); the terminal line must be exactly `FAILED pass 1 task 12 (rc 2, see status)`; the verdict written. Tests added (96 tests, 0 failures). The re-run decision is field-for-field identical to the first `--amend4` run.

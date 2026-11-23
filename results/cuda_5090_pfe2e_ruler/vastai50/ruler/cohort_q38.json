@@ -1,0 +1,1 @@
+{"model": "q38", "status": "COMPLETE", "n_units": 13, "n_rows": 650, "n_expected": 650, "gather_dense_median": "0.411", "gather_dense_max": "0.425", "g_ref": 0.85, "n_above_g_ref": 0, "problems": []}
