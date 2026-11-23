@@ -10,7 +10,7 @@ scripts/reproduce.sh            # needs uv and network; no GPU
 
 It prints the speed table, the speed–quality dial, wall-clock, the 256k speeds, RULER Δ with 95% CIs for every model and score at 128k and 256k, the task-group table, the mv-failure effects, the 256k test and the cost-model predictions against measurement, and writes the JSON to `reproduced/`. The RULER score files it writes are identical to the committed ones in `results/`. Scoring decodes the generated token ids with four tokenizers downloaded from Hugging Face at pinned revisions.
 
-It then reruns the sparse-prefill decisions (`pf_e2e/decide.sh`, below), checks that they equal the committed decision files, and prints the README's sparse-prefill numbers (`pf_e2e/e2e_summary.py`).
+It then reruns the sparse-prefill decisions (`pf_e2e/decide.sh`, below), checks that they equal the committed decision files (exit status 1 if one differs), and prints the README's sparse-prefill numbers (`pf_e2e/e2e_summary.py`).
 
 Not recomputed by these scripts: the KL and synthetic-needle checks (produced by `llama-sparse-tail` in the fork; raw outputs in `results/cuda_4090_portc/` and `results/cuda_3090_portg/fid/`), the released-build check (`results/cuda_4090_48gb_featcheck/verdict.json`) and the Metal microbenchmarks.
 

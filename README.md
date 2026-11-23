@@ -298,7 +298,7 @@ One request through `llama-server`: two public-domain PG19 books with a request 
 - **We predicted 2.2× at 256k and 1.55× at 128k on the RTX 5090, and missed both.** The protocol expected the fork's own dense path to be the baseline, but upstream's dense prefill had become much faster than the fork's base on this card: 145.4 s to the first token at 256k against 218.4 s. Against the fork's own dense (246.7 s), an informative comparison, the 256k request was 2.31× faster.
 - The speedup grew by 0.34 from 128k to 256k, above the 0.3 registered as the line for "grows with length".
 - Doubling the decode budget to 55,296 cells cost little speed: 1.59× at 256k.
-- The RTX 4090 ran at a 330 W power limit (stock 450 W). There the fork and upstream were level at dense prefill (75.5–75.9 s to the first token), and 1.33× is inside the predicted 1.10–1.35. In the other block the fork with MTP was the fastest dense (102.4 s), with the same 1.33×. No RULER ran on this card.
+- The RTX 4090 ran at a 330 W power limit (stock 450 W). There the fork and upstream were level at dense prefill (75.5–75.9 s to the first token), and 1.33× is inside the predicted 1.10–1.35. In the other block the fork with MTP was the fastest dense (102.4 s), with the same 1.33×. Quality basis (registered): it rests on gate B's byte identity of the gather path on this card plus the 128k RULER results (PF-NT, PF-CONF); no RULER ran on this card.
 - It saves no VRAM: at 256k the sparse setup peaked at 26.7 GiB on the RTX 5090, against 25.0 GiB for upstream dense.
 - Raw rows: `results/cuda_5090_pfe2e/`, `results/cuda_4090_pfe2e/`; decision and verdict: `results/pfe2e_analysis/`.
 

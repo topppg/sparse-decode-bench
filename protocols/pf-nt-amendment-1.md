@@ -13,7 +13,7 @@ Written after data existed. Condensed from the project repository.
 
 **Changes** (chosen by the project owner at 13:19 UTC):
 1. **Box B is excluded.** Its rows are reported descriptively (degenerate counts, scores) and never enter the decision.
-2. **Box B's list runs on box A** after box A's first run ends: the registered pass-2 list unchanged (q38 pass 2 in the registered order, then b38 pass 2), in a new run dir on the same box, same cap. Models already present are reused (SHA-256 checked); source, build and gates P, K and U run again. Gates F and D for q38 use the second run's units q38 2.11 + 2.8 and 2.0, as registered. The manifest names the first run dir for pass 1 of both models and the second for pass 2 of both.
+2. **Box B's list runs on box A** after box A's first run ends (COMPLETE or FAILED) and is pulled: the registered pass-2 list unchanged (q38 pass 2 in the registered order, then b38 pass 2), in a new run dir on the same box, same cap. Models already present are reused (SHA-256 checked); source, build and gates P, K and U run again. Gates F and D for q38 use the second run's units q38 2.11 + 2.8 and 2.0, as registered. The manifest names the first run dir for pass 1 of both models and the second for pass 2 of both.
 3. **Degenerate rows (new quality row 2n, after row 2).** A row is degenerate if it has ≥ 4 generated tokens and at least half of them are token id 0. Any degenerate row among a model's accepted rows makes that model INCONCLUSIVE: such rows measure a numerical failure, not attention quality. Counts are reported per run dir and model.
 
 **Unchanged:** prompts, models, f16 KV for both, configs, gates P, K, U, F and D, floors, the gate, outcomes, predictions. `pfn_decide.py` implements row 2n.

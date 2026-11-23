@@ -4,7 +4,7 @@
 
 Condensed from the project repository. Code: `scripts/pf_nt/` (decision) and `scripts/pf_e2e/box/in/patches/` (the fork patches, the same seven files).
 
-**Background (seen when written).** An earlier run of the same question with BF16 weights on RULER's raw prompts (PF-BF16) ended NO_DECISION: dense 85.46, combined −7.38 [−10.23, −4.48], dense below its floors on vt (88) and qa_1 (25). Its raw outputs had 19–27 empty outputs per config (4–5 at Q4_K_M) and cut-off `<think>` blocks in about 10% of outputs at both precisions. The Q4_K_M run on raw prompts with q8_0 KV (PF-CONF, RTX 5090) had passed: combined −2.38 [−5.00, +0.27]. The likely cause, found after those data, is the raw-prompt format, which also affects the Q4_K_M reference; changing the format and rerunning Q4_K_M is a new protocol. No Qwen3.8 RULER run with a chat template existed. Reviewed before any data (two rounds of an independent model review); the fixes are in this text and the scripts.
+**Background (seen when written).** An earlier run of the same question with BF16 weights on RULER's raw prompts (PF-BF16) ended NO_DECISION: dense 85.46, combined −7.38 [−10.23, −4.48], dense below its floors on vt (88) and qa_1 (25). Its raw outputs had 18–27 empty outputs per config (19, 18, 24 and 27; 3–5 at Q4_K_M: 4, 5, 3 and 4) and cut-off `<think>` blocks in about 10% of outputs at both precisions. The Q4_K_M run on raw prompts with q8_0 KV (PF-CONF, RTX 5090) had passed: combined −2.38 [−5.00, +0.27]. The likely cause, found after those data, is the raw-prompt format, which also affects the Q4_K_M reference; changing the format and rerunning Q4_K_M is a new protocol. No Qwen3.8 RULER run with a chat template existed. Reviewed before any data (two rounds of an independent model review); the fixes are in this text and the scripts.
 
 **Question.** On Qwen3.8-27B at 128k (`-ub 512`, f16 KV, RTX PRO 6000 Blackwell), with RULER prompts in Qwen3.8's chat format with thinking off:
 1. does the combined config `pf:0.1:512:d512+quest:27648:f3` pass the RULER gate at 20 prompts per task with **BF16** weights?
@@ -21,20 +21,20 @@ Both share the card, the KV type, the prompts and the build; only the weight pre
 
 **Tokenizer.** `Qwen/Qwen3.8-27B` at revision **37561816e66b5b9153b1b64c10968c18c1e6f4a0** for prompts, decoding, scoring and gate F.
 
-**Prompts.** `pf_nt_q38.i32`, SHA-256 **ab921fb5d038ddcfa5076f38f9bfe9249b265e0930d91874396dbec51f265ca7** (meta in `results/cuda_6000_pfnt/inputs/`): the same 260 RULER samples (13 tasks × 20, RULER db43f92, seed 42) as the earlier Qwen3.8 runs, same ids, generation lengths and references.
+**Prompts.** `pf_nt_q38.i32`, SHA-256 **ab921fb5d038ddcfa5076f38f9bfe9249b265e0930d91874396dbec51f265ca7** (meta in `results/cuda_6000_pfnt/inputs/`): the same 260 RULER samples as the earlier Qwen3.8 runs, same ids, generation lengths and references (13 tasks × 20; RULER db43f92, seed 42 is the provenance stated in those earlier protocols, not in this registration).
 - Each prompt is RULER's input plus answer prefix, split at the task's last answer-prefix marker ("? The special magic " for niah, " Answer:" otherwise); splitting and re-tokenising gives back the original ids for all 260.
 - New prompt = `apply_chat_template([user: input], add_generation_prompt=True, enable_thinking=False)` + the answer prefix verbatim. The template output ends with `<|im_start|>assistant\n<think>\n\n</think>\n\n` and has no system turn. Every prompt gains exactly 12 tokens; lengths 111,921–131,049; context at most 131,328.
 - Greedy decoding with RULER's generation lengths (niah 128, vt 30, cwe 120, fwe 50, qa 32).
 
 **Configs per prompt** (two shared prefills): `dense`, `quest:27648:f3`, `pf:0.1:512:d512`, `pf:0.1:512:d512+quest:27648:f3`.
 
-**Run.** Cap 39,600 s (11 h) per box from launch, setup included. A unit is (model, pass, task): 10 prompts × 4 configs in one process, validated and committed atomically, one retry on a crash, FAILED on invalid rows or at the deadline. Order: box A b38 units 1.11, 1.8, 1.0, 1.1–1.7, 1.9, 1.10, 1.12, then q38 in the same order; box B q38 units 2.11, 2.8, 2.0, 2.1–2.7, 2.9, 2.10, 2.12, then b38. qa_1 and vt run first because they failed in PF-BF16, so gate F can be read early.
+**Run.** Cap 39,600 s (11 h) per box from launch, setup included. A unit is (model, pass, task): 10 prompts × 4 configs in one process, validated and committed atomically, one retry on a crash, FAILED on invalid rows or at the deadline. Unit timeout min(5,400 s, time left); a unit ending past the deadline is FAILED and not committed. Order: box A b38 units 1.11, 1.8, 1.0, 1.1–1.7, 1.9, 1.10, 1.12, then q38 in the same order; box B q38 units 2.11, 2.8, 2.0, 2.1–2.7, 2.9, 2.10, 2.12, then b38. qa_1 and vt run first because they failed in PF-BF16, so gate F can be read early.
 
 **Gates.**
 - **K** (`test-backend-ops` on the fork): `n_top` exactly 6/6; `n_kv_max` and `n_pages` all pass; the sparse op list all passes.
 - **Counts** on every row: 16 layers, 4 KV heads, length ≥ 100,000, sparse rows engaged on all 16 layers with no fallback, dense rows not sparse.
-- **U**: an nsys check on both boxes before the first unit: the `flash_attn_mask_to_sparse_indices` kernels take > 0 s with the gather and 0 s in the emulation.
-- **F** (format screen): per format, the 20 dense outputs of the first two units of the box that runs that format first (b38: box A units 1.11 and 1.8; q38: box B units 2.11 and 2.8). F passes for a format iff no output contains `<think>` and at most 2 are empty or blank; F passes iff it passes for both. It may be read live to stop early (saves box time only); `pfn_decide.py` recomputes it from the rows and the recomputed value decides. A missing input unit makes F unavailable (NO_DECISION, not FORMAT_FAIL).
+- **U**: an nsys check on both boxes, with b38, before the first unit: the `flash_attn_mask_to_sparse_indices` kernels take > 0 s with the gather and 0 s in the emulation.
+- **F** (format screen): per format, the 20 dense outputs of the first two units of the box that runs that format first (b38: box A units 1.11 and 1.8; q38: box B units 2.11 and 2.8). F passes for a format iff no output contains `<think>` and at most 2 are empty or blank; F passes iff it passes for both. It may be read live to stop early (saves box time only); `pfn_decide.py` recomputes it from the rows and the recomputed value decides. If one of these units is missing or invalid, F is unavailable (NO_DECISION, not FORMAT_FAIL).
 - **D**: the task-0 dense unit of each model ≥ 80 (b38 1.0, q38 2.0), else stop.
 - Empty outputs are valid rows scored 0.
 
@@ -59,7 +59,7 @@ The non-niah floors are the best earlier raw-prompt dense score of each task min
 | FORMAT_FAIL | gate F failed | Qwen3.8 RULER claims stay as the raw-prompt Q4_K_M run states them; a different scoring setup is discussed before any rerun. |
 | NO_DECISION | gate F unavailable, or a model INVALID or INCONCLUSIVE | Fix the cause; one rerun of the affected part, by amendment. |
 | BOTH_PASS | b38 PASS and q38 PASS | Public quality statements for Qwen3.8 may name both formats and the chat format; the end-to-end stage proceeds. |
-| Q4_ONLY | q38 PASS, b38 FAIL | Public quality statements name Q4_K_M only. |
+| Q4_ONLY | q38 PASS, b38 FAIL | Public quality statements name Q4_K_M only. Before any full-precision claim, the BF16 loss is examined per task with the project lead. |
 | BF16_ONLY | b38 PASS, q38 FAIL | Public Q4 statements carry this result. |
 | NEITHER | both FAIL | The sparse-prefill program is reassessed before the end-to-end stage. |
 
@@ -71,7 +71,7 @@ Reported with the outcome, never changing it: the other three configs with their
 - P3: dense means q38 and b38 each in 86–94; qa_1 dense ≥ 50 for both.
 - P4: q38 combined Δ in −4.0 to +0.5 (point −2.0); PASS (p ≈ 0.6).
 - P5: b38 combined Δ in −5.0 to +0.5 (point −2.5); PASS (p ≈ 0.5).
-- P6: the combined config's largest single-task loss is cwe in both models (so vt recovers under this format).
+- P6: the combined config's largest single-task loss (dense − combined; ties count as held) is cwe in both models (so vt recovers under this format).
 - P7: BOTH_PASS (p ≈ 0.35), Q4_ONLY (0.25), NEITHER (0.2), other (0.2).
 Each range and its PASS clause are graded separately.
 

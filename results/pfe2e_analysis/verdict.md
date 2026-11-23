@@ -27,14 +27,14 @@ Quoted ratio R = best dense median wall / config median wall, the lower of two b
 | 5090, 128k | `up_mtp` (both blocks) | 67.31 s | 52.95 s | **1.271** | 1.233 | 1.140 | 1.408 / 1.743 |
 | 4090, 128k | `up_mtp` (block 2; `fork_mtp` 102.39 s in block 1) | 102.55 s | 77.16 s | **1.329** | 1.291 | 1.195 | 1.499 / 1.398 |
 
-- On the 4090, block 1 gives 102.39 s (`fork_mtp`) against 77.02 s, R 1.329 as well (1.3293 against block 2's 1.3291).
+- On the 4090, block 1 gives 102.39 s (`fork_mtp`) against 77.02 s, R 1.329 as well (1.3293 against block 2's 1.3291). Quality basis (registered): it rests on gate B's byte identity of the gather path on this card plus the 128k RULER results (PF-NT, PF-CONF); no RULER ran on this card.
 - Gate B (GATHER=2 logits byte-identical to GATHER=1, 32 steps) PASS at 256k and 128k on the 5090 and at 128k on the 4090; gate N PASS; every config's four timed outputs identical. Block drift: at most 0.12% on the 5090 and 0.63% on the 4090 (limit ±3%).
 - Length effect (`pfsd27648`): R_256 − R_128 = +0.340 → **GROWS** (registered margin 0.3).
 - RTX 4090 stopping rule (registered): `fork_dense` TTFT / `pfsd27648` TTFT = 1.398 ≥ 1.30 → cleared.
 - Against the fork's own dense (`fork_dense`, informative): 2.31× end to end at 256k on the 5090 (246.7 s).
 - Read during the run (not a registered comparison): upstream c6a25fc62 is much faster than the fork base at dense prefill on the 5090 (256k TTFT 145.4 s against 218.4 s; 128k 51.1 s against 67.1 s); on the 4090 at 128k they are level (75.5–75.9 s). The best dense is therefore upstream on the 5090, and the quoted ratios are against it.
 - 256k decode on the 5090: `up_dense` 37.0 tok/s, `pfsd27648` 68.2 tok/s; TTFT 145.4 s against 92.3 s.
-- Peak memory.used (5090, 256k): `up_dense` 25,604 MiB (25.0 GiB), `fork_dense_ub2048` 26,694 MiB (26.1 GiB), MTP 28,362 MiB (27.7 GiB), sparse 27,292 MiB (26.7 GiB).
+- Peak memory.used (5090, 256k): `up_dense` 25,604 MiB (25.0 GiB), `fork_dense_ub2048` 26,694 MiB (26.1 GiB), `up_mtp` 28,362 MiB (27.7 GiB; `fork_mtp` 28,364), sparse 27,292 MiB (26.7 GiB).
 
 ## Quality at 256k (with amendment 4)
 
@@ -80,7 +80,7 @@ Box B's last unit failed one count: prompt id 12004 (length 256,002) has a prefi
 1. Amendment 1 (before data): RAM floor 28 GiB for the 5090 boxes (30 GiB offers); no memory trouble seen.
 2. Amendments 2 and 3 (before arm D data): box D's network failed twice in setup (model download, GitHub clone); arm D relaunched on the same box from on-box git mirrors of the first run's verified clones, timeout 8400 s.
 3. Amendment 4 (after the data): the count rule for one-token ubatches; the quality outcome depends on it.
-4. The 4090 ran at a 330 W power limit (stock 450 W); its absolute times are slower than a stock card's.
+4. The 4090 ran at a 330 W power limit (stock 450 W). The absolute times apply to this 330 W setting; stock-power performance was not measured.
 
 ## What it settles, and what it does not
 

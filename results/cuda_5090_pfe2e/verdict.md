@@ -14,7 +14,7 @@ One request: book prompt (259,525 or 129,526 tokens) + 1,000 generated tokens th
 - Length effect R_256 − R_128 = +0.340: GROWS (registered margin 0.3).
 - 256k: TTFT 145.36 s (`up_dense`) against 92.28 s; decode 36.99 against 68.20 tok/s. `fork_dense` TTFT 218.40 s.
 - Block drift at most 0.12%; every config's four timed outputs identical; gate N PASS.
-- Peak memory.used at 256k (`gpu_log.csv` and `stages.txt`): `up_dense` 25,604 MiB (25.0 GiB), `fork_dense_ub2048` 26,694 MiB (26.1 GiB), MTP 28,362 MiB (27.7 GiB), sparse 27,292 MiB (26.7 GiB).
+- Peak memory.used at 256k (`gpu_log.csv` and `stages.txt`): `up_dense` 25,604 MiB (25.0 GiB), `fork_dense_ub2048` 26,694 MiB (26.1 GiB), `up_mtp` 28,362 MiB (27.7 GiB; `fork_mtp` 28,364), sparse 27,292 MiB (26.7 GiB).
 - Predictions P5 (R_256 1.7–2.6, point 2.2) and P6 (R_128 1.35–1.80, point 1.55) **missed**: the best dense was upstream, whose dense prefill on this card is much faster than the fork base's (256k TTFT 145.4 s against 218.4 s).
 
 Files: `status.txt` (timeline and every gate line), `e2e/<len>_b<block>_<config>.jsonl` (client rows: smoke and timed requests, output token ids, timings), `e2e/srv_*.log` (server logs: conversion counts, OOM check), `e2e/client.log`, `ref/gen_<len>.jsonl` (`llama-sparse-tail` references) and `ref/gen_<len>.err.gz` (their llama.cpp logs, gzipped; the decision reads the conversion count from them), `bit/` (gate B rows and logit SHA-256s), `matrix.txt`, `commit*.txt`, `sha.txt`, `gpu.txt`, `gpu_log.csv`, `stages.txt`, `cmake_*.settings`, `tbo_*.txt` (gate K outputs).

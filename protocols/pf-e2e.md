@@ -52,7 +52,7 @@ Condensed from the project repository. Code: `scripts/pf_e2e/` (box inputs in `b
 | C | RTX 5090 32 GB | RULER pass 2 (prompts 10–19) | `UNITS_C` | 54,000 s |
 | D | RTX 4090 24 GB | speed, 128k only | `pfe_matrix.tsv` arm D, file order | 10,800 s |
 
-- **Gate P:** A, B, C: card name contains "RTX 5090", memory.total 32,000–33,000 MiB; D: "RTX 4090", 24,000–25,000 MiB (a 48 GB modified card is refused). Disk ≥ 80 GB with ≥ 60 GB free minus the model file present; RAM ≥ 60 GiB (A, B, C; see amendment 1), ≥ 30 GiB (D). Power limit recorded, not gated.
+- **Gate P:** A, B, C: card name contains "RTX 5090"; memory.total 32,000–33,000 MiB for A, ≥ 32,000 MiB for B and C; D: "RTX 4090", 24,000–25,000 MiB (a 48 GB modified card is refused). Disk ≥ 80 GB with ≥ 60 GB free minus the model file present; RAM ≥ 60 GiB (A, B, C; see amendment 1), ≥ 30 GiB (D). Power limit recorded, not gated.
 - A box that fails gate P is replaced by one of the same card running the same list; a missing RULER pass is rerun by amendment on a new box, that pass's list only.
 
 **Run, speed arms** (`run_pfe_speed.sh`, ARM=A|D).

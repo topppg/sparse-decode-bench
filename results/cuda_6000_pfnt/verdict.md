@@ -26,7 +26,7 @@ Both intervals lie below 0: the combined config costs about 1.6 RULER points at 
 
 ## Gates
 
-- P, K (blocks 6/6, sparse 26/26, pages 128/128, ops 1454/1454) and U (gather 1.45 s, emulation 0 s) PASS in both run dirs (`status.txt`); counts TASK OK on all 26 units of each (`ruler/*.check`).
+- P, K (blocks 6/6, sparse 26/26, pages 128/128, ops 1454/1454) and U (gather 1.445604 s in A1 and 1.444654 s in A2, emulation 0 s) PASS in both run dirs (`status.txt`); counts TASK OK on all 26 units of each (`ruler/*.check`).
 - F: b38 (A1 units 1.11, 1.8) and q38 (A2 units 2.11, 2.8) PASS: 20 dense outputs each, 0 with `<think>`, 0 empty or blank.
 - D: task-0 dense 100 for both. Gates F and D were read late (`--late F --late D`); nothing stopped, and the recomputed gates decide.
 - Row 2n (amendment 1): 0 degenerate rows for each model. Row 3: dense passed every floor.

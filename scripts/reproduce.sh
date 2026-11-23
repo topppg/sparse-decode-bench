@@ -113,8 +113,10 @@ for f in sys.argv[1:]:
 " "$O/cost_3090.json" "$O/cost_256k.json"
 echo "== Sparse prefill: PF-E2E and PF-NT decisions rerun from results/ (downloads the pinned Qwen3.8-27B tokenizer)"
 pf_e2e/decide.sh "$O/pf_e2e" > /dev/null 2>&1
+MISMATCH=0
 for f in decision decision_as_registered; do
-  cmp -s "$O/pf_e2e/$f.json" $R/pfe2e_analysis/$f.json && echo "$f.json identical to results/pfe2e_analysis/$f.json" || echo "$f.json DIFFERS from results/pfe2e_analysis/$f.json"
+  if cmp -s "$O/pf_e2e/$f.json" "$R/pfe2e_analysis/$f.json"; then echo "$f.json identical to results/pfe2e_analysis/$f.json"
+  else echo "$f.json DIFFERS from results/pfe2e_analysis/$f.json"; MISMATCH=1; fi
 done
 python3 -c "
 import json, sys
@@ -123,6 +125,8 @@ for d in (a, b):
     for m in d['models'].values():
         m.pop('vs_raw')
 print('PF-NT decision identical to results/cuda_6000_pfnt/analysis/decision.json apart from vs_raw (unpublished raw-prompt runs):', a == b)
-" "$O/pf_e2e/pf_nt_decision.json" $R/cuda_6000_pfnt/analysis/decision.json
-python3 pf_e2e/e2e_summary.py --decision "$O/pf_e2e/decision.json" --pf-nt "$O/pf_e2e/pf_nt_decision.json" --dev $R/cuda_5090_pfrebase_dev
+sys.exit(0 if a == b else 1)
+" "$O/pf_e2e/pf_nt_decision.json" "$R/cuda_6000_pfnt/analysis/decision.json" || MISMATCH=1
+python3 pf_e2e/e2e_summary.py --decision "$O/pf_e2e/decision.json" --pf-nt "$O/pf_e2e/pf_nt_decision.json" --dev "$R/cuda_5090_pfrebase_dev"
 echo "JSON outputs in $O"
+[ "$MISMATCH" = 0 ] || { echo "a sparse-prefill decision differs from the committed file" >&2; exit 1; }
